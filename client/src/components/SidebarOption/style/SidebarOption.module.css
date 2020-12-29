@@ -1,12 +1,11 @@
 .sidebarOption {
+  height: 40px;
+  padding: 10px;
   display: flex;
   align-items: center;
-  height: 40px;
-  padding: 0 10px;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-  cursor: pointer;
+  border-radius: 0 20px 20px 0;
   color: #818181;
+  cursor: pointer;
 }
 
 .sidebarOption > svg {
@@ -14,28 +13,36 @@
 }
 
 .sidebarOption > h3 {
-  flex: 1;
   margin-left: 10px;
+  flex: 1;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .sidebarOption > p {
   display: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .sidebarOption:hover,
 .sidebarOption:hover > h3,
 .sidebarOption:hover > p,
-.sidebarOption__active,
-.sidebarOption__active > h3,
-.sidebarOption__active > p {
+.active,
+.active > h3,
+.active > p {
   background-color: #fcecec;
   color: #c04b37;
   font-weight: 800 !important;
 }
 
 .sidebarOption:hover > p,
-.sidebarOption__active > p {
+.active > p {
   display: inline !important;
 }

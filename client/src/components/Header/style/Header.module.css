@@ -6,28 +6,26 @@
 }
 
 .header__side {
+  margin: 0 10px;
   display: flex;
   align-items: center;
 }
 
 .header__side > img {
+  height: 90px;
   -o-object-fit: contain;
   object-fit: contain;
-  height: 90px;
 }
 
 .header__middle {
+  height: 55px;
+  padding: 10px;
   display: flex;
   flex: 0.7;
   align-items: center;
   background-color: whitesmoke;
   border-radius: 5px;
-  padding: 10px;
   overflow: hidden;
-}
-
-.header__middle > svg {
-  color: grey;
 }
 
 .header__middle > input {

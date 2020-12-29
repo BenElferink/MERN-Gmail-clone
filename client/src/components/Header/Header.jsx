@@ -3,7 +3,6 @@ import { IconButton, Avatar } from '@material-ui/core';
 import GmailLogo from './img/gmail-logo.png';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import AppsIcon from '@material-ui/icons/Apps';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import styles from './style/Header.module.css';
@@ -19,7 +18,9 @@ function Header() {
       </div>
 
       <div className={styles.header__middle}>
-        <SearchIcon />
+        <IconButton>
+          <SearchIcon />
+        </IconButton>
         <input type='text' placeholder='Search mail' />
       </div>
 

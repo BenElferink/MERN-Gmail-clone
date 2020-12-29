@@ -1,5 +1,5 @@
 import React from 'react';
-import HelloWorld from './components/HelloWorld';
+import Header from './components/Header/Header';
 import './style/style.css'; // regular CSS -> className='app'
 import styles from './style/App.module.css'; // module CSS -> className={styles.App} (AKA styled components)
 // import * as api from './api';
@@ -18,7 +18,7 @@ function App() {
 
   return (
     <div className={styles.App}>
-      <HelloWorld />
+      <Header />
     </div>
   );
 }

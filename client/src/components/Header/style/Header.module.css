@@ -1,0 +1,40 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid whitesmoke;
+}
+
+.header__side {
+  display: flex;
+  align-items: center;
+}
+
+.header__side > img {
+  -o-object-fit: contain;
+  object-fit: contain;
+  height: 90px;
+}
+
+.header__middle {
+  display: flex;
+  flex: 0.7;
+  align-items: center;
+  background-color: whitesmoke;
+  border-radius: 5px;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.header__middle > svg {
+  color: grey;
+}
+
+.header__middle > input {
+  width: 100%;
+  padding: 10px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: medium;
+}

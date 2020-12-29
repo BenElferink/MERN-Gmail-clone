@@ -9,7 +9,7 @@ import StarOutlineRoundedIcon from '@material-ui/icons/StarOutlineRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
 import styles from './style/EmailCategory.module.css';
 
-function EmailCategory() {
+function EmailCategory({ category }) {
   return (
     <div className={styles.emailCategory}>
       <div className={styles.emailCategory__settings}>
@@ -58,7 +58,7 @@ function EmailCategory() {
         <IconButton>
           <StarRoundedIcon />
         </IconButton>
-        <h4>received_from@gmail.com</h4>
+        <h4>{category}@gmail.com</h4>
         &nbsp;&nbsp;
         <div className={styles.emailCategory__listItem__message}>
           <h3>Top Subject!</h3>

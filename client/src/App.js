@@ -27,9 +27,22 @@ function App() {
         <Header toggleMenu={toggleMenu} />
         <main className={styles.main}>
           {showMenu && <Sidebar />}
+
           <Switch>
             <Route exact path='/'>
-              <EmailCategory />
+              <EmailCategory category='inbox' />
+            </Route>
+            <Route exact path='/starred'>
+              <EmailCategory category='starred' />
+            </Route>
+            <Route exact path='/sent'>
+              <EmailCategory category='sent' />
+            </Route>
+            <Route exact path='/drafts'>
+              <EmailCategory category='drafts' />
+            </Route>
+            <Route exact path='/trash'>
+              <EmailCategory category='trash' />
             </Route>
           </Switch>
         </main>

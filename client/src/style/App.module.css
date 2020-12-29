@@ -1,0 +1,8 @@
+.app {
+  width: 100vw;
+  max-height: 100vh;
+}
+
+.main {
+  display: flex;
+}

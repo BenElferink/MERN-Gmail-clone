@@ -1,6 +1,9 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
+import EmailCategory from './components/EmailCategory/EmailCategory';
+import styles from './style/App.module.css';
 // import * as api from './api';
 // ^ ^ ^ un-comment this to import api endpoints
 
@@ -16,10 +19,19 @@ function App() {
   // ^ ^ ^ example using the api endpoint
 
   return (
-    <div>
-      <Header />
-      <Sidebar />
-    </div>
+    <Router>
+      <div className={styles.app}>
+        <Header />
+        <main className={styles.main}>
+          <Sidebar />
+          <Switch>
+            <Route exact path='/'>
+              <EmailCategory />
+            </Route>
+          </Switch>
+        </main>
+      </div>
+    </Router>
   );
 }
 

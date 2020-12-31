@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import User from './../models/User.js';
 import { validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
@@ -28,6 +27,8 @@ export const registerController = async (request, response, next) => {
 
     // save new user
     const savedUser = await newUser.save();
+
+    console.log(savedUser);
     response.status(201).json({
       message: 'Account created succesffuly',
       user: {
@@ -63,6 +64,7 @@ export const loginController = async (request, response, next) => {
     );
 
     // send token to client
+    console.log(token);
     response.status(200).json({ message: 'Login success', token });
   } catch (error) {
     console.log(error);
@@ -75,6 +77,7 @@ export const getUserById = async (request, response, next) => {
     const foundUser = await User.findOne({ _id: request.user });
     if (!foundUser) return response.status(404).json({ message: 'User not found' });
 
+    console.log(foundUser);
     response.status(200).json({ message: 'User found', user: foundUser });
   } catch (error) {
     console.log(error);

@@ -19,3 +19,8 @@ export const registerValidations = [
     ),
   check(['firstName', 'middleName', 'lastName'], 'Name is not valid').matches(/^[a-z ,.'-]+$/i),
 ];
+
+export const loginValidations = [
+  check('email', 'Email is not valid').exists().isEmail().normalizeEmail(),
+  check('password', 'Password must be over 7 characters').exists().isLength({ min: 7 }),
+];

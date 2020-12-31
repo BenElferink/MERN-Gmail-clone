@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import User from './../models/User.js';
 import { validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 // more about response status codes   --->   https://restapitutorial.com/httpstatuscodes.html
 
 export const registerController = async (request, response, next) => {
@@ -41,10 +42,29 @@ export const registerController = async (request, response, next) => {
 };
 
 export const loginController = async (request, response, next) => {
-  // try {
-  //   const allExamples = await Example.find(); // what is .find() ???   --->   https://mongoosejs.com/docs/queries.html
-  //   response.status(200).json(allExamples);
-  // } catch (error) {
-  //   response.status(500).json(error);
-  // }
+  try {
+    // validate data types
+    const validationErrors = validationResult(request);
+    if (!validationErrors.isEmpty()) return response.status(401).json(validationErrors);
+
+    // find user with email
+    const foundUser = await User.findOne({ email: request.body.email });
+    if (!foundUser) return response.status(401).json({ message: 'Bad credentials' });
+
+    // decrypt & compare password
+    const isPasswordOk = await bcrypt.compare(request.body.password, foundUser.password);
+    if (!isPasswordOk) return response.status(401).json({ message: 'Bad credentials' });
+
+    // generate token
+    const token = jwt.sign(
+      { id: foundUser._id },
+      new Buffer.from(process.env.JWT_KEY || 'secret', 'base64'),
+      { expiresIn: '1h' },
+    );
+
+    // send token to client
+    response.status(200).json({ message: 'Login success', token });
+  } catch (error) {
+    response.status(500).json(error);
+  }
 };

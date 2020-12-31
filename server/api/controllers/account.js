@@ -65,6 +65,19 @@ export const loginController = async (request, response, next) => {
     // send token to client
     response.status(200).json({ message: 'Login success', token });
   } catch (error) {
+    console.log(error);
+    response.status(500).json(error);
+  }
+};
+
+export const getUserById = async (request, response, next) => {
+  try {
+    const foundUser = await User.findOne({ _id: request.user });
+    if (!foundUser) return response.status(404).json({ message: 'User not found' });
+
+    response.status(200).json({ message: 'User found', user: foundUser });
+  } catch (error) {
+    console.log(error);
     response.status(500).json(error);
   }
 };

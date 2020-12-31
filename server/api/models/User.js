@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import Email from './Email.js';
 
 const instance = new mongoose.Schema(
   {
@@ -19,8 +18,8 @@ const instance = new mongoose.Schema(
     },
     imageFileName: String,
     mailbox: {
-      sent: [Email],
-      received: [Email],
+      sent: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Email' }],
+      received: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Email' }],
     },
   },
   {

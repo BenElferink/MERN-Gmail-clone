@@ -17,7 +17,9 @@ export const registerValidations = [
     .custom((value, { req }) =>
       value === req.body.password ? true : Promise.reject('Passwords do not match'),
     ),
-  check(['firstName', 'middleName', 'lastName'], 'Name is not valid').matches(/^[a-z ,.'-]+$/i),
+  check(['firstName', 'middleName', 'lastName'], 'Name is not valid')
+    .optional({ nullable: true, checkFalsy: true })
+    .matches(/^[a-z ,.'-]+$/i),
 ];
 
 export const loginValidations = [

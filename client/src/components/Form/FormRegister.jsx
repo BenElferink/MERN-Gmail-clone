@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
+import { Button } from '@material-ui/core';
 import * as api from './../../api';
 import styles from './style/Form.module.css';
 
@@ -27,33 +28,30 @@ function Account({ toggleIsCreateNew }) {
         type='text'
         placeholder='First name (optional)'
         ref={register({
-          value: /^[a-z ,.'-]+$/i,
-          message: 'Invalid name',
+          pattern: /^[a-z ,.'-]+$/i,
         })}
       />
-      <p>{errors.firstName && errors.firstName.message}</p>
+      <p>{errors.firstName?.type === 'pattern' && 'Invalid name'}</p>
 
       <input
         name='middleName'
         type='text'
         placeholder='Middle name (optional)'
         ref={register({
-          value: /^[a-z ,.'-]+$/i,
-          message: 'Invalid name',
+          pattern: /^[a-z ,.'-]+$/i,
         })}
       />
-      <p>{errors.middleName && errors.middleName.message}</p>
+      <p>{errors.middleName?.type === 'pattern' && 'Invalid name'}</p>
 
       <input
         name='lastName'
         type='text'
         placeholder='Last name (optional)'
         ref={register({
-          value: /^[a-z ,.'-]+$/i,
-          message: 'Invalid name',
+          pattern: /^[a-z ,.'-]+$/i,
         })}
       />
-      <p>{errors.lastName && errors.lastName.message}</p>
+      <p>{errors.lastName?.type === 'pattern' && 'Invalid name'}</p>
 
       <input
         name='email'
@@ -61,14 +59,12 @@ function Account({ toggleIsCreateNew }) {
         placeholder='Email'
         ref={register({
           required: true,
-          pattern: {
-            // eslint-disable-next-line no-useless-escape
-            value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            message: 'Invalid email',
-          },
+          // eslint-disable-next-line no-useless-escape
+          pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
         })}
       />
-      <p>{errors.email && errors.email.message}</p>
+      <p>{errors.email?.type === 'required' && 'Email is required'}</p>
+      <p>{errors.email?.type === 'pattern' && 'Invalid email'}</p>
 
       <input
         name='password'
@@ -76,10 +72,11 @@ function Account({ toggleIsCreateNew }) {
         placeholder='Password'
         ref={register({
           required: true,
-          minLength: { value: 7, message: 'Must be at least 7 characters' },
+          minLength: 7,
         })}
       />
-      <p>{errors.password && errors.password.message}</p>
+      <p>{errors.password?.type === 'required' && 'Password is required'}</p>
+      <p>{errors.password?.type === 'minLength' && 'Must be at least 7 characters'}</p>
 
       <input
         name='passwordConfirm'
@@ -87,12 +84,13 @@ function Account({ toggleIsCreateNew }) {
         placeholder='Confirm Password'
         ref={register({
           required: true,
-          validate: (value) => value === password.current || 'Passwords do not match',
+          validate: (value) => value === password.current,
         })}
       />
-      <p>{errors.passwordConfirm && errors.passwordConfirm.message}</p>
+      <p>{errors.passwordConfirm?.type === 'required' && 'Password confirmation is required'}</p>
+      <p>{errors.passwordConfirm?.type === 'validate' && 'Passwords do not match'}</p>
 
-      <button type='submit'>Register</button>
+      <Button type='submit'>Register</Button>
       <a onClick={toggleIsCreateNew}>Login an existing account</a>
     </form>
   );

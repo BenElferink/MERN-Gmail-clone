@@ -14,19 +14,19 @@
 }
 
 .form > button {
-  width: 100%;
-  margin: 7px 0;
-  padding: 10px 0;
-  background-color: #1e6df6;
-  border: none;
-  border-radius: 20px;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
+  width: 100% !important;
+  margin: 7px 0 !important;
+  padding: 10px 0 !important;
+  background-color: #1e6df6 !important;
+  border: none !important;
+  border-radius: 20px !important;
+  color: #fff !important;
+  font-size: 16px !important;
+  cursor: pointer !important;
 }
 
 .form > button:hover {
-  background-color: #4b8ef9;
+  background-color: #4b8ef9 !important;
 }
 
 .form > a {

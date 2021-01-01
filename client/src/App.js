@@ -50,7 +50,7 @@ function App() {
                 {/* Mail page */}
                 <Header setShowSidebar={setShowSidebar} />
                 <main className={styles.main}>
-                  {showSidebar && <Sidebar />}
+                  {showSidebar && <Sidebar userMail={userData.email} />}
 
                   {/* Mail categorized lists */}
                   <Route exact path='/mail/:category'>

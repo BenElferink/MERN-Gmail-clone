@@ -1,0 +1,76 @@
+.compose {
+  width: 350px;
+  height: 420px;
+  position: absolute;
+  bottom: 0;
+  right: 130px;
+  background-color: #fff;
+  border: none;
+  border-radius: 10px 10px 0 0;
+  font-size: 15px;
+  box-shadow: 0px 5px 20px -3px rgba(0, 0, 0, 0.75) !important;
+  z-index: 999;
+}
+
+.compose__header {
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #505050;
+  border-radius: 10px 10px 0 0;
+  color: #fff;
+}
+
+.compose__header > span {
+  cursor: pointer;
+}
+
+.compose__inpGroup {
+  padding: 7px 15px;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.compose__inpGroup > label {
+  margin-right: 7px;
+  cursor: text;
+}
+
+.compose__inpGroup > input {
+  border: none;
+  outline: none;
+}
+
+.compose > textarea {
+  width: 350px;
+  height: 230px;
+  padding: 7px;
+  border: none;
+  resize: none;
+  outline: none;
+}
+
+.compose__send {
+  height: 42px;
+  display: flex;
+  align-items: center;
+}
+
+.compose__send > button {
+  margin: 0 10px !important;
+  background-color: #1e6df6 !important;
+  border-radius: 10px !important;
+  color: #fff !important;
+  text-transform: Capitalize !important;
+}
+
+.compose__send > button:hover {
+  background-color: #4b8ef9 !important;
+}
+
+.compose__send > span {
+  color: #ff0000;
+}

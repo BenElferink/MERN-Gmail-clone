@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import SidebarOption from '../SidebarOption/SidebarOption';
+import ComposeMail from '../ComposeMail/ComposeMail';
 import { Button } from '@material-ui/core';
 import AddRoundedIcon from '@material-ui/icons/Add';
 import InboxRoundedIcon from '@material-ui/icons/Inbox';
@@ -11,7 +12,9 @@ import DeleteRoundedIcon from '@material-ui/icons/Delete';
 import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded';
 import styles from './style/Sidebar.module.css';
 
-function Sidebar() {
+function Sidebar({ userMail }) {
+  const [isCompose, setIsCompose] = useState(false);
+  const toggleIsCompose = () => setIsCompose(!isCompose);
   const [showMore, setShowMore] = useState(false);
   const toggleShowMore = () => setShowMore(!showMore);
 
@@ -20,9 +23,13 @@ function Sidebar() {
 
   return (
     <div className={styles.sidebar}>
-      <Button className={styles.sidebar__compose} startIcon={<AddRoundedIcon fontSize='large' />}>
+      <Button
+        className={styles.sidebar__compose}
+        onClick={toggleIsCompose}
+        startIcon={<AddRoundedIcon fontSize='large' />}>
         Compose
       </Button>
+      {isCompose && <ComposeMail userMail={userMail} />}
 
       <SidebarOption
         Icon={InboxRoundedIcon}

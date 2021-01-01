@@ -10,8 +10,42 @@ import StarOutlineRoundedIcon from '@material-ui/icons/StarOutlineRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
 import styles from './style/EmailCategory.module.css';
 
-function EmailCategory() {
+function EmailCategory({ mailbox }) {
   const { category } = useParams();
+
+  const listToDisplay = (type) => {
+    const itemUI = (email) => (
+      <div
+        className={`${styles.emailCategory__listItem} ${email.read ? styles.read : styles.unread}`}>
+        <Checkbox />
+        <IconButton>{email.starred ? <StarRoundedIcon /> : <StarOutlineRoundedIcon />}</IconButton>
+        <h4>{email.from}</h4>
+        &nbsp;&nbsp;
+        <div className={styles.emailCategory__listItem__message}>
+          <h3>{email.subject}</h3>
+          &nbsp;&nbsp;
+          <p>{email.message}</p>
+        </div>
+        &nbsp;&nbsp;
+        <p>Dec 30</p>
+      </div>
+    );
+
+    switch (type) {
+      case 'inbox':
+        return mailbox.received.map((item) => itemUI(item));
+      case 'sent':
+        return mailbox.sent.map((item) => itemUI(item));
+      case 'drafts':
+        return mailbox.drafts.map((item) => itemUI(item));
+      case 'trash':
+        return mailbox.trash.map((item) => itemUI(item));
+      case 'starred':
+        return 'TBA';
+      default:
+        return 'Unexpected error!';
+    }
+  };
 
   return (
     <div className={styles.emailCategory}>
@@ -38,55 +72,7 @@ function EmailCategory() {
         </div>
       </div>
 
-      <div>
-        <div className={`${styles.emailCategory__listItem} ${styles.unread}`}>
-          <Checkbox />
-          <IconButton>
-            <StarOutlineRoundedIcon />
-          </IconButton>
-          <h4>received_from@gmail.com</h4>
-          &nbsp;&nbsp;
-          <div className={styles.emailCategory__listItem__message}>
-            <h3>Top Subject!</h3>
-            &nbsp;&nbsp;
-            <p>Project X is launching! Happy New Year!!!</p>
-          </div>
-          &nbsp;&nbsp;
-          <p>Dec 30</p>
-        </div>
-      </div>
-
-      <div className={`${styles.emailCategory__listItem} ${styles.read}`}>
-        <Checkbox />
-        <IconButton>
-          <StarRoundedIcon />
-        </IconButton>
-        <h4>{category}@gmail.com</h4>
-        &nbsp;&nbsp;
-        <div className={styles.emailCategory__listItem__message}>
-          <h3>Top Subject!</h3>
-          &nbsp;&nbsp;
-          <p>Project X is launching! Happy New Year!!!</p>
-        </div>
-        &nbsp;&nbsp;
-        <p>Dec 30</p>
-      </div>
-
-      <div className={`${styles.emailCategory__listItem} ${styles.read}`}>
-        <Checkbox />
-        <IconButton>
-          <StarOutlineRoundedIcon />
-        </IconButton>
-        <h4>received_from@gmail.com</h4>
-        &nbsp;&nbsp;
-        <div className={styles.emailCategory__listItem__message}>
-          <h3>Top Subject!</h3>
-          &nbsp;&nbsp;
-          <p>Project X is launching! Happy New Year!!!</p>
-        </div>
-        &nbsp;&nbsp;
-        <p>Dec 30</p>
-      </div>
+      <div>{listToDisplay(category)}</div>
     </div>
   );
 }

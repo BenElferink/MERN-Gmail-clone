@@ -45,13 +45,22 @@ function App() {
           </Route>
 
           <Route path='/mail'>
-            <Header setShowSidebar={setShowSidebar} />
-            <main className={styles.main}>
-              {showSidebar && <Sidebar />}
-              <Route exact path='/mail/:category'>
-                <EmailCategory />
-              </Route>
-            </main>
+            {userData ? (
+              <>
+                {/* Mail page */}
+                <Header setShowSidebar={setShowSidebar} />
+                <main className={styles.main}>
+                  {showSidebar && <Sidebar />}
+
+                  {/* Mail categorized lists */}
+                  <Route exact path='/mail/:category'>
+                    <EmailCategory mailbox={userData.mailbox} />
+                  </Route>
+                </main>
+              </>
+            ) : (
+              <Redirect to='/account' />
+            )}
           </Route>
         </Switch>
       </div>

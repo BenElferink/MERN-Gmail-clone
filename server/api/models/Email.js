@@ -23,12 +23,7 @@ const instance = new mongoose.Schema(
       required: true,
       default: false,
     },
-    trash: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-    draft: {
+    read: {
       type: Boolean,
       required: true,
       default: false,

@@ -78,7 +78,7 @@ export const loginController = async (request, response, next) => {
 
 export const getUserById = async (request, response, next) => {
   try {
-    const foundUser = await User.findOne({ _id: request.user });
+    const foundUser = await User.findOne({ _id: request.user }).select('mailbox email name');
     if (!foundUser) return response.status(404).json({ message: 'User not found' });
 
     console.log(foundUser);

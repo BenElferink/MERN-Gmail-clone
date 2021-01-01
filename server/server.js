@@ -3,6 +3,7 @@ import express from 'express'; // Backend App (server)
 import dotenv from 'dotenv'; // Secures content
 import cors from 'cors'; // HTTP headers
 import accountRoutes from './api/routes/account.js';
+import mailRoutes from './api/routes/mail.js';
 
 // initialize app
 const app = express();
@@ -33,6 +34,7 @@ mongoose.set('useCreateIndex', true);
 // routes
 app.get('/', (req, res) => res.send('Hello World - Express.js'));
 app.use('/api/v1/account', accountRoutes);
+app.use('/api/v1/email', mailRoutes);
 
 // server is listening for requests
 app.listen(PORT, () => console.log(`✅ Server is listening on port: ${PORT}`));

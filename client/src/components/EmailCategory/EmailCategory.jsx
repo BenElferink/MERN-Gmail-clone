@@ -10,7 +10,7 @@ import StarOutlineRoundedIcon from '@material-ui/icons/StarOutlineRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
 import styles from './style/EmailCategory.module.css';
 
-function EmailCategory({ mailbox }) {
+function EmailCategory({ mailbox, updateUserData }) {
   const { category } = useParams();
 
   const listToDisplay = (type) => {
@@ -52,7 +52,7 @@ function EmailCategory({ mailbox }) {
       <div className={styles.emailCategory__settings}>
         <div>
           <Checkbox />
-          <IconButton>
+          <IconButton onClick={updateUserData}>
             <RefreshRoundedIcon />
           </IconButton>
           <IconButton>

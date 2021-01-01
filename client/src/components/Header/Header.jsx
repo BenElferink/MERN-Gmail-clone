@@ -7,11 +7,11 @@ import AppsIcon from '@material-ui/icons/Apps';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import styles from './style/Header.module.css';
 
-function Header({ setShowSidebar }) {
+function Header({ toggleShowSidebar }) {
   return (
     <div className={styles.header}>
       <div className={styles.header__side}>
-        <IconButton onClick={setShowSidebar}>
+        <IconButton onClick={toggleShowSidebar}>
           <MenuIcon />
         </IconButton>
         <img src={GmailLogo} alt='gmail logo' />

@@ -13,3 +13,12 @@ export const getUserData = (token) =>
       Authorization: 'Bearer ' + token,
     },
   });
+
+// email routes
+export const sendEmail = (form, token) =>
+  axios.post(url + '/email', form, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    },
+  });

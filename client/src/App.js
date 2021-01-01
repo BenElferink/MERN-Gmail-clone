@@ -28,7 +28,7 @@ function App() {
   }, [token]);
 
   const [showSidebar, setShowSidebar] = useState(true);
-  const toggleMenu = () => setShowSidebar(!showSidebar);
+  const toggleShowSidebar = () => setShowSidebar(!showSidebar);
 
   return (
     <Router>
@@ -48,13 +48,13 @@ function App() {
             {userData ? (
               <>
                 {/* Mail page */}
-                <Header setShowSidebar={setShowSidebar} />
+                <Header toggleShowSidebar={toggleShowSidebar} />
                 <main className={styles.main}>
-                  {showSidebar && <Sidebar userMail={userData.email} />}
+                  {showSidebar && <Sidebar userData={userData} updateUserData={updateUserData} />}
 
                   {/* Mail categorized lists */}
                   <Route exact path='/mail/:category'>
-                    <EmailCategory mailbox={userData.mailbox} />
+                    <EmailCategory mailbox={userData.mailbox} updateUserData={updateUserData} />
                   </Route>
                 </main>
               </>

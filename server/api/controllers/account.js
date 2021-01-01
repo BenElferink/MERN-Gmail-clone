@@ -50,7 +50,7 @@ export const loginController = async (request, response, next) => {
   try {
     // validate data types
     const validationErrors = validationResult(request);
-    if (!validationErrors.isEmpty()) return response.status(401).json(validationErrors);
+    if (!validationErrors.isEmpty()) return response.status(400).json(validationErrors);
 
     // find user with email
     const foundUser = await User.findOne({ email: request.body.email });
@@ -78,7 +78,9 @@ export const loginController = async (request, response, next) => {
 
 export const getUserById = async (request, response, next) => {
   try {
-    const foundUser = await User.findOne({ _id: request.user }).select('mailbox email name');
+    const foundUser = await User.findOne({ _id: request.user })
+      .select('mailbox email name')
+      .populate('mailbox.inbox mailbox.sent mailbox.drafts mailbox.trash');
     if (!foundUser) return response.status(404).json({ message: 'User not found' });
 
     console.log(foundUser);

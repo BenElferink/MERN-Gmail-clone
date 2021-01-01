@@ -12,7 +12,7 @@ import DeleteRoundedIcon from '@material-ui/icons/Delete';
 import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded';
 import styles from './style/Sidebar.module.css';
 
-function Sidebar({ userMail }) {
+function Sidebar({ userData, updateUserData }) {
   const [isCompose, setIsCompose] = useState(false);
   const toggleIsCompose = () => setIsCompose(!isCompose);
   const [showMore, setShowMore] = useState(false);
@@ -29,12 +29,18 @@ function Sidebar({ userMail }) {
         startIcon={<AddRoundedIcon fontSize='large' />}>
         Compose
       </Button>
-      {isCompose && <ComposeMail userMail={userMail} />}
+      {isCompose && (
+        <ComposeMail
+          userEmail={userData.email}
+          updateUserData={updateUserData}
+          toggleIsCompose={toggleIsCompose}
+        />
+      )}
 
       <SidebarOption
         Icon={InboxRoundedIcon}
         title='Inbox'
-        number={42}
+        number={userData.mailbox.received.length}
         onClick={() => history.push('/mail/inbox')}
         selected={location.pathname === '/mail/inbox'}
       />
@@ -48,14 +54,14 @@ function Sidebar({ userMail }) {
       <SidebarOption
         Icon={SendRoundedIcon}
         title='Sent'
-        number={42}
+        number={userData.mailbox.sent.length}
         onClick={() => history.push('/mail/sent')}
         selected={location.pathname === '/mail/sent'}
       />
       <SidebarOption
         Icon={NoteRoundedIcon}
         title='Drafts'
-        number={42}
+        number={userData.mailbox.drafts.length}
         onClick={() => history.push('/mail/drafts')}
         selected={location.pathname === '/mail/drafts'}
       />
@@ -72,7 +78,7 @@ function Sidebar({ userMail }) {
           <SidebarOption
             Icon={DeleteRoundedIcon}
             title='Trash'
-            number={42}
+            number={userData.mailbox.trash.length}
             onClick={() => history.push('/mail/trash')}
             selected={location.pathname === '/mail/trash'}
           />

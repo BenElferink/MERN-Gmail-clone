@@ -1,4 +1,5 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import { Checkbox, IconButton } from '@material-ui/core';
 import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
 import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
@@ -9,7 +10,9 @@ import StarOutlineRoundedIcon from '@material-ui/icons/StarOutlineRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
 import styles from './style/EmailCategory.module.css';
 
-function EmailCategory({ category }) {
+function EmailCategory() {
+  const { category } = useParams();
+
   return (
     <div className={styles.emailCategory}>
       <div className={styles.emailCategory__settings}>

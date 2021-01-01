@@ -1,0 +1,49 @@
+.form {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form > input {
+  width: 92%;
+  padding: 7px 3px;
+  border: none;
+  border-bottom: 1px solid #f5f5f5;
+  outline: none;
+}
+
+.form > button {
+  width: 100%;
+  margin: 7px 0;
+  padding: 10px 0;
+  background-color: #1e6df6;
+  border: none;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.form > button:hover {
+  background-color: #4b8ef9;
+}
+
+.form > a {
+  color: #1e6df6;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.form > a:hover {
+  font-weight: 500;
+}
+
+.form > p {
+  width: 100%;
+  padding-left: 15px;
+  font-size: 14px;
+  color: #ff0000;
+  text-align: left;
+}

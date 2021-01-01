@@ -1,51 +1,59 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React, { useContext, useState, useEffect } from 'react';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { TokenContext } from './context/TokenContextAPI';
+import Account from './components/Account/Account';
 import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
 import EmailCategory from './components/EmailCategory/EmailCategory';
 import styles from './style/App.module.css';
-// import * as api from './api';
-// ^ ^ ^ un-comment this to import api endpoints
+import * as api from './api';
 
 function App() {
-  // const [data, setData] = React.useState([]);
-  // React.useEffect(() => {
-  //   api
-  //     .getSomething() // replace this with your endpoint
-  //     .then((response) => console.log(`✅ ${response.status} ${response.statusText}`, setData(response.data)))
-  //     .catch((error) => console.log(`❌ ${error}`));
-  // }, []);
-  //
-  // ^ ^ ^ example using the api endpoint
+  const { token } = useContext(TokenContext);
+  const [userData, setUserData] = useState(undefined);
 
-  const [showMenu, setShowMenu] = useState(true);
-  const toggleMenu = () => setShowMenu(!showMenu);
+  const updateUserData = async () => {
+    try {
+      const response = await api.getUserData(token);
+      console.log(`✅ ${response.status} ${response.statusText}`);
+      console.log(response.data);
+      setUserData(response.data.user);
+    } catch (error) {
+      console.log(`❌ ${error}`);
+    }
+  };
+
+  useEffect(() => {
+    if (token !== undefined && token !== null && token !== 'null') updateUserData();
+  }, [token]);
+
+  const [showSidebar, setShowSidebar] = useState(true);
+  const toggleMenu = () => setShowSidebar(!showSidebar);
 
   return (
     <Router>
       <div className={styles.app}>
-        <Header toggleMenu={toggleMenu} />
-        <main className={styles.main}>
-          {showMenu && <Sidebar />}
+        <Switch>
+          <Route exact path='/'>
+            {/* check if user is loged in, if true redirect to to /mail/inbox , else redirect to /account */}
+            {userData ? <Redirect to='/mail/inbox' /> : <Redirect to='/account' />}
+          </Route>
 
-          <Switch>
-            <Route exact path='/'>
-              <EmailCategory category='inbox' />
-            </Route>
-            <Route exact path='/starred'>
-              <EmailCategory category='starred' />
-            </Route>
-            <Route exact path='/sent'>
-              <EmailCategory category='sent' />
-            </Route>
-            <Route exact path='/drafts'>
-              <EmailCategory category='drafts' />
-            </Route>
-            <Route exact path='/trash'>
-              <EmailCategory category='trash' />
-            </Route>
-          </Switch>
-        </main>
+          <Route path='/account'>
+            {/* Login/Register */}
+            {userData ? <Redirect to='/mail/inbox' /> : <Account />}
+          </Route>
+
+          <Route path='/mail'>
+            <Header setShowSidebar={setShowSidebar} />
+            <main className={styles.main}>
+              {showSidebar && <Sidebar />}
+              <Route exact path='/mail/:category'>
+                <EmailCategory />
+              </Route>
+            </main>
+          </Route>
+        </Switch>
       </div>
     </Router>
   );

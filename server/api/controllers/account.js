@@ -10,6 +10,10 @@ export const registerController = async (request, response, next) => {
     const validationErrors = validationResult(request);
     if (!validationErrors.isEmpty()) return response.status(400).json(validationErrors);
 
+    // check if email is taken
+    const foundEmail = await User.findOne({ email: request.body.email });
+    if (foundEmail) return response.status(400).json({ message: 'That email is already taken' });
+
     // encrypt password
     const salt = await bcrypt.genSalt(10);
     const encryptedPassword = await bcrypt.hash(request.body.password, salt);

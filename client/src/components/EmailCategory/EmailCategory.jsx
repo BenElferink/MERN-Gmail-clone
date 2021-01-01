@@ -14,12 +14,12 @@ function EmailCategory({ mailbox, updateUserData }) {
   const { category } = useParams();
 
   const listToDisplay = (type) => {
-    const itemUI = (email) => (
+    const itemUI = (email, swap) => (
       <div
         className={`${styles.emailCategory__listItem} ${email.read ? styles.read : styles.unread}`}>
         <Checkbox />
         <IconButton>{email.starred ? <StarRoundedIcon /> : <StarOutlineRoundedIcon />}</IconButton>
-        <h4>{email.from}</h4>
+        <h4>{swap ? email.to : email.from}</h4>
         &nbsp;&nbsp;
         <div className={styles.emailCategory__listItem__message}>
           <h3>{email.subject}</h3>
@@ -35,7 +35,7 @@ function EmailCategory({ mailbox, updateUserData }) {
       case 'inbox':
         return mailbox.received.map((item) => itemUI(item));
       case 'sent':
-        return mailbox.sent.map((item) => itemUI(item));
+        return mailbox.sent.map((item) => itemUI(item, true));
       case 'drafts':
         return mailbox.drafts.map((item) => itemUI(item));
       case 'trash':

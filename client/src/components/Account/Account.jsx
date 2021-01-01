@@ -17,6 +17,11 @@ function Account() {
       ) : (
         <FormLogin toggleIsCreateNew={toggleIsCreateNew} />
       )}
+
+      <p>
+        Disclaimer: this clone is not associated with Google! All accounts & emails are fictive, but
+        remain in a database.
+      </p>
     </div>
   );
 }

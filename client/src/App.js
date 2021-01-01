@@ -5,6 +5,7 @@ import Account from './components/Account/Account';
 import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
 import EmailCategory from './components/EmailCategory/EmailCategory';
+import ComposeMail from './components/ComposeMail/ComposeMail';
 import styles from './style/App.module.css';
 import * as api from './api';
 
@@ -29,6 +30,8 @@ function App() {
 
   const [showSidebar, setShowSidebar] = useState(true);
   const toggleShowSidebar = () => setShowSidebar(!showSidebar);
+  const [isCompose, setIsCompose] = useState(false);
+  const toggleIsCompose = () => setIsCompose(!isCompose);
 
   return (
     <Router>
@@ -50,7 +53,7 @@ function App() {
                 {/* Mail page */}
                 <Header toggleShowSidebar={toggleShowSidebar} />
                 <main className={styles.main}>
-                  {showSidebar && <Sidebar userData={userData} updateUserData={updateUserData} />}
+                  {showSidebar && <Sidebar userData={userData} toggleIsCompose={toggleIsCompose} />}
 
                   {/* Mail categorized lists */}
                   <Route exact path='/mail/:category'>
@@ -63,6 +66,14 @@ function App() {
             )}
           </Route>
         </Switch>
+
+        {isCompose && (
+          <ComposeMail
+            userEmail={userData.email}
+            updateUserData={updateUserData}
+            toggleIsCompose={toggleIsCompose}
+          />
+        )}
       </div>
     </Router>
   );

@@ -18,6 +18,21 @@ const instance = new mongoose.Schema(
       type: String,
       required: true,
     },
+    starred: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    trash: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    draft: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
   },
   {
     timestamps: true,

@@ -28,29 +28,29 @@ function Sidebar() {
         Icon={InboxRoundedIcon}
         title='Inbox'
         number={42}
-        onClick={() => history.push('/')}
-        selected={location.pathname === '/'}
+        onClick={() => history.push('/mail/inbox')}
+        selected={location.pathname === '/mail/inbox'}
       />
       <SidebarOption
         Icon={StarRoundedIcon}
         title='Starred'
         number={42}
-        onClick={() => history.push('/starred')}
-        selected={location.pathname === '/starred'}
+        onClick={() => history.push('/mail/starred')}
+        selected={location.pathname === '/mail/starred'}
       />
       <SidebarOption
         Icon={SendRoundedIcon}
         title='Sent'
         number={42}
-        onClick={() => history.push('/sent')}
-        selected={location.pathname === '/sent'}
+        onClick={() => history.push('/mail/sent')}
+        selected={location.pathname === '/mail/sent'}
       />
       <SidebarOption
         Icon={NoteRoundedIcon}
         title='Drafts'
         number={42}
-        onClick={() => history.push('/drafts')}
-        selected={location.pathname === '/drafts'}
+        onClick={() => history.push('/mail/drafts')}
+        selected={location.pathname === '/mail/drafts'}
       />
 
       <SidebarOption
@@ -66,8 +66,8 @@ function Sidebar() {
             Icon={DeleteRoundedIcon}
             title='Trash'
             number={42}
-            onClick={() => history.push('/trash')}
-            selected={location.pathname === '/trash'}
+            onClick={() => history.push('/mail/trash')}
+            selected={location.pathname === '/mail/trash'}
           />
         </>
       )}

@@ -4,20 +4,22 @@ import StarOutlineRoundedIcon from '@material-ui/icons/StarOutlineRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
 import styles from './style/EmailListItem.module.css';
 
-function EmailListItem({ email, swapRecipient }) {
+function EmailListItem({ title, subject, message, date, isRead, isStarred }) {
   return (
-    <div className={`${styles.email__listItem} ${email.read ? styles.read : styles.unread}`}>
+    <div className={`${styles.email__listItem} ${isRead ? styles.read : styles.unread}`}>
       <Checkbox />
-      <IconButton>{email.starred ? <StarRoundedIcon /> : <StarOutlineRoundedIcon />}</IconButton>
-      <h4>{swapRecipient ? `To: ${email.to}` : email.from}</h4>
+      {isStarred !== undefined && (
+        <IconButton>{isStarred ? <StarRoundedIcon /> : <StarOutlineRoundedIcon />}</IconButton>
+      )}
+      <h4>{title}</h4>
       &nbsp;&nbsp;
       <div className={styles.email__listItem__message}>
-        <h3>{email.subject}</h3>
+        <h3>{subject}</h3>
         &nbsp;&nbsp;
-        <p>{email.message}</p>
+        <p>{message}</p>
       </div>
       &nbsp;&nbsp;
-      <p>{dateToString(email.createdAt)}</p>
+      <p>{dateToString(date)}</p>
     </div>
   );
 }
@@ -51,7 +53,7 @@ const dateToString = (dateObj) => {
     case 11:
       return `Dec ${day}`;
     default:
-      return 'Unexpected error';
+      return 'Loading...';
   }
 };
 

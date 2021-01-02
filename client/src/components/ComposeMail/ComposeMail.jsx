@@ -1,24 +1,55 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import { TokenContext } from '../../context/TokenContextAPI';
 import * as api from './../../api';
 import { useForm } from 'react-hook-form';
 import { Button } from '@material-ui/core';
 import styles from './style/ComposeMail.module.css';
 
-function ComposeMail({ userEmail, updateUserData, toggleIsCompose }) {
+function ComposeMail({ userEmail, toggleIsCompose }) {
   const { token } = useContext(TokenContext);
-  const { register, handleSubmit, errors } = useForm({
+  const { register, handleSubmit, errors, watch } = useForm({
     defaultValues: {
       from: userEmail,
     },
   });
 
+  // The following references purposes are to "pull" the form data from the useForm hook,
+  // whenever the message will be saved as a draft
+  const from = useRef({});
+  const to = useRef({});
+  const subject = useRef({});
+  const message = useRef({});
+  from.current = watch('from', '');
+  to.current = watch('to', '');
+  subject.current = watch('subject', '');
+  message.current = watch('message', '');
+
+  // the following function is used to save a message as draft
+  const onClose = async () => {
+    try {
+      let form = {
+        from: from.current,
+        to: to.current,
+        subject: subject.current,
+        message: message.current,
+      };
+
+      const response = await api.saveDraft(form, token);
+      console.log(`✅ ${response.status} ${response.statusText}`);
+      console.log(response.data);
+      toggleIsCompose();
+    } catch (error) {
+      console.log(`❌ ${error}`);
+    }
+  };
+
+  // the following function sends the message
+  // (the server also creates a random reply to be received by the user)
   const onSubmit = async (values) => {
     try {
       const response = await api.sendEmail(values, token);
       console.log(`✅ ${response.status} ${response.statusText}`);
       console.log(response.data);
-      updateUserData();
       toggleIsCompose();
     } catch (error) {
       console.log(`❌ ${error}`);
@@ -29,7 +60,7 @@ function ComposeMail({ userEmail, updateUserData, toggleIsCompose }) {
     <form onSubmit={handleSubmit(onSubmit)} className={styles.compose}>
       <div className={styles.compose__header}>
         <h5>New Message</h5>
-        <span>&times;</span>
+        <span onClick={onClose}>&times;</span>
       </div>
 
       <div className={styles.compose__inpGroup}>

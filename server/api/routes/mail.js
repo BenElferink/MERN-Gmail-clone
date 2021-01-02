@@ -1,7 +1,7 @@
 import express from 'express';
 import { authenticateToken } from './../middleware/authToken.js';
 import { emailValidations } from '../middleware/validateEmail.js';
-import { sendEmail } from './../controllers/mail.js';
+import { sendEmail, saveDraft } from './../controllers/mail.js';
 
 // initialize router
 const router = express.Router();
@@ -14,5 +14,6 @@ const router = express.Router();
 */
 
 router.post('/', authenticateToken, [...emailValidations], sendEmail);
+router.post('/drafts', authenticateToken, saveDraft);
 
 export default router;

@@ -2,30 +2,12 @@ import mongoose from 'mongoose';
 
 const instance = new mongoose.Schema(
   {
-    from: {
-      type: String,
-      required: true,
-    },
-    to: {
-      type: String,
-      required: true,
-    },
-    subject: {
-      type: String,
-      required: true,
-    },
-    message: {
-      type: String,
-      required: true,
-    },
-    starred: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
+    from: String,
+    to: String,
+    subject: String,
+    message: String,
     read: {
       type: Boolean,
-      required: true,
       default: false,
     },
   },

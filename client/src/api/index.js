@@ -22,3 +22,10 @@ export const sendEmail = (form, token) =>
       Authorization: 'Bearer ' + token,
     },
   });
+export const saveDraft = (form, token) =>
+  axios.post(url + '/email/drafts', form, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    },
+  });

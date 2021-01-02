@@ -42,3 +42,29 @@ export const sendEmail = async (request, response, next) => {
     response.status(500).json(error);
   }
 };
+
+export const saveDraft = async (request, response, next) => {
+  try {
+    // construct email (draft)
+    let newDraft = new Email({
+      from: request.body.from,
+      to: request.body.to,
+      subject: request.body.subject,
+      message: request.body.message,
+    });
+
+    // save email
+    const savedEmailDraft = await newDraft.save();
+
+    // find user and update it's email ID's
+    const foundUser = await User.findOne({ _id: request.user });
+    foundUser.mailbox.drafts.unshift(savedEmailDraft._id);
+    await foundUser.save();
+
+    // return response status 201
+    response.status(201).json({ message: 'Draft saved successfully' });
+  } catch (error) {
+    console.log(error);
+    response.status(500).json(error);
+  }
+};

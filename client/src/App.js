@@ -57,7 +57,7 @@ function App() {
 
                   {/* Mail categorized lists */}
                   <Route exact path='/mail/:category'>
-                    <EmailCategory mailbox={userData.mailbox} updateUserData={updateUserData} />
+                    <EmailCategory userData={userData} updateUserData={updateUserData} />
                   </Route>
                 </main>
               </>

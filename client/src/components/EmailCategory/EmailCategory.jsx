@@ -9,80 +9,8 @@ import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRightRounded';
 import KeyboardRoundedIcon from '@material-ui/icons/KeyboardRounded';
 import styles from './style/EmailCategory.module.css';
 
-function EmailCategory({ mailbox, updateUserData }) {
+function EmailCategory({ userData, updateUserData }) {
   const { category } = useParams();
-
-  const listToDisplay = (type) => {
-    switch (type) {
-      case 'inbox':
-        return mailbox.inbox.map((item) => (
-          <EmailListItem
-            key={item._id}
-            id={item._id}
-            title={item.from}
-            subject={item.subject}
-            message={item.message}
-            date={item.createdAt}
-            isRead={item.read}
-            isStarred={item.starred}
-          />
-        ));
-      case 'sent':
-        return mailbox.sent.map((item) => (
-          <EmailListItem
-            key={item._id}
-            id={item._id}
-            title={`To: ${item.to}`}
-            subject={item.subject}
-            message={item.message}
-            date={item.createdAt}
-            isRead={item.read}
-            isStarred={item.starred}
-          />
-        ));
-      case 'drafts':
-        return mailbox.drafts.map((item) => (
-          <EmailListItem
-            key={item._id}
-            id={item._id}
-            title='Draft'
-            subject={item.subject}
-            message={item.message}
-            date={item.updatedAt}
-            isRead={true}
-            isStarred={undefined}
-          />
-        ));
-      case 'starred':
-        return mailbox.starred.map((item) => (
-          <EmailListItem
-            key={item._id}
-            id={item._id}
-            title={item.from === user.email ? 'me' : item.from}
-            subject={item.subject}
-            message={item.message}
-            date={item.createdAt}
-            isRead={item.read}
-            isStarred={item.starred}
-          />
-        ));
-      case 'trash':
-        return mailbox.trash.map((item) => (
-          <EmailListItem
-            key={item._id}
-            id={item._id}
-            title={item.from === user.email ? 'me' : item.from}
-            subject={item.subject}
-            message={item.message}
-            date={item.createdAt}
-            isRead={item.read}
-            isStarred={undefined}
-          />
-        ));
-      default:
-        return 'Loading...';
-    }
-  };
 
   return (
     <div className={styles.emailCategory}>
@@ -109,9 +37,81 @@ function EmailCategory({ mailbox, updateUserData }) {
         </div>
       </div>
 
-      <div>{listToDisplay(category)}</div>
+      <div>{listToDisplay(category, userData)}</div>
     </div>
   );
 }
+
+const listToDisplay = (category, userData) => {
+  switch (category) {
+    case 'inbox':
+      return userData.mailbox.inbox.map((item) => (
+        <EmailListItem
+          key={item._id}
+          id={item._id}
+          title={item.from}
+          subject={item.subject}
+          message={item.message}
+          date={item.createdAt}
+          isRead={item.read}
+          isStarred={item.starred}
+        />
+      ));
+    case 'sent':
+      return userData.mailbox.sent.map((item) => (
+        <EmailListItem
+          key={item._id}
+          id={item._id}
+          title={`To: ${item.to}`}
+          subject={item.subject}
+          message={item.message}
+          date={item.createdAt}
+          isRead={item.read}
+          isStarred={item.starred}
+        />
+      ));
+    case 'drafts':
+      return userData.mailbox.drafts.map((item) => (
+        <EmailListItem
+          key={item._id}
+          id={item._id}
+          title='Draft'
+          subject={item.subject}
+          message={item.message}
+          date={item.updatedAt}
+          isRead={true}
+          isStarred={undefined}
+        />
+      ));
+    case 'starred':
+      return userData.mailbox.starred.map((item) => (
+        <EmailListItem
+          key={item._id}
+          id={item._id}
+          title={item.from === userData.email ? 'me' : item.from}
+          subject={item.subject}
+          message={item.message}
+          date={item.createdAt}
+          isRead={item.read}
+          isStarred={item.starred}
+        />
+      ));
+    case 'trash':
+      return userData.mailbox.trash.map((item) => (
+        <EmailListItem
+          key={item._id}
+          id={item._id}
+          title={item.from === userData.email ? 'me' : item.from}
+          subject={item.subject}
+          message={item.message}
+          date={item.createdAt}
+          isRead={item.read}
+          isStarred={undefined}
+        />
+      ));
+    default:
+      return 'Loading...';
+  }
+};
 
 export default EmailCategory;

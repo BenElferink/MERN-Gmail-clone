@@ -4,7 +4,7 @@ import StarOutlineRoundedIcon from '@material-ui/icons/StarOutlineRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
 import styles from './style/EmailListItem.module.css';
 
-function EmailListItem({ title, subject, message, date, isRead, isStarred }) {
+function EmailListItem({ id, title, subject, message, date, isRead, isStarred }) {
   return (
     <div className={`${styles.email__listItem} ${isRead ? styles.read : styles.unread}`}>
       <Checkbox />

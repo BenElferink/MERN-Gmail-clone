@@ -25,18 +25,21 @@ function ComposeMail({ userEmail, toggleIsCompose }) {
   message.current = watch('message', '');
 
   // the following function is used to save a message as draft
+  // (only if one of the fields are not empty)
   const onClose = async () => {
     try {
-      let form = {
-        from: from.current,
-        to: to.current,
-        subject: subject.current,
-        message: message.current,
-      };
+      if (to.current !== '' || subject.current !== '' || message.current !== '') {
+        let form = {
+          from: from.current,
+          to: to.current,
+          subject: subject.current,
+          message: message.current,
+        };
 
-      const response = await api.saveDraft(form, token);
-      console.log(`✅ ${response.status} ${response.statusText}`);
-      console.log(response.data);
+        const response = await api.saveDraft(form, token);
+        console.log(`✅ ${response.status} ${response.statusText}`);
+        console.log(response.data);
+      }
       toggleIsCompose();
     } catch (error) {
       console.log(`❌ ${error}`);

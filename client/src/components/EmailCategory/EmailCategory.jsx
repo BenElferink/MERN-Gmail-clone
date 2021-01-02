@@ -15,17 +15,25 @@ function EmailCategory({ mailbox, updateUserData }) {
   const listToDisplay = (type) => {
     switch (type) {
       case 'inbox':
-        return mailbox.inbox.map((item) => <EmailListItem key={item._id} email={item} />);
+        return mailbox.inbox.map((item) => (
+          <EmailListItem key={item._id} email={item} swapRecipient={false} />
+        ));
       case 'sent':
-        return mailbox.sent.map((item) => <EmailListItem key={item._id} email={item} />);
+        return mailbox.sent.map((item) => (
+          <EmailListItem key={item._id} email={item} swapRecipient={true} />
+        ));
       case 'drafts':
         return mailbox.drafts.map((item) => (
           <EmailListItem key={item._id} email={item} swapRecipient={true} />
         ));
-      case 'trash':
-        return mailbox.trash.map((item) => <EmailListItem key={item._id} email={item} />);
       case 'starred':
-        return mailbox.starred.map((item) => <EmailListItem key={item._id} email={item} />);
+        return mailbox.starred.map((item) => (
+          <EmailListItem key={item._id} email={item} swapRecipient={false} />
+        ));
+      case 'trash':
+        return mailbox.trash.map((item) => (
+          <EmailListItem key={item._id} email={item} swapRecipient={false} />
+        ));
       default:
         return 'Unexpected error!';
     }

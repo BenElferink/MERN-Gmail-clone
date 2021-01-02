@@ -9,7 +9,7 @@ function EmailListItem({ email, swapRecipient }) {
     <div className={`${styles.email__listItem} ${email.read ? styles.read : styles.unread}`}>
       <Checkbox />
       <IconButton>{email.starred ? <StarRoundedIcon /> : <StarOutlineRoundedIcon />}</IconButton>
-      <h4>{swapRecipient ? email.to : email.from}</h4>
+      <h4>{swapRecipient ? `To: ${email.to}` : email.from}</h4>
       &nbsp;&nbsp;
       <div className={styles.email__listItem__message}>
         <h3>{email.subject}</h3>

@@ -68,3 +68,37 @@ export const saveDraft = async (request, response, next) => {
     response.status(500).json(error);
   }
 };
+
+export const handleStar = async (request, response, next) => {
+  try {
+    // find email by id
+    const foundEmail = await Email.findOne({ _id: request.params.id });
+
+    // find user by id
+    const foundUser = await User.findOne({ _id: request.user });
+    let starredList = foundUser.mailbox.starred;
+
+    // check email starred status (boolean)
+    if (foundEmail.starred) {
+      // if 'true', remove mail from 'starred' list and update it's status to 'false'
+      // let index;
+      // starredList.forEach((id, i) => {
+      //   if (id === foundEmail._id) index = i;
+      // });
+      // starredList.splice(index, 1);
+      foundEmail.starred = false;
+    } else {
+      // if 'false', add mail to 'starred' list and update it's status to 'true'
+      // starredList.unshift(foundEmail._id);
+      foundEmail.starred = true;
+    }
+
+    // save updated data
+    await foundEmail.save();
+    await foundUser.save();
+    response.status(200).json({ message: 'Favorite status updated successfully' });
+  } catch (error) {
+    console.log(error);
+    response.status(500).json(error);
+  }
+};

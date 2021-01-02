@@ -29,3 +29,10 @@ export const saveDraft = (form, token) =>
       Authorization: 'Bearer ' + token,
     },
   });
+export const handleStar = (id, token) =>
+  axios.put(url + '/email/' + id + '/star', null, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    },
+  });

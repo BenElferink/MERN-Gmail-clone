@@ -1,15 +1,31 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Checkbox, IconButton } from '@material-ui/core';
+import { TokenContext } from '../../context/TokenContextAPI';
 import StarOutlineRoundedIcon from '@material-ui/icons/StarOutlineRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
+import * as api from './../../api';
 import styles from './style/EmailListItem.module.css';
 
 function EmailListItem({ id, title, subject, message, date, isRead, isStarred }) {
+  const { token } = useContext(TokenContext);
+
+  const clickStar = async () => {
+    try {
+      const response = await api.handleStar(id, token);
+      console.log(`✅ ${response.status} ${response.statusText}`);
+      console.log(response.data);
+    } catch (error) {
+      console.log(`❌ ${error}`);
+    }
+  };
+
   return (
     <div className={`${styles.email__listItem} ${isRead ? styles.read : styles.unread}`}>
       <Checkbox />
       {isStarred !== undefined && (
-        <IconButton>{isStarred ? <StarRoundedIcon /> : <StarOutlineRoundedIcon />}</IconButton>
+        <IconButton onClick={clickStar}>
+          {isStarred ? <StarRoundedIcon /> : <StarOutlineRoundedIcon />}
+        </IconButton>
       )}
       <h4>{title}</h4>
       &nbsp;&nbsp;

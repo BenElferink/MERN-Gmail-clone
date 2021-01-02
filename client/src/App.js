@@ -68,11 +68,7 @@ function App() {
         </Switch>
 
         {userData && isCompose && (
-          <ComposeMail
-            userEmail={userData.email}
-            updateUserData={updateUserData}
-            toggleIsCompose={toggleIsCompose}
-          />
+          <ComposeMail userEmail={userData.email} toggleIsCompose={toggleIsCompose} />
         )}
       </div>
     </Router>

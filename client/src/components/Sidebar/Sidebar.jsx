@@ -37,7 +37,7 @@ function Sidebar({ userData, toggleIsCompose }) {
       <SidebarOption
         Icon={StarRoundedIcon}
         title='Starred'
-        number={42}
+        number={userData.mailbox.starred.length}
         onClick={() => history.push('/mail/starred')}
         selected={location.pathname === '/mail/starred'}
       />

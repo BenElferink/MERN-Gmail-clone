@@ -2,7 +2,7 @@ import { check } from 'express-validator';
 import User from './../models/User.js';
 
 export const registerValidations = [
-  check('email', 'Email is not valid').exists().isEmail().normalizeEmail(),
+  check('email', 'Email is not valid').exists().isEmail(),
   check('password', 'Password must be over 7 characters').exists().isLength({ min: 7 }),
   check('passwordConfirm')
     .exists()
@@ -15,6 +15,6 @@ export const registerValidations = [
 ];
 
 export const loginValidations = [
-  check('email', 'Email is not valid').exists().isEmail().normalizeEmail(),
+  check('email', 'Email is not valid').exists().isEmail(),
   check('password', 'Password must be over 7 characters').exists().isLength({ min: 7 }),
 ];

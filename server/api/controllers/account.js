@@ -80,7 +80,7 @@ export const getUserById = async (request, response, next) => {
   try {
     const foundUser = await User.findOne({ _id: request.user })
       .select('mailbox email name')
-      .populate('mailbox.inbox mailbox.sent mailbox.drafts mailbox.trash');
+      .populate('mailbox.received mailbox.sent mailbox.drafts mailbox.trash');
     if (!foundUser) return response.status(404).json({ message: 'User not found' });
 
     console.log(foundUser);

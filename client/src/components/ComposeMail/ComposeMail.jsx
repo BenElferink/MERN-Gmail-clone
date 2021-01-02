@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@material-ui/core';
 import styles from './style/ComposeMail.module.css';
 
-function ComposeMail({ userEmail, updateUserData }) {
+function ComposeMail({ userEmail, updateUserData, toggleIsCompose }) {
   const { token } = useContext(TokenContext);
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {

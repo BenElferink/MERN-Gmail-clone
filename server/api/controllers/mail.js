@@ -1,6 +1,7 @@
 import Email from './../models/Email.js';
 import User from './../models/User.js';
 import { validationResult } from 'express-validator';
+import txtgen from 'txtgen';
 
 export const sendEmail = async (request, response, next) => {
   try {
@@ -9,32 +10,33 @@ export const sendEmail = async (request, response, next) => {
     if (!validationErrors.isEmpty()) return response.status(400).json(validationErrors);
 
     // construct email
-    const newEmail = new Email({
+    const newEmailSent = new Email({
       from: request.body.from,
       to: request.body.to,
       subject: request.body.subject,
       message: request.body.message,
     });
 
-    // save email
-    const savedEmail = await newEmail.save();
-    console.log(savedEmail);
+    // generate a random reply email
+    const newEmailReceived = new Email({
+      from: request.body.to,
+      to: request.body.from,
+      subject: 'Re: ' + request.body.subject,
+      message: txtgen.paragraph(2),
+    });
 
-    // FIRST TEST:
-    // save email id to user
-    // return response status 201
+    // save both emails
+    const savedEmailSent = await newEmailSent.save();
+    const savedEmailReceived = await newEmailReceived.save();
 
-    // find user and update it's email ID's
+    // find user and update it's email ID's (sent && received)
     const foundUser = await User.findOne({ _id: request.user });
-    foundUser.mailbox.sent.unshift(savedEmail._id);
-    const savedUser = await foundUser.save();
+    foundUser.mailbox.sent.unshift(savedEmailSent._id);
+    foundUser.mailbox.received.unshift(savedEmailReceived._id);
+    await foundUser.save();
 
-    response.status(201).json({ message: 'Email sent successfully' });
-
-    // THEN UPGRADE:
-    // generate a random reply email (maybe an AI ???)
-    // save email id to user && save random reply to user
     // return response status 201
+    response.status(201).json({ message: 'Email sent successfully' });
   } catch (error) {
     console.log(error);
     response.status(500).json(error);

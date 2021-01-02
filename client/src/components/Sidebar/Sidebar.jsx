@@ -30,7 +30,7 @@ function Sidebar({ userData, toggleIsCompose }) {
       <SidebarOption
         Icon={InboxRoundedIcon}
         title='Inbox'
-        number={userData.mailbox.received.length}
+        number={userData.mailbox.inbox.length}
         onClick={() => history.push('/mail/inbox')}
         selected={location.pathname === '/mail/inbox'}
       />

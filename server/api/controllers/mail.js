@@ -32,7 +32,7 @@ export const sendEmail = async (request, response, next) => {
     // find user and update it's email ID's (sent && received)
     const foundUser = await User.findOne({ _id: request.user });
     foundUser.mailbox.sent.unshift(savedEmailSent._id);
-    foundUser.mailbox.received.unshift(savedEmailReceived._id);
+    foundUser.mailbox.inbox.unshift(savedEmailReceived._id);
     await foundUser.save();
 
     // return response status 201

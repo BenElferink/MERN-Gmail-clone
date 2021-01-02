@@ -67,7 +67,7 @@ function App() {
           </Route>
         </Switch>
 
-        {isCompose && (
+        {isCompose && userData && (
           <ComposeMail
             userEmail={userData.email}
             updateUserData={updateUserData}

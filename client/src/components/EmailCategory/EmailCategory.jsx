@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import { Checkbox, IconButton } from '@material-ui/core';
 import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
@@ -33,15 +33,15 @@ function EmailCategory({ mailbox, updateUserData }) {
 
     switch (type) {
       case 'inbox':
-        return mailbox.received.map((item) => itemUI(item));
+        return mailbox.inbox.map((item) => <Fragment key={item._id}>{itemUI(item)}</Fragment>);
       case 'sent':
-        return mailbox.sent.map((item) => itemUI(item, true));
+        return mailbox.sent.map((item) => <Fragment key={item._id}>{itemUI(item, true)}</Fragment>);
       case 'drafts':
-        return mailbox.drafts.map((item) => itemUI(item));
+        return mailbox.drafts.map((item) => <Fragment key={item._id}>{itemUI(item)}</Fragment>);
       case 'trash':
-        return mailbox.trash.map((item) => itemUI(item));
+        return mailbox.trash.map((item) => <Fragment key={item._id}>{itemUI(item)}</Fragment>);
       case 'starred':
-        return 'TBA';
+        return mailbox.starred.map((item) => <Fragment key={item._id}>{itemUI(item)}</Fragment>);
       default:
         return 'Unexpected error!';
     }

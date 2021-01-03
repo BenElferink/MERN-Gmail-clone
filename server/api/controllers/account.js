@@ -34,11 +34,8 @@ export const registerController = async (request, response, next) => {
 
     console.log(savedUser);
     response.status(201).json({
-      message: 'Account created succesffuly',
-      user: {
-        id: savedUser._id,
-        email: savedUser.email,
-      },
+      message: 'Account created',
+      email: savedUser.email,
     });
   } catch (error) {
     console.log(error);
@@ -67,7 +64,6 @@ export const loginController = async (request, response, next) => {
       { expiresIn: '1h' },
     );
 
-    // send token to client
     console.log(token);
     response.status(200).json({ message: 'Login success', token });
   } catch (error) {
@@ -76,11 +72,11 @@ export const loginController = async (request, response, next) => {
   }
 };
 
-export const getUserById = async (request, response, next) => {
+export const getUserData = async (request, response, next) => {
   try {
     const foundUser = await User.findOne({ _id: request.user })
-      .select('mailbox email name')
-      .populate('mailbox.inbox mailbox.sent mailbox.drafts mailbox.starred mailbox.trash');
+      .select('mailbox email name imageFileName')
+      .populate('mailbox');
     if (!foundUser) return response.status(404).json({ message: 'User not found' });
 
     console.log(foundUser);

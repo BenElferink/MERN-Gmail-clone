@@ -31,12 +31,14 @@ export const sendEmail = async (request, response, next) => {
 
     // find user and update it's email ID's (sent && received)
     const foundUser = await User.findOne({ _id: request.user });
-    foundUser.mailbox.sent.unshift(savedEmailSent._id);
-    foundUser.mailbox.inbox.unshift(savedEmailReceived._id);
+    foundUser.mailbox.push(savedEmailSent._id);
+    foundUser.mailbox.push(savedEmailReceived._id);
     await foundUser.save();
 
     // return response status 201
-    response.status(201).json({ message: 'Email sent successfully' });
+    console.log(savedEmailSent);
+    console.log(savedEmailReceived);
+    response.status(201).json({ message: 'Email sent' });
   } catch (error) {
     console.log(error);
     response.status(500).json(error);
@@ -51,6 +53,7 @@ export const saveDraft = async (request, response, next) => {
       to: request.body.to,
       subject: request.body.subject,
       message: request.body.message,
+      draft: true,
     });
 
     // save email
@@ -58,11 +61,12 @@ export const saveDraft = async (request, response, next) => {
 
     // find user and update it's email ID's
     const foundUser = await User.findOne({ _id: request.user });
-    foundUser.mailbox.drafts.unshift(savedEmailDraft._id);
+    foundUser.mailbox.push(savedEmailDraft._id);
     await foundUser.save();
 
     // return response status 201
-    response.status(201).json({ message: 'Draft saved successfully' });
+    console.log(savedEmailDraft);
+    response.status(201).json({ message: 'Draft saved' });
   } catch (error) {
     console.log(error);
     response.status(500).json(error);
@@ -71,32 +75,15 @@ export const saveDraft = async (request, response, next) => {
 
 export const handleStar = async (request, response, next) => {
   try {
-    // find email by id
+    // find email by id, and update it 'starred' status
     const foundEmail = await Email.findOne({ _id: request.params.id });
-
-    // find user by id
-    const foundUser = await User.findOne({ _id: request.user });
-    let starredList = foundUser.mailbox.starred;
-
-    // check email starred status (boolean)
-    if (foundEmail.starred) {
-      // if 'true', remove mail from 'starred' list and update it's status to 'false'
-      // let index;
-      // starredList.forEach((id, i) => {
-      //   if (id === foundEmail._id) index = i;
-      // });
-      // starredList.splice(index, 1);
-      foundEmail.starred = false;
-    } else {
-      // if 'false', add mail to 'starred' list and update it's status to 'true'
-      // starredList.unshift(foundEmail._id);
-      foundEmail.starred = true;
-    }
+    foundEmail.starred = !foundEmail.starred;
 
     // save updated data
-    await foundEmail.save();
-    await foundUser.save();
-    response.status(200).json({ message: 'Favorite status updated successfully' });
+    const savedEmail = await foundEmail.save();
+
+    console.log(savedEmail);
+    response.status(200).json({ message: 'Starred status updated' });
   } catch (error) {
     console.log(error);
     response.status(500).json(error);

@@ -17,13 +17,7 @@ const instance = new mongoose.Schema(
       last: String,
     },
     imageFileName: String,
-    mailbox: {
-      sent: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Email' }],
-      inbox: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Email' }],
-      starred: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Email' }],
-      drafts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Email' }],
-      trash: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Email' }],
-    },
+    mailbox: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Email' }],
   },
   {
     timestamps: true,

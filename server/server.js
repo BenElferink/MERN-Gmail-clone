@@ -2,6 +2,7 @@ import mongoose from 'mongoose'; // MongoDB (database)
 import express from 'express'; // Backend App (server)
 import dotenv from 'dotenv'; // Secures content
 import cors from 'cors'; // HTTP headers
+import authRoute from './api/routes/auth.js';
 import accountRoutes from './api/routes/account.js';
 import mailRoutes from './api/routes/mail.js';
 
@@ -33,6 +34,7 @@ mongoose.set('useCreateIndex', true);
 
 // routes
 app.get('/', (req, res) => res.send('Hello World - Express.js'));
+app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/account', accountRoutes);
 app.use('/api/v1/email', mailRoutes);
 

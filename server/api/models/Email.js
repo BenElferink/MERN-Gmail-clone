@@ -2,7 +2,10 @@ import mongoose from 'mongoose';
 
 const instance = new mongoose.Schema(
   {
-    from: String,
+    from: {
+      type: String,
+      required: true,
+    },
     to: String,
     subject: String,
     message: String,
@@ -11,6 +14,14 @@ const instance = new mongoose.Schema(
       default: false,
     },
     starred: {
+      type: Boolean,
+      default: false,
+    },
+    draft: {
+      type: Boolean,
+      default: false,
+    },
+    trash: {
       type: Boolean,
       default: false,
     },

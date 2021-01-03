@@ -38,8 +38,7 @@ function ComposeMail({ toggleIsCompose }) {
         };
 
         const response = await api.saveDraft(form, token);
-        console.log(`✅ ${response.status} ${response.statusText}`);
-        console.log(response.data);
+        console.log(`✅ ${response.status} ${response.statusText}`, response.data);
       }
       toggleIsCompose();
     } catch (error) {
@@ -52,8 +51,7 @@ function ComposeMail({ toggleIsCompose }) {
   const onSubmit = async (values) => {
     try {
       const response = await api.sendEmail(values, token);
-      console.log(`✅ ${response.status} ${response.statusText}`);
-      console.log(response.data);
+      console.log(`✅ ${response.status} ${response.statusText}`, response.data);
       toggleIsCompose();
     } catch (error) {
       console.log(`❌ ${error}`);

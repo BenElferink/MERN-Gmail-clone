@@ -12,8 +12,7 @@ function EmailListItem({ id, title, subject, message, date, isRead, isStarred })
   const clickStar = async () => {
     try {
       const response = await api.handleStar(id, token);
-      console.log(`✅ ${response.status} ${response.statusText}`);
-      console.log(response.data);
+      console.log(`✅ ${response.status} ${response.statusText}`, response.data);
     } catch (error) {
       console.log(`❌ ${error}`);
     }

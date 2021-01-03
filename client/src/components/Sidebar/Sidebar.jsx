@@ -66,7 +66,7 @@ function Sidebar({
       <SidebarOption
         Icon={ExpandMoreRoundedIcon}
         title='More'
-        number={1}
+        number={''}
         onClick={toggleShowMore}
         className={showMore ? styles.showMore__on : styles.showMore__off}
       />

@@ -27,7 +27,7 @@
 }
 
 .email__listItem > p {
-  width: 120px;
+  width: 80px;
   text-align: center;
   white-space: nowrap;
 }
@@ -37,9 +37,9 @@
   flex: 1;
 }
 
-.email__listItem > h4,
+/* .email__listItem > h4, */
 .email__listItem__message,
-.email__listItem__message > h3,
+/* .email__listItem__message > h3, */
 .email__listItem__message > p {
   white-space: nowrap;
   overflow: hidden;

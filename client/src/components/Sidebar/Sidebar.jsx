@@ -11,7 +11,14 @@ import DeleteRoundedIcon from '@material-ui/icons/Delete';
 import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded';
 import styles from './style/Sidebar.module.css';
 
-function Sidebar({ userData, toggleIsCompose }) {
+function Sidebar({
+  toggleIsCompose,
+  inboxLength,
+  sentLength,
+  starredLength,
+  draftsLength,
+  trashLength,
+}) {
   const [showMore, setShowMore] = useState(false);
   const toggleShowMore = () => setShowMore(!showMore);
 
@@ -30,28 +37,28 @@ function Sidebar({ userData, toggleIsCompose }) {
       <SidebarOption
         Icon={InboxRoundedIcon}
         title='Inbox'
-        number={userData.mailbox.inbox.length}
+        number={inboxLength}
         onClick={() => history.push('/mail/inbox')}
         selected={location.pathname === '/mail/inbox'}
       />
       <SidebarOption
         Icon={StarRoundedIcon}
         title='Starred'
-        number={userData.mailbox.starred.length}
+        number={starredLength}
         onClick={() => history.push('/mail/starred')}
         selected={location.pathname === '/mail/starred'}
       />
       <SidebarOption
         Icon={SendRoundedIcon}
         title='Sent'
-        number={userData.mailbox.sent.length}
+        number={sentLength}
         onClick={() => history.push('/mail/sent')}
         selected={location.pathname === '/mail/sent'}
       />
       <SidebarOption
         Icon={NoteRoundedIcon}
         title='Drafts'
-        number={userData.mailbox.drafts.length}
+        number={draftsLength}
         onClick={() => history.push('/mail/drafts')}
         selected={location.pathname === '/mail/drafts'}
       />
@@ -68,7 +75,7 @@ function Sidebar({ userData, toggleIsCompose }) {
           <SidebarOption
             Icon={DeleteRoundedIcon}
             title='Trash'
-            number={userData.mailbox.trash.length}
+            number={trashLength}
             onClick={() => history.push('/mail/trash')}
             selected={location.pathname === '/mail/trash'}
           />

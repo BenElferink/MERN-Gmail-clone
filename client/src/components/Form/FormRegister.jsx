@@ -1,24 +1,21 @@
 import React, { useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import createAccount from './../../redux/actions/register';
 import { useForm } from 'react-hook-form';
 import { Button } from '@material-ui/core';
-import * as api from './../../api';
 import styles from './style/Form.module.css';
 
 function Account({ toggleIsCreateNew }) {
+  const dispatch = useDispatch();
   const { register, handleSubmit, errors, watch } = useForm();
-  const password = useRef({}); // used so I can compare the password and confirmed password
+
+  // used so I can compare the password and confirmed password
+  const password = useRef({});
   password.current = watch('password', '');
 
-  const onSubmit = async (values) => {
-    try {
-      const response = await api.register(values);
-      console.log(`✅ ${response.status} ${response.statusText}`);
-      console.log(response.data);
-      toggleIsCreateNew();
-    } catch (error) {
-      console.log(`❌ ${error}`);
-      window.alert(error.response.data.message);
-    }
+  const onSubmit = (values) => {
+    dispatch(createAccount(values));
+    toggleIsCreateNew();
   };
 
   return (

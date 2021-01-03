@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Checkbox, IconButton } from '@material-ui/core';
-import { TokenContext } from '../../context/TokenContextAPI';
 import StarOutlineRoundedIcon from '@material-ui/icons/StarOutlineRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
 import * as api from './../../api';
 import styles from './style/EmailListItem.module.css';
 
 function EmailListItem({ id, title, subject, message, date, isRead, isStarred }) {
-  const { token } = useContext(TokenContext);
+  const token = useSelector((state) => state.token);
 
   const clickStar = async () => {
     try {

@@ -3,6 +3,15 @@ import axios from 'axios';
 // api base-url (that you created on server side)
 const url = 'http://localhost:8080/api/v1';
 
+// authenticate token route
+export const authenticateToken = (token) =>
+  axios.get(url + '/account/register', {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    },
+  });
+
 // account routes
 export const register = (form) => axios.post(url + '/account/register', form);
 export const login = (form) => axios.post(url + '/account/login', form);

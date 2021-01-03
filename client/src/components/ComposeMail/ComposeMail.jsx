@@ -1,15 +1,16 @@
-import React, { useContext, useRef } from 'react';
-import { TokenContext } from '../../context/TokenContextAPI';
+import React, { useRef } from 'react';
+import { useSelector } from 'react-redux';
 import * as api from './../../api';
 import { useForm } from 'react-hook-form';
 import { Button } from '@material-ui/core';
 import styles from './style/ComposeMail.module.css';
 
-function ComposeMail({ userEmail, toggleIsCompose }) {
-  const { token } = useContext(TokenContext);
+function ComposeMail({ toggleIsCompose }) {
+  const token = useSelector((state) => state.token);
+  const registeredEmail = useSelector((state) => state.user.email);
   const { register, handleSubmit, errors, watch } = useForm({
     defaultValues: {
-      from: userEmail,
+      from: registeredEmail,
     },
   });
 

@@ -1,24 +1,21 @@
-import React, { useContext } from 'react';
-import { TokenContext } from '../../context/TokenContextAPI';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import login from './../../redux/actions/login';
 import { useForm } from 'react-hook-form';
 import { Button } from '@material-ui/core';
-import * as api from './../../api';
 import styles from './style/Form.module.css';
 
 function Account({ toggleIsCreateNew }) {
-  const { setToken } = useContext(TokenContext);
-  const { register, handleSubmit, errors } = useForm();
+  const dispatch = useDispatch();
+  const registeredEmail = useSelector((state) => state.user.email);
+  const { register, handleSubmit, errors } = useForm({
+    defaultValues: {
+      email: registeredEmail,
+    },
+  });
 
-  const onSubmit = async (values) => {
-    try {
-      const response = await api.login(values);
-      console.log(`✅ ${response.status} ${response.statusText}`);
-      console.log(response.data);
-      setToken(response.data.token);
-    } catch (error) {
-      console.log(`❌ ${error}`);
-      window.alert(error.response.data.message);
-    }
+  const onSubmit = (values) => {
+    dispatch(login(values));
   };
 
   return (

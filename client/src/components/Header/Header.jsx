@@ -9,22 +9,22 @@ import styles from './style/Header.module.css';
 
 function Header({ toggleShowSidebar }) {
   return (
-    <div className={styles.header}>
-      <div className={styles.header__side}>
+    <header className={styles.container}>
+      <div className={styles.side}>
         <IconButton onClick={toggleShowSidebar}>
           <MenuIcon />
         </IconButton>
         <img src={GmailLogo} alt='gmail logo' />
       </div>
 
-      <div className={styles.header__middle}>
+      <div className={styles.middle}>
         <IconButton>
           <SearchIcon />
         </IconButton>
         <input type='text' placeholder='Search mail' />
       </div>
 
-      <div className={styles.header__side}>
+      <div className={styles.side}>
         <IconButton>
           <AppsIcon />
         </IconButton>
@@ -35,7 +35,7 @@ function Header({ toggleShowSidebar }) {
           <Avatar />
         </IconButton>
       </div>
-    </div>
+    </header>
   );
 }
 

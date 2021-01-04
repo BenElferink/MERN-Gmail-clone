@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Checkbox, IconButton } from '@material-ui/core';
 import StarOutlineRoundedIcon from '@material-ui/icons/StarOutlineRounded';
@@ -7,6 +8,7 @@ import * as api from './../../api';
 import styles from './style/EmailListItem.module.css';
 
 function EmailListItem({ id, title, subject, message, date, isRead, isStarred }) {
+  const history = useHistory();
   const token = useSelector((state) => state.token);
 
   const clickStar = async () => {
@@ -19,22 +21,27 @@ function EmailListItem({ id, title, subject, message, date, isRead, isStarred })
   };
 
   return (
-    <div className={`${styles.email__listItem} ${isRead ? styles.read : styles.unread}`}>
+    <div className={`${styles.item} ${isRead ? styles.read : styles.unread}`}>
       <Checkbox />
       {isStarred !== undefined && (
         <IconButton onClick={clickStar}>
           {isStarred ? <StarRoundedIcon /> : <StarOutlineRoundedIcon />}
         </IconButton>
       )}
-      <h4>{title}</h4>
-      &nbsp;&nbsp;
-      <div className={styles.email__listItem__message}>
-        <h3>{subject}</h3>
+
+      <div className={styles.message} onClick={() => history.push(`/mail/view/${id}`)}>
+        <h4>{title}</h4>
         &nbsp;&nbsp;
-        <p>{message}</p>
+        {/* <div className={styles.message_content}> */}
+        <p>
+          <span>{subject}</span>
+          &nbsp;&nbsp;
+          {message}
+        </p>
+        {/* </div> */}
+        &nbsp;&nbsp;
+        <span>{dateToString(date)}</span>
       </div>
-      &nbsp;&nbsp;
-      <p>{dateToString(date)}</p>
     </div>
   );
 }

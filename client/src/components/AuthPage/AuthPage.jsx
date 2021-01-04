@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import GmailIcon from './img/gmail.svg';
-import FormLogin from './../Form/FormLogin';
-import FormRegister from './../Form/FormRegister';
-import styles from './style/Account.module.css';
+import FormLogin from '../Form/FormLogin';
+import FormRegister from '../Form/FormRegister';
+import styles from './style/AuthPage.module.css';
 
-function Account() {
+function AuthPage() {
   const [isCreateNew, setIsCreateNew] = useState(false);
   const toggleIsCreateNew = () => setIsCreateNew(!isCreateNew);
 
   return (
-    <div className={styles.account}>
+    <div className={styles.page}>
       <img src={GmailIcon} alt='Gmail' />
 
       {isCreateNew ? (
@@ -26,4 +26,4 @@ function Account() {
   );
 }
 
-export default Account;
+export default AuthPage;

@@ -60,12 +60,12 @@ function ComposeMail({ toggleIsCompose }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.compose}>
-      <div className={styles.compose__header}>
+      <div className={styles.header}>
         <h5>New Message</h5>
         <span onClick={onClose}>&times;</span>
       </div>
 
-      <div className={styles.compose__inpGroup}>
+      <div className={styles.inpGroup}>
         <label htmlFor='from'>From:</label>
         <input
           name='from'
@@ -80,7 +80,7 @@ function ComposeMail({ toggleIsCompose }) {
         />
       </div>
 
-      <div className={styles.compose__inpGroup}>
+      <div className={styles.inpGroup}>
         <label htmlFor='to'>To:</label>
         <input
           name='to'
@@ -94,7 +94,7 @@ function ComposeMail({ toggleIsCompose }) {
         />
       </div>
 
-      <div className={styles.compose__inpGroup}>
+      <div className={styles.inpGroup}>
         <label htmlFor='subject'>Subject:</label>
         <input
           name='subject'
@@ -113,7 +113,7 @@ function ComposeMail({ toggleIsCompose }) {
         })}
       />
 
-      <div className={styles.compose__send}>
+      <div className={styles.send}>
         <Button type='submit'>Send</Button>
         <span>
           <p>{errors.to?.type === 'required' && 'Recipient is required'}</p>

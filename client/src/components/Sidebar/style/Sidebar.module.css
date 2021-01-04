@@ -1,9 +1,9 @@
-.sidebar {
+.container {
   width: 260px;
   padding-right: 20px;
 }
 
-.sidebar__compose {
+.compose {
   margin: 15px 0 15px 11px !important;
   padding: 15px !important;
   border-radius: 30px !important;

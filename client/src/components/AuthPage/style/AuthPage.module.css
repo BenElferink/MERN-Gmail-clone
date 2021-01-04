@@ -1,4 +1,4 @@
-.account {
+.page {
   width: 100%;
   height: 100%;
   display: flex;
@@ -7,13 +7,13 @@
   /* justify-content: center; */
 }
 
-.account > img {
+.page > img {
   width: 350px;
   margin-top: 69px;
   margin-bottom: 42px;
 }
 
-.account > p {
+.page > p {
   position: absolute;
   bottom: 10px;
   right: 10px;

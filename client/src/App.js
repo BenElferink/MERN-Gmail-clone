@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import getUserData from './redux/actions/getUserData';
-import Account from './components/Account/Account';
+import AuthPage from './components/AuthPage/AuthPage';
 import EmailPage from './components/EmailPage/EmailPage';
 import styles from './style/App.module.css';
 
@@ -22,7 +22,7 @@ function App() {
           <Route
             exact
             path='/'
-            component={() => (!user.isLoggedIn ? <Account /> : <Redirect to='/mail/inbox' />)}
+            component={() => (!user.isLoggedIn ? <AuthPage /> : <Redirect to='/mail/inbox' />)}
           />
           <Route
             path='/mail'

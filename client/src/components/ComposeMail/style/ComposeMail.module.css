@@ -12,7 +12,7 @@
   z-index: 999;
 }
 
-.compose__header {
+.header {
   padding: 10px 15px;
   display: flex;
   align-items: center;
@@ -22,11 +22,11 @@
   color: #fff;
 }
 
-.compose__header > span {
+.header > span {
   cursor: pointer;
 }
 
-.compose__inpGroup {
+.inpGroup {
   padding: 7px 15px;
   display: flex;
   align-items: center;
@@ -34,12 +34,12 @@
   border-bottom: 1px solid #f5f5f5;
 }
 
-.compose__inpGroup > label {
+.inpGroup > label {
   margin-right: 7px;
   cursor: text;
 }
 
-.compose__inpGroup > input {
+.inpGroup > input {
   width: 100%;
   border: none;
   outline: none;
@@ -54,13 +54,13 @@
   outline: none;
 }
 
-.compose__send {
+.send {
   height: 42px;
   display: flex;
   align-items: center;
 }
 
-.compose__send > button {
+.send > button {
   margin: 0 10px !important;
   background-color: #1e6df6 !important;
   border-radius: 10px !important;
@@ -68,11 +68,11 @@
   text-transform: Capitalize !important;
 }
 
-.compose__send > button:hover {
+.send > button:hover {
   background-color: #4b8ef9 !important;
 }
 
-.compose__send > span {
+.send > span {
   color: #ff0000;
   font-size: 13px;
 }

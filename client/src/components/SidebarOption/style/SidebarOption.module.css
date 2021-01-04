@@ -1,4 +1,4 @@
-.sidebarOption {
+.item {
   height: 40px;
   padding: 10px;
   display: flex;
@@ -8,11 +8,11 @@
   cursor: pointer;
 }
 
-.sidebarOption > svg {
+.item > svg {
   padding: 5px;
 }
 
-.sidebarOption > h3 {
+.item > h3 {
   margin-left: 10px;
   flex: 1;
   font-size: 14px;
@@ -23,7 +23,7 @@
   user-select: none;
 }
 
-.sidebarOption > p {
+.item > p {
   display: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -31,9 +31,9 @@
   user-select: none;
 }
 
-.sidebarOption:hover,
-.sidebarOption:hover > h3,
-.sidebarOption:hover > p,
+.item:hover,
+.item:hover > h3,
+.item:hover > p,
 .active,
 .active > h3,
 .active > p {
@@ -42,7 +42,7 @@
   font-weight: 800 !important;
 }
 
-.sidebarOption:hover > p,
+.item:hover > p,
 .active > p {
   display: inline !important;
 }

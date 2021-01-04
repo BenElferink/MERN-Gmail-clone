@@ -26,9 +26,9 @@ function Sidebar({
   const location = useLocation();
 
   return (
-    <div className={styles.sidebar}>
+    <div className={styles.container}>
       <Button
-        className={styles.sidebar__compose}
+        className={styles.compose}
         onClick={toggleIsCompose}
         startIcon={<AddRoundedIcon fontSize='large' />}>
         Compose

@@ -1,54 +1,50 @@
-.email__listItem {
+.item {
   padding: 7px 5px;
   display: flex;
   align-items: center;
   border-bottom: 1px solid #f5f5f5;
+}
+
+.item:hover {
+  border-top: 1px solid #f5f5f5;
+  box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.25);
+  position: relative;
+  z-index: 999;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-size: 14px;
   cursor: pointer;
 }
 
-.email__listItem:hover {
-  border-top: 1px solid #f5f5f5;
-  box-shadow: 0px 4px 4px -2px rgba(0, 0, 0, 0.25);
-  z-index: 999;
-  position: relative;
-}
-
-.email__listItem > h4 {
+.message > h4 {
   width: 200px;
-  font-size: 14px;
 }
 
-.email__listItem h3 {
-  font-size: 14px;
-}
-
-.email__listItem p {
-  font-size: 13px;
-}
-
-.email__listItem > p {
-  width: 80px;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.email__listItem__message {
-  display: flex;
+.message > p {
   flex: 1;
 }
 
-/* .email__listItem > h4, */
-.email__listItem__message,
-/* .email__listItem__message > h3, */
-.email__listItem__message > p {
+.message,
+.message > p {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.unread > h4,
-.unread h3,
-.unread > p {
+.message > span {
+  width: 80px;
+  font-size: 13px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.unread > .message > h4,
+.unread > .message > p > span,
+.unread > .message > span {
   font-weight: bold;
 }
 

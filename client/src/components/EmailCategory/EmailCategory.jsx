@@ -17,8 +17,8 @@ function EmailCategory({ inbox, sent, starred, drafts, trash, userEmail }) {
   const dispatch = useDispatch();
 
   return (
-    <div className={styles.emailCategory}>
-      <div className={styles.emailCategory__settings}>
+    <div className={styles.container}>
+      <div className={styles.settings}>
         <div>
           <Checkbox />
           <IconButton onClick={() => dispatch(getUserData(token))}>

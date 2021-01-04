@@ -38,22 +38,22 @@ export const saveDraft = (form, token) =>
       Authorization: 'Bearer ' + token,
     },
   });
-export const handleStar = (id, token) =>
+export const toggleStarred = (id, token) =>
   axios.put(url + '/email/' + id + '/star', null, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + token,
     },
   });
-export const markAsRead = (id, token) =>
+export const toggleRead = (id, token) =>
   axios.put(url + '/email/' + id + '/read', null, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + token,
     },
   });
-export const markAsUnread = (id, token) =>
-  axios.put(url + '/email/' + id + '/unread', null, {
+export const toggleTrash = (id, token) =>
+  axios.put(url + '/email/' + id + '/trash', null, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + token,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { handleStar } from './../../api';
+import { toggleStarred } from './../../api';
 import { Checkbox, IconButton } from '@material-ui/core';
 import StarOutlineRoundedIcon from '@material-ui/icons/StarOutlineRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
@@ -13,7 +13,7 @@ function EmailListItem({ id, title, subject, message, date, isRead, isStarred })
 
   const clickStar = async () => {
     try {
-      const response = await handleStar(id, token);
+      const response = await toggleStarred(id, token);
       console.log(`✅ ${response.status} ${response.statusText}`, response.data);
     } catch (error) {
       console.log(`❌ ${error}`);

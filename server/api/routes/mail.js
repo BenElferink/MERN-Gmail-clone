@@ -4,9 +4,9 @@ import { emailValidations } from '../middleware/validateEmail.js';
 import {
   sendEmail,
   saveDraft,
-  handleStar,
-  markAsRead,
-  markAsUnread,
+  toggleStarred,
+  toggleRead,
+  toggleTrash,
 } from './../controllers/mail.js';
 
 // initialize router
@@ -21,8 +21,8 @@ const router = express.Router();
 
 router.post('/', authenticateToken, [...emailValidations], sendEmail);
 router.post('/drafts', authenticateToken, saveDraft);
-router.put('/:id/star', authenticateToken, handleStar);
-router.put('/:id/read', authenticateToken, markAsRead);
-router.put('/:id/unread', authenticateToken, markAsUnread);
+router.put('/:id/star', authenticateToken, toggleStarred);
+router.put('/:id/read', authenticateToken, toggleRead);
+router.put('/:id/trash', authenticateToken, toggleTrash);
 
 export default router;

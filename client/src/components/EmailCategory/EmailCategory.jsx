@@ -2,12 +2,12 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import getUserData from './../../redux/actions/getUserData';
-import EmailOptions from '../EmailOptions/EmailOptions';
 import EmailListItem from '../EmailListItem/EmailListItem';
-import { Checkbox, IconButton } from '@material-ui/core';
+import styles from './style/EmailCategory.module.css';
+import { Checkbox, IconButton, Tooltip } from '@material-ui/core';
 import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
 import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
-import styles from './style/EmailCategory.module.css';
+import EmailOptions from '../EmailOptions/EmailOptions';
 
 function EmailCategory({ inbox, sent, starred, drafts, trash, userEmail }) {
   const { category } = useParams();
@@ -17,13 +17,19 @@ function EmailCategory({ inbox, sent, starred, drafts, trash, userEmail }) {
   return (
     <div className={styles.container}>
       <EmailOptions>
-        <Checkbox />
-        <IconButton onClick={() => dispatch(getUserData(token))}>
-          <RefreshRoundedIcon />
-        </IconButton>
-        <IconButton>
-          <MoreVertRoundedIcon />
-        </IconButton>
+        <Tooltip title='Select all' placement='top'>
+          <Checkbox />
+        </Tooltip>
+        <Tooltip title='Refresh' placement='top'>
+          <IconButton onClick={() => dispatch(getUserData(token))}>
+            <RefreshRoundedIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title='More' placement='top'>
+          <IconButton>
+            <MoreVertRoundedIcon />
+          </IconButton>
+        </Tooltip>
       </EmailOptions>
 
       {category === 'inbox' && (

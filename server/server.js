@@ -23,7 +23,7 @@ app.use(morgan('common'));
 const DB_NAME = 'GmailDB'; // if you want to use local server: edit this "DB_NAME" (and remove the "CONNECTION_URL" from -> .env file)
 const CONNECTION_URL = process.env.CONNECTION_URL || `mongodb://localhost:27017/${DB_NAME}`;
 const PORT = process.env.PORT || 8080; // 8080 === development port
-const DEPRECATED_FIX = { useNewUrlParser: true, useUnifiedTopology: true }; // change this with (possible) warnings on first connection
+const DEPRECATED_FIX = { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }; // change this with (possible) warnings on first connection
 
 // mongoose connections   --->   https://mongoosejs.com/docs/connections.html
 // connect to db
@@ -33,8 +33,6 @@ mongoose
 mongoose.connection.on('connected', () => console.log('✅ MongoDB connected'));
 mongoose.connection.on('error', (error) => console.log('❌ MongoDB:', error)); // listen for errors after the connection is established (errors during the session)
 mongoose.connection.on('disconnected', () => console.log('❌ MongoDB disconnected'));
-mongoose.set('useCreateIndex', true);
-// ^ ^ ^ fix to a deprecated warning
 
 // routes
 app.get('/', (req, res) => res.send('Hello World - Express.js'));

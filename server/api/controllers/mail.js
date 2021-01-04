@@ -73,7 +73,7 @@ export const saveDraft = async (request, response, next) => {
   }
 };
 
-export const handleStar = async (request, response, next) => {
+export const toggleStarred = async (request, response, next) => {
   try {
     // find email by id, and update it 'starred' status
     const foundEmail = await Email.findOne({ _id: request.params.id });
@@ -90,11 +90,11 @@ export const handleStar = async (request, response, next) => {
   }
 };
 
-export const markAsRead = async (request, response, next) => {
+export const toggleRead = async (request, response, next) => {
   try {
     // find email by id, and update it 'read' status
     const foundEmail = await Email.findOne({ _id: request.params.id });
-    foundEmail.read = true;
+    foundEmail.read = !foundEmail.read;
 
     // save updated data
     const savedEmail = await foundEmail.save();
@@ -107,17 +107,17 @@ export const markAsRead = async (request, response, next) => {
   }
 };
 
-export const markAsUnread = async (request, response, next) => {
+export const toggleTrash = async (request, response, next) => {
   try {
-    // find email by id, and update it 'read' status
+    // find email by id, and update it 'trash' status
     const foundEmail = await Email.findOne({ _id: request.params.id });
-    foundEmail.read = false;
+    foundEmail.trash = !foundEmail.trash;
 
     // save updated data
     const savedEmail = await foundEmail.save();
 
     console.log(savedEmail);
-    response.status(200).json({ message: 'Read status updated' });
+    response.status(200).json({ message: 'Trash status updated' });
   } catch (error) {
     console.log(error);
     response.status(500).json(error);

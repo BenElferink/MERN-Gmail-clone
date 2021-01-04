@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { markAsRead, markAsUnread } from './../../api';
+import { toggleRead, toggleTrash } from './../../api';
 import EmailOptions from '../EmailOptions/EmailOptions';
-import { IconButton, Avatar } from '@material-ui/core';
+import { IconButton, Avatar, Tooltip } from '@material-ui/core';
 import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import DraftsRoundedIcon from '@material-ui/icons/DraftsRounded';
@@ -21,18 +21,18 @@ function EmailView() {
     }
   });
 
-  const markReadAsTrue = async () => {
+  const moveToTrash = async () => {
     try {
-      const response = await markAsRead(id, token);
+      const response = await toggleTrash(id, token);
       console.log(`✅ ${response.status} ${response.statusText}`, response.data);
     } catch (error) {
       console.log(`❌ ${error}`);
     }
   };
 
-  const markReadAsFalse = async () => {
+  const toggleReadStatus = async () => {
     try {
-      const response = await markAsUnread(id, token);
+      const response = await toggleRead(id, token);
       console.log(`✅ ${response.status} ${response.statusText}`, response.data);
     } catch (error) {
       console.log(`❌ ${error}`);
@@ -40,21 +40,27 @@ function EmailView() {
   };
 
   useEffect(() => {
-    markReadAsTrue();
+    if (!mailToDisplay.read) toggleReadStatus();
   }, []);
 
   return (
     <div className={styles.container}>
       <EmailOptions>
-        <IconButton onClick={() => history.goBack()}>
-          <ArrowBackRoundedIcon />
-        </IconButton>
-        <IconButton>
-          <DeleteRoundedIcon />
-        </IconButton>
-        <IconButton onClick={markReadAsFalse}>
-          <DraftsRoundedIcon />
-        </IconButton>
+        <Tooltip title='Back' placement='top'>
+          <IconButton onClick={() => history.goBack()}>
+            <ArrowBackRoundedIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title='Delete' placement='top'>
+          <IconButton onClick={() => moveToTrash() + history.goBack()}>
+            <DeleteRoundedIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title='Mark as unread' placement='top'>
+          <IconButton onClick={() => toggleReadStatus() + history.goBack()}>
+            <DraftsRoundedIcon />
+          </IconButton>
+        </Tooltip>
       </EmailOptions>
 
       <div>

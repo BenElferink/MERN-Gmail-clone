@@ -94,7 +94,6 @@ function EmailCategory({ inbox, sent, starred, drafts, trash, userEmail }) {
               message={item.message}
               date={item.updatedAt}
               isRead={true}
-              isStarred={undefined}
             />
           ))}
         </div>
@@ -111,7 +110,7 @@ function EmailCategory({ inbox, sent, starred, drafts, trash, userEmail }) {
               message={item.message}
               date={item.createdAt}
               isRead={item.read}
-              isStarred={undefined}
+              isTrash={true}
             />
           ))}
         </div>

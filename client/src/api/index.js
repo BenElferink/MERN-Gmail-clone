@@ -59,3 +59,10 @@ export const toggleTrash = (id, token) =>
       Authorization: 'Bearer ' + token,
     },
   });
+export const deleteEmail = (id, token) =>
+  axios.delete(url + '/email/' + id, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    },
+  });

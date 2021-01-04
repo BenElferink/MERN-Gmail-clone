@@ -7,6 +7,7 @@ import {
   toggleStarred,
   toggleRead,
   toggleTrash,
+  deleteEmail,
 } from './../controllers/mail.js';
 
 // initialize router
@@ -24,5 +25,6 @@ router.post('/drafts', authenticateToken, saveDraft);
 router.put('/:id/star', authenticateToken, toggleStarred);
 router.put('/:id/read', authenticateToken, toggleRead);
 router.put('/:id/trash', authenticateToken, toggleTrash);
+router.delete('/:id', authenticateToken, deleteEmail);
 
 export default router;

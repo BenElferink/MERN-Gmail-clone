@@ -123,3 +123,16 @@ export const toggleTrash = async (request, response, next) => {
     response.status(500).json(error);
   }
 };
+
+export const deleteEmail = async (request, response, next) => {
+  try {
+    // find email by id, and update it delete it
+    const removedEmail = await Email.deleteOne({ _id: request.params.id });
+
+    console.log(removedEmail);
+    response.status(200).json({ message: 'Email deleted' });
+  } catch (error) {
+    console.log(error);
+    response.status(500).json(error);
+  }
+};

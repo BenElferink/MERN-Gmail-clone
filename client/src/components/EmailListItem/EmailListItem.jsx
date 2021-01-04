@@ -1,13 +1,14 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { toggleStarred } from './../../api';
+import { toggleStarred, deleteEmail } from './../../api';
 import { Checkbox, IconButton } from '@material-ui/core';
 import StarOutlineRoundedIcon from '@material-ui/icons/StarOutlineRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
+import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import styles from './style/EmailListItem.module.css';
 
-function EmailListItem({ id, title, subject, message, date, isRead, isStarred }) {
+function EmailListItem({ id, title, subject, message, date, isRead, isStarred, isTrash }) {
   const history = useHistory();
   const token = useSelector((state) => state.token);
 
@@ -20,12 +21,27 @@ function EmailListItem({ id, title, subject, message, date, isRead, isStarred })
     }
   };
 
+  const clickTrash = async () => {
+    try {
+      const response = await deleteEmail(id, token);
+      console.log(`✅ ${response.status} ${response.statusText}`, response.data);
+    } catch (error) {
+      console.log(`❌ ${error}`);
+    }
+  };
+
   return (
     <div className={`${styles.item} ${isRead ? styles.read : styles.unread}`}>
       <Checkbox />
       {isStarred !== undefined && (
         <IconButton onClick={clickStar}>
           {isStarred ? <StarRoundedIcon /> : <StarOutlineRoundedIcon />}
+        </IconButton>
+      )}
+
+      {isTrash && (
+        <IconButton onClick={clickTrash}>
+          <DeleteRoundedIcon />
         </IconButton>
       )}
 

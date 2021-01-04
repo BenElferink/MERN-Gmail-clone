@@ -3,8 +3,9 @@ import { Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Header from './../Header/Header';
 import Sidebar from './../Sidebar/Sidebar';
-import EmailCategory from './../EmailCategory/EmailCategory';
 import ComposeMail from './../ComposeMail/ComposeMail';
+import EmailCategory from './../EmailCategory/EmailCategory';
+import EmailView from '../EmailView/EmailView';
 import styles from './style/EmailPage.module.css';
 
 function EmailPage() {
@@ -54,6 +55,7 @@ function EmailPage() {
           />
         )}
         {isCompose && <ComposeMail toggleIsCompose={toggleIsCompose} />}
+
         <Route exact path='/mail/:category'>
           <EmailCategory
             inbox={inbox}
@@ -63,6 +65,9 @@ function EmailPage() {
             trash={trash}
             userEmail={user.email}
           />
+        </Route>
+        <Route exact path='/mail/view/:id'>
+          <EmailView />
         </Route>
       </main>
     </Fragment>

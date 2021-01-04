@@ -2,13 +2,11 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import getUserData from './../../redux/actions/getUserData';
+import EmailOptions from '../EmailOptions/EmailOptions';
 import EmailListItem from '../EmailListItem/EmailListItem';
 import { Checkbox, IconButton } from '@material-ui/core';
 import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
 import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
-import ChevronLeftRoundedIcon from '@material-ui/icons/ChevronLeftRounded';
-import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRightRounded';
-import KeyboardRoundedIcon from '@material-ui/icons/KeyboardRounded';
 import styles from './style/EmailCategory.module.css';
 
 function EmailCategory({ inbox, sent, starred, drafts, trash, userEmail }) {
@@ -18,28 +16,15 @@ function EmailCategory({ inbox, sent, starred, drafts, trash, userEmail }) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.settings}>
-        <div>
-          <Checkbox />
-          <IconButton onClick={() => dispatch(getUserData(token))}>
-            <RefreshRoundedIcon />
-          </IconButton>
-          <IconButton>
-            <MoreVertRoundedIcon />
-          </IconButton>
-        </div>
-        <div>
-          <IconButton>
-            <ChevronLeftRoundedIcon />
-          </IconButton>
-          <IconButton>
-            <ChevronRightRoundedIcon />
-          </IconButton>
-          <IconButton>
-            <KeyboardRoundedIcon />
-          </IconButton>
-        </div>
-      </div>
+      <EmailOptions>
+        <Checkbox />
+        <IconButton onClick={() => dispatch(getUserData(token))}>
+          <RefreshRoundedIcon />
+        </IconButton>
+        <IconButton>
+          <MoreVertRoundedIcon />
+        </IconButton>
+      </EmailOptions>
 
       {category === 'inbox' && (
         <div>

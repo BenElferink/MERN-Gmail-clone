@@ -1,7 +1,9 @@
 import mongoose from 'mongoose'; // MongoDB (database)
 import express from 'express'; // Backend App (server)
 import dotenv from 'dotenv'; // Secures content
+import helmet from 'helmet'; // Secures response headers
 import cors from 'cors'; // HTTP headers
+import morgan from 'morgan'; // Logs incoming requests
 import authRoute from './api/routes/auth.js';
 import accountRoutes from './api/routes/account.js';
 import mailRoutes from './api/routes/mail.js';
@@ -13,7 +15,9 @@ dotenv.config(); // what is dotenv   --->   https://github.com/motdotla/dotenv#r
 // middlewares
 app.use(express.json()); // body parser
 app.use(express.urlencoded({ extended: false })); // url parser
-app.use(cors()); // enables http requests
+app.use(helmet());
+app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(morgan('common'));
 
 // configure db --->            if you want to connect to cloud server: edit "CONNECTION_URL" in -> .env file
 const DB_NAME = 'GmailDB'; // if you want to use local server: edit this "DB_NAME" (and remove the "CONNECTION_URL" from -> .env file)

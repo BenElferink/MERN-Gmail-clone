@@ -22,7 +22,7 @@ export const sendEmail = async (request, response, next) => {
       from: request.body.to,
       to: request.body.from,
       subject: 'Re: ' + request.body.subject,
-      message: txtgen.paragraph(2),
+      message: txtgen.paragraph(),
     });
 
     // save both emails
@@ -84,6 +84,40 @@ export const handleStar = async (request, response, next) => {
 
     console.log(savedEmail);
     response.status(200).json({ message: 'Starred status updated' });
+  } catch (error) {
+    console.log(error);
+    response.status(500).json(error);
+  }
+};
+
+export const markAsRead = async (request, response, next) => {
+  try {
+    // find email by id, and update it 'read' status
+    const foundEmail = await Email.findOne({ _id: request.params.id });
+    foundEmail.read = true;
+
+    // save updated data
+    const savedEmail = await foundEmail.save();
+
+    console.log(savedEmail);
+    response.status(200).json({ message: 'Read status updated' });
+  } catch (error) {
+    console.log(error);
+    response.status(500).json(error);
+  }
+};
+
+export const markAsUnread = async (request, response, next) => {
+  try {
+    // find email by id, and update it 'read' status
+    const foundEmail = await Email.findOne({ _id: request.params.id });
+    foundEmail.read = false;
+
+    // save updated data
+    const savedEmail = await foundEmail.save();
+
+    console.log(savedEmail);
+    response.status(200).json({ message: 'Read status updated' });
   } catch (error) {
     console.log(error);
     response.status(500).json(error);

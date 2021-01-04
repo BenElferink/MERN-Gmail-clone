@@ -1,10 +1,10 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { handleStar } from './../../api';
 import { Checkbox, IconButton } from '@material-ui/core';
 import StarOutlineRoundedIcon from '@material-ui/icons/StarOutlineRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
-import * as api from './../../api';
 import styles from './style/EmailListItem.module.css';
 
 function EmailListItem({ id, title, subject, message, date, isRead, isStarred }) {
@@ -13,7 +13,7 @@ function EmailListItem({ id, title, subject, message, date, isRead, isStarred })
 
   const clickStar = async () => {
     try {
-      const response = await api.handleStar(id, token);
+      const response = await handleStar(id, token);
       console.log(`✅ ${response.status} ${response.statusText}`, response.data);
     } catch (error) {
       console.log(`❌ ${error}`);

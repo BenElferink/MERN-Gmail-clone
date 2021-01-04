@@ -79,7 +79,7 @@ export const getUserData = async (request, response, next) => {
       .populate('mailbox');
     if (!foundUser) return response.status(404).json({ message: 'User not found' });
 
-    console.log(foundUser);
+    // console.log(foundUser);
     response.status(200).json({ message: 'User found', user: foundUser });
   } catch (error) {
     console.log(error);

@@ -45,3 +45,17 @@ export const handleStar = (id, token) =>
       Authorization: 'Bearer ' + token,
     },
   });
+export const markAsRead = (id, token) =>
+  axios.put(url + '/email/' + id + '/read', null, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    },
+  });
+export const markAsUnread = (id, token) =>
+  axios.put(url + '/email/' + id + '/unread', null, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    },
+  });

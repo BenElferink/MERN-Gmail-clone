@@ -52,7 +52,9 @@ function FormLogin() {
         <p>{errors.password?.type === 'required' && 'Password is required'}</p>
         <p>{errors.password?.type === 'minLength' && 'Must be at least 7 characters'}</p>
 
-        <Button type='submit'>Login</Button>
+        <Button type='submit' disabled={formState.isSubmitting}>
+          Login
+        </Button>
       </form>
     );
   }

@@ -1,5 +1,4 @@
 import { check } from 'express-validator';
-import User from './../models/User.js';
 
 export const registerValidations = [
   check('email', 'Email is not valid').exists().isEmail(),

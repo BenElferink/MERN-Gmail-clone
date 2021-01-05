@@ -5,16 +5,14 @@ import jwt from 'jsonwebtoken';
 export const authenticateToken = (request, response, next) => {
   try {
     const token = request.headers.authorization.split(' ')[1];
-    if (!token) return response.status(401).json({ message: 'No Authentication provided' });
-
-    const decoded = jwt.verify(token, new Buffer.from(process.env.JWT_KEY || 'secret', 'base64'));
-    if (!decoded)
-      return response.status(401).json({ message: 'Authentication failed, access denied' });
-
+    const decoded = jwt.verify(
+      token,
+      new Buffer.from(process.env.JWT_SECRET || 'secret', 'base64'),
+    );
     request.user = decoded.id;
     next();
   } catch (error) {
-    console.log(error);
-    response.status(500).send();
+    console.log(error.message);
+    response.status(401).json({ message: error.message });
   }
 };

@@ -8,16 +8,22 @@ export const registerController = async (request, response, next) => {
   try {
     // validate data types
     const validationErrors = validationResult(request);
-    if (!validationErrors.isEmpty()) return response.status(400).json(validationErrors);
+    if (!validationErrors.isEmpty())
+      return response.status(400).json({
+        message: 'Invalid data, see response.data.errors for more information',
+        errors: validationErrors.errors,
+      });
 
     // check if email is taken
-    const foundEmail = await User.findOne({ email: request.body.email });
-    if (foundEmail) return response.status(400).json({ message: 'That email is already taken' });
+    const foundUser = await User.findOne({ email: request.body.email });
+    if (foundUser)
+      return response
+        .status(400)
+        .json({ message: 'That email is already taken', email: foundUser.email });
 
     // encrypt password
     const salt = await bcrypt.genSalt(10);
     const encryptedPassword = await bcrypt.hash(request.body.password, salt);
-
     // create new user
     const newUser = new User({
       email: request.body.email,
@@ -28,11 +34,10 @@ export const registerController = async (request, response, next) => {
         last: request.body.lastName,
       },
     });
-
     // save new user
     const savedUser = await newUser.save();
 
-    console.log(savedUser);
+    console.log('Account created', savedUser);
     response.status(201).json({
       message: 'Account created',
       email: savedUser.email,
@@ -47,12 +52,15 @@ export const loginController = async (request, response, next) => {
   try {
     // validate data types
     const validationErrors = validationResult(request);
-    if (!validationErrors.isEmpty()) return response.status(400).json(validationErrors);
+    if (!validationErrors.isEmpty())
+      return response.status(400).json({
+        message: 'Invalid data, see response.data.errors for more information',
+        errors: validationErrors.errors,
+      });
 
     // find user with email
     const foundUser = await User.findOne({ email: request.body.email });
     if (!foundUser) return response.status(401).json({ message: 'Bad credentials' });
-
     // decrypt & compare password
     const isPasswordOk = await bcrypt.compare(request.body.password, foundUser.password);
     if (!isPasswordOk) return response.status(401).json({ message: 'Bad credentials' });
@@ -60,11 +68,11 @@ export const loginController = async (request, response, next) => {
     // generate token
     const token = jwt.sign(
       { id: foundUser._id },
-      new Buffer.from(process.env.JWT_KEY || 'secret', 'base64'),
+      new Buffer.from(process.env.JWT_SECRET || 'secret', 'base64'),
       { expiresIn: '1h' },
     );
 
-    console.log(token);
+    console.log('Token generated', token);
     response.status(200).json({ message: 'Login success', token });
   } catch (error) {
     console.log(error);
@@ -74,12 +82,11 @@ export const loginController = async (request, response, next) => {
 
 export const getUserData = async (request, response, next) => {
   try {
-    const foundUser = await User.findOne({ _id: request.user })
-      .select('mailbox email name imageFileName')
-      .populate('mailbox');
+    // find user with id decoded from token
+    const foundUser = await User.findOne({ _id: request.user }).select('-password');
     if (!foundUser) return response.status(404).json({ message: 'User not found' });
 
-    // console.log(foundUser);
+    console.log('User found', foundUser);
     response.status(200).json({ message: 'User found', user: foundUser });
   } catch (error) {
     console.log(error);

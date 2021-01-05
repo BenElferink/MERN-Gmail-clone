@@ -13,6 +13,17 @@
   margin-bottom: 42px;
 }
 
+.page > a {
+  color: #1e6df6;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.page > a:hover {
+  font-weight: 500;
+}
+
 .page > p {
   position: absolute;
   bottom: 10px;

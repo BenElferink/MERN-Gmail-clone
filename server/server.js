@@ -4,7 +4,6 @@ import dotenv from 'dotenv'; // Secures content
 import helmet from 'helmet'; // Secures response headers
 import cors from 'cors'; // HTTP headers
 import morgan from 'morgan'; // Logs incoming requests
-import authRoute from './api/routes/auth.js';
 import accountRoutes from './api/routes/account.js';
 import mailRoutes from './api/routes/mail.js';
 
@@ -35,8 +34,9 @@ mongoose.connection.on('error', (error) => console.log('❌ MongoDB:', error)); 
 mongoose.connection.on('disconnected', () => console.log('❌ MongoDB disconnected'));
 
 // routes
-app.get('/', (req, res) => res.send('Hello World - Express.js'));
-app.use('/api/v1/auth', authRoute);
+app.get('/', (req, res) =>
+  res.send('Gmail clone - GitHub repository: https://github.com/belferink1996/MERN-Gmail-clone'),
+);
 app.use('/api/v1/account', accountRoutes);
 app.use('/api/v1/email', mailRoutes);
 

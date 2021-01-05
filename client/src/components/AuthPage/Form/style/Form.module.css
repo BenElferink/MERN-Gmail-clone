@@ -29,17 +29,6 @@
   background-color: #4b8ef9 !important;
 }
 
-.form > a {
-  color: #1e6df6;
-  font-size: 12px;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.form > a:hover {
-  font-weight: 500;
-}
-
 .form > p {
   width: 100%;
   padding-left: 15px;

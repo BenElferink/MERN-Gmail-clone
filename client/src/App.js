@@ -8,26 +8,25 @@ import styles from './style/App.module.css';
 
 function App() {
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.token);
-  const user = useSelector((state) => state.user);
+  const { isLoggedIn, token } = useSelector((state) => state.userReducer);
 
   useEffect(() => {
-    dispatch(getUserData(token));
+    if (token) {
+      dispatch(getUserData());
+    }
   }, [token]);
 
   return (
     <Router>
       <div className={styles.app}>
         <Switch>
-          <Route
-            exact
-            path='/'
-            component={() => (!user.isLoggedIn ? <AuthPage /> : <Redirect to='/mail/inbox' />)}
-          />
-          <Route
+          <Route exact path='/'>
+            {!isLoggedIn ? <AuthPage /> : <Redirect to='/mail/inbox' />}
+          </Route>
+          {/* <Route
             path='/mail'
-            component={() => (user.isLoggedIn ? <EmailPage /> : <Redirect to='/' />)}
-          />
+            component={() => (isLoggedIn ? <EmailPage /> : <Redirect to='/' />)}
+          /> */}
         </Switch>
       </div>
     </Router>

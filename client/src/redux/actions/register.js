@@ -1,13 +1,12 @@
-import { REGISTER } from './../constants';
+import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_ERROR } from './../constants';
 import { register } from './../../api';
 
 export default (form) => async (dispatch) => {
+  dispatch({ type: REGISTER_REQUEST });
   try {
     const response = await register(form);
-    console.log(`✅ ${response.status} ${response.statusText}`, response.data);
-    dispatch({ type: REGISTER, payload: response.data.email });
+    dispatch({ type: REGISTER_SUCCESS, payload: response.data.email });
   } catch (error) {
-    console.error(`❌ ${error}`);
-    error.response.data.message && window.alert(error.response.data.message); // email is already taken
+    dispatch({ type: REGISTER_ERROR, error: error.response.data.message });
   }
 };

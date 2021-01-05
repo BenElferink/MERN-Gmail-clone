@@ -12,12 +12,12 @@ const instance = new mongoose.Schema(
       required: true,
     },
     name: {
+      type: Object,
       first: String,
       middle: String,
       last: String,
     },
     imageFileName: String,
-    mailbox: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Email' }],
   },
   {
     timestamps: true,

@@ -1,12 +1,12 @@
-import { GET_USER_DATA } from './../constants';
+import { FETCH_USER_REQUEST, FETCH_USER_SUCCESS, FETCH_USER_ERROR } from './../constants';
 import { getUserData } from './../../api';
 
-export default (token) => async (dispatch) => {
+export default () => async (dispatch, getState) => {
+  dispatch({ type: FETCH_USER_REQUEST });
   try {
-    const response = await getUserData(token);
-    console.log(`✅ ${response.status} ${response.statusText}`, response.data);
-    dispatch({ type: GET_USER_DATA, payload: response.data.user });
+    const response = await getUserData(getState().userReducer.token);
+    dispatch({ type: FETCH_USER_SUCCESS, payload: response.data.user });
   } catch (error) {
-    console.error(`❌ ${error}`);
+    dispatch({ type: FETCH_USER_ERROR, error: error.response.data.message });
   }
 };

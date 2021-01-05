@@ -1,13 +1,12 @@
-import { LOGIN } from './../constants';
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR } from './../constants';
 import { login } from './../../api';
 
 export default (form) => async (dispatch) => {
+  dispatch({ type: LOGIN_REQUEST });
   try {
     const response = await login(form);
-    console.log(`✅ ${response.status} ${response.statusText}`, response.data);
-    dispatch({ type: LOGIN, payload: response.data.token });
+    dispatch({ type: LOGIN_SUCCESS, payload: response.data.token });
   } catch (error) {
-    console.error(`❌ ${error}`);
-    error.response.data.message && window.alert(error.response.data.message); // bad credentials
+    dispatch({ type: LOGIN_ERROR, error: error.response.data.message });
   }
 };

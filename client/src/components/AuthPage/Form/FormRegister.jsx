@@ -9,7 +9,12 @@ import styles from './style/Form.module.css';
 function FormRegister() {
   const dispatch = useDispatch();
   const { isLoading, error } = useSelector((state) => state.userReducer);
-  if (error) alert(error) + dispatch(clearErrors());
+  if (error) {
+    alert(error);
+    setTimeout(() => {
+      dispatch(clearErrors());
+    }, 0);
+  }
 
   const { register, handleSubmit, errors, watch, formState } = useForm();
   // used so I can compare the password and confirmed password

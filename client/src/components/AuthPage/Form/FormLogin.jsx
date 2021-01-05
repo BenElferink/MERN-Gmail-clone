@@ -9,9 +9,14 @@ import styles from './style/Form.module.css';
 function FormLogin() {
   const dispatch = useDispatch();
   const { user, isLoading, error } = useSelector((state) => state.userReducer);
-  if (error) alert(error) + dispatch(clearErrors());
+  if (error) {
+    alert(error);
+    setTimeout(() => {
+      dispatch(clearErrors());
+    }, 0);
+  }
 
-  const { register, handleSubmit, errors } = useForm({
+  const { register, handleSubmit, errors, formState } = useForm({
     defaultValues: {
       // this is given by Redux state (if the user has successfully registered)
       email: user.email,

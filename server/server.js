@@ -5,7 +5,7 @@ import helmet from 'helmet'; // Secures response headers
 import cors from 'cors'; // HTTP headers
 import morgan from 'morgan'; // Logs incoming requests
 import accountRoutes from './api/routes/account.js';
-import mailRoutes from './api/routes/mail.js';
+import emailRoutes from './api/routes/email.js';
 
 // initialize app
 const app = express();
@@ -38,7 +38,7 @@ app.get('/', (req, res) =>
   res.send('Gmail clone - GitHub repository: https://github.com/belferink1996/MERN-Gmail-clone'),
 );
 app.use('/api/v1/account', accountRoutes);
-app.use('/api/v1/email', mailRoutes);
+app.use('/api/v1/email', emailRoutes);
 
 // server is listening for requests
 app.listen(PORT, () => console.log(`✅ Server is listening on port: ${PORT}`));

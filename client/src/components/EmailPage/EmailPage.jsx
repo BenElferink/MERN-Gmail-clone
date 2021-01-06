@@ -1,74 +1,98 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import Header from './../Header/Header';
-import Sidebar from './../Sidebar/Sidebar';
-import ComposeMail from './../ComposeMail/ComposeMail';
-import EmailCategory from './../EmailCategory/EmailCategory';
-import EmailView from '../EmailView/EmailView';
+import { useDispatch, useSelector } from 'react-redux';
+import getEmails from './../../redux/actions/getEmails';
+import Header from './Header/Header';
+import Sidebar from './Sidebar/Sidebar';
+import EmailOptions from './EmailOptions/EmailOptions';
+import EmailCategory from './EmailCategory/EmailCategory';
+import EmailView from './EmailView/EmailView';
+import ComposeMail from './ComposeMail/ComposeMail';
 import styles from './style/EmailPage.module.css';
 
 function EmailPage() {
-  const user = useSelector((state) => state.user);
-
+  const mailbox = useSelector((state) => state.emailReducer.mailbox);
   const [inbox, setInbox] = useState([]);
   const [sent, setSent] = useState([]);
-  const [starred, setStarred] = useState([]);
   const [drafts, setDrafts] = useState([]);
+  const [starred, setStarred] = useState([]);
   const [trash, setTrash] = useState([]);
 
+  const dispatch = useDispatch();
   useEffect(() => {
-    let inboxArr = user.mailbox.filter(
-      (email) => email.to === user.email && !email.draft && !email.trash,
-    );
-    let sentArr = user.mailbox.filter(
-      (email) => email.from === user.email && !email.draft && !email.trash,
-    );
-    let starredArr = user.mailbox.filter((email) => email.starred && !email.draft && !email.trash);
-    let draftsArr = user.mailbox.filter((email) => email.draft && !email.trash);
-    let trashArr = user.mailbox.filter((email) => email.trash);
-    setInbox(inboxArr);
-    setSent(sentArr);
-    setStarred(starredArr);
-    setDrafts(draftsArr);
-    setTrash(trashArr);
-  }, [user]);
+    dispatch(getEmails());
+  }, []);
+
+  useEffect(() => {
+    // filter mailbox to UI categories
+    let inboxArr = mailbox.inbox?.filter((email) => !email.trash);
+    let sentArr = mailbox.outbox?.filter((email) => !email.trash);
+    let draftsArr = mailbox.drafts?.filter((email) => !email.trash);
+    let starredArr = mailbox.inbox
+      ?.filter((email) => email.starred && !email.trash)
+      .concat(mailbox.outbox?.filter((email) => email.starred && !email.trash));
+    let trashArr = mailbox.inbox
+      ?.filter((email) => email.trash)
+      .concat(
+        mailbox.outbox?.filter((email) => email.trash),
+        mailbox.drafts?.filter((email) => email.trash),
+      );
+
+    // sort all categories by date
+    inboxArr?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    sentArr?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    draftsArr?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    starredArr?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    trashArr?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    // update states with changes
+    inboxArr && setInbox(inboxArr);
+    sentArr && setSent(sentArr);
+    starredArr && setStarred(starredArr);
+    draftsArr && setDrafts(draftsArr);
+    trashArr && setTrash(trashArr);
+  }, [mailbox]);
 
   const [showSidebar, setShowSidebar] = useState(true);
   const [isCompose, setIsCompose] = useState(false);
-
   const toggleShowSidebar = () => setShowSidebar(!showSidebar);
   const toggleIsCompose = () => setIsCompose(!isCompose);
 
   return (
     <Fragment>
       <Header toggleShowSidebar={toggleShowSidebar} />
+
       <main className={styles.main}>
         {showSidebar && (
           <Sidebar
             toggleIsCompose={toggleIsCompose}
             inboxLength={inbox.length}
             sentLength={sent.length}
-            starredLength={starred.length}
             draftsLength={drafts.length}
+            starredLength={starred.length}
             trashLength={trash.length}
           />
         )}
-        {isCompose && <ComposeMail toggleIsCompose={toggleIsCompose} />}
 
-        <Route exact path='/mail/:category'>
-          <EmailCategory
-            inbox={inbox}
-            sent={sent}
-            starred={starred}
-            drafts={drafts}
-            trash={trash}
-            userEmail={user.email}
-          />
-        </Route>
-        <Route exact path='/mail/view/:id'>
-          <EmailView />
-        </Route>
+        <div className={styles.container}>
+          <Route exact path='/email/:category'>
+            <EmailOptions isViewMode={false} />
+            <EmailCategory
+              inbox={inbox}
+              sent={sent}
+              drafts={drafts}
+              starred={starred}
+              trash={trash}
+            />
+          </Route>
+
+          <Route path='/email/:category/view/:id'>
+            <EmailOptions isViewMode={true} />
+            <EmailView inbox={inbox} sent={sent} drafts={drafts} starred={starred} trash={trash} />
+          </Route>
+        </div>
+
+        {isCompose && <ComposeMail toggleIsCompose={toggleIsCompose} />}
       </main>
     </Fragment>
   );

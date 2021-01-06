@@ -24,7 +24,8 @@ export const registerController = async (request, response, next) => {
     // encrypt password
     const salt = await bcrypt.genSalt(10);
     const encryptedPassword = await bcrypt.hash(request.body.password, salt);
-    // create new user
+
+    // create and save new user
     const newUser = new User({
       email: request.body.email,
       password: encryptedPassword,
@@ -34,10 +35,10 @@ export const registerController = async (request, response, next) => {
         last: request.body.lastName,
       },
     });
-    // save new user
     const savedUser = await newUser.save();
-
     console.log('Account created', savedUser);
+
+    // return email
     response.status(201).json({
       message: 'Account created',
       email: savedUser.email,
@@ -71,8 +72,9 @@ export const loginController = async (request, response, next) => {
       new Buffer.from(process.env.JWT_SECRET || 'secret', 'base64'),
       { expiresIn: '1h' },
     );
-
     console.log('Token generated', token);
+
+    // return token
     response.status(200).json({ message: 'Login success', token });
   } catch (error) {
     console.log(error);
@@ -83,10 +85,11 @@ export const loginController = async (request, response, next) => {
 export const getUserData = async (request, response, next) => {
   try {
     // find user with id decoded from token
-    const foundUser = await User.findOne({ _id: request.user }).select('-password');
+    const foundUser = await User.findOne({ _id: request.user }).select('-password -mailbox');
     if (!foundUser) return response.status(404).json({ message: 'User not found' });
-
     console.log('User found', foundUser);
+
+    // return user data
     response.status(200).json({ message: 'User found', user: foundUser });
   } catch (error) {
     console.log(error);

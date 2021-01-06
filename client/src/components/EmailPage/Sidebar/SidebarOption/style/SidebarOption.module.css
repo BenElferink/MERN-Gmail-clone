@@ -39,7 +39,7 @@
 .active > p {
   background-color: #fcecec;
   color: #c04b37;
-  font-weight: 800 !important;
+  font-weight: 700 !important;
 }
 
 .item:hover > p,

@@ -1,3 +1,8 @@
 .main {
   display: flex;
 }
+
+.container {
+  flex: 1;
+  overflow: scroll;
+}

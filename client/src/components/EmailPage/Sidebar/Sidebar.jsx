@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import SidebarOption from '../SidebarOption/SidebarOption';
+import SidebarOption from './SidebarOption/SidebarOption';
 import { Button } from '@material-ui/core';
 import AddRoundedIcon from '@material-ui/icons/Add';
 import InboxRoundedIcon from '@material-ui/icons/Inbox';
@@ -19,11 +19,11 @@ function Sidebar({
   draftsLength,
   trashLength,
 }) {
-  const [showMore, setShowMore] = useState(false);
-  const toggleShowMore = () => setShowMore(!showMore);
-
   const history = useHistory();
   const location = useLocation();
+
+  const [showMore, setShowMore] = useState(false);
+  const toggleShowMore = () => setShowMore(!showMore);
 
   return (
     <div className={styles.container}>
@@ -38,31 +38,30 @@ function Sidebar({
         Icon={InboxRoundedIcon}
         title='Inbox'
         number={inboxLength}
-        onClick={() => history.push('/mail/inbox')}
-        selected={location.pathname === '/mail/inbox'}
+        onClick={() => history.push('/email/inbox')}
+        selected={location.pathname === '/email/inbox'}
       />
       <SidebarOption
         Icon={StarRoundedIcon}
         title='Starred'
         number={starredLength}
-        onClick={() => history.push('/mail/starred')}
-        selected={location.pathname === '/mail/starred'}
-      />
-      <SidebarOption
-        Icon={SendRoundedIcon}
-        title='Sent'
-        number={sentLength}
-        onClick={() => history.push('/mail/sent')}
-        selected={location.pathname === '/mail/sent'}
+        onClick={() => history.push('/email/starred')}
+        selected={location.pathname === '/email/starred'}
       />
       <SidebarOption
         Icon={NoteRoundedIcon}
         title='Drafts'
         number={draftsLength}
-        onClick={() => history.push('/mail/drafts')}
-        selected={location.pathname === '/mail/drafts'}
+        onClick={() => history.push('/email/drafts')}
+        selected={location.pathname === '/email/drafts'}
       />
-
+      <SidebarOption
+        Icon={SendRoundedIcon}
+        title='Sent'
+        number={sentLength}
+        onClick={() => history.push('/email/sent')}
+        selected={location.pathname === '/email/sent'}
+      />
       <SidebarOption
         Icon={ExpandMoreRoundedIcon}
         title='More'
@@ -76,8 +75,8 @@ function Sidebar({
             Icon={DeleteRoundedIcon}
             title='Trash'
             number={trashLength}
-            onClick={() => history.push('/mail/trash')}
-            selected={location.pathname === '/mail/trash'}
+            onClick={() => history.push('/email/trash')}
+            selected={location.pathname === '/email/trash'}
           />
         </>
       )}

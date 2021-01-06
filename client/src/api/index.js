@@ -36,6 +36,13 @@ export const saveDraft = (form, token) =>
       Authorization: 'Bearer ' + token,
     },
   });
+export const updateDraft = (id, form, token) =>
+  axios.put(url + '/email/drafts/' + id, form, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    },
+  });
 export const toggleRead = (id, token) =>
   axios.put(url + '/email/' + id + '/read', null, {
     headers: {

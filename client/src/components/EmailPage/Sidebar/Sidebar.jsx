@@ -29,7 +29,7 @@ function Sidebar({
     <div className={styles.container}>
       <Button
         className={styles.compose}
-        onClick={toggleIsCompose}
+        onClick={() => toggleIsCompose()}
         startIcon={<AddRoundedIcon fontSize='large' />}>
         Compose
       </Button>

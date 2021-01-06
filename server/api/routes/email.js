@@ -5,6 +5,7 @@ import {
   getEmails,
   sendEmail,
   saveDraft,
+  updateDraft,
   toggleStarred,
   toggleRead,
   toggleTrash,
@@ -24,6 +25,7 @@ const router = express.Router();
 router.get('/', authenticateToken, getEmails);
 router.post('/outbox', authenticateToken, [...emailValidations], sendEmail);
 router.post('/drafts', authenticateToken, saveDraft);
+router.put('/drafts/:id', authenticateToken, updateDraft);
 router.put('/:id/starred', authenticateToken, toggleStarred);
 router.put('/:id/read', authenticateToken, toggleRead);
 router.put('/:id/trash', authenticateToken, toggleTrash);

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import EmailListItem from './EmailListItem/EmailListItem';
 
-function EmailCategory({ inbox, sent, drafts, starred, trash }) {
+function EmailCategory({ inbox, sent, drafts, starred, trash, toggleIsCompose }) {
   const { category } = useParams();
   const userEmail = useSelector((state) => state.userReducer.user.email);
 
@@ -46,6 +46,8 @@ function EmailCategory({ inbox, sent, drafts, starred, trash }) {
           message={item.message}
           date={item.updatedAt}
           isRead={true}
+          isDraft={true}
+          toggleIsCompose={toggleIsCompose}
         />
       ));
 

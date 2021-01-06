@@ -10,6 +10,9 @@ import {
   SAVE_DRAFT_REQUEST,
   SAVE_DRAFT_SUCCESS,
   SAVE_DRAFT_ERROR,
+  UPDATE_DRAFT_REQUEST,
+  UPDATE_DRAFT_SUCCESS,
+  UPDATE_DRAFT_ERROR,
   TOGGLE_STAR_REQUEST,
   TOGGLE_STAR_SUCCESS,
   TOGGLE_STAR_ERROR,
@@ -39,14 +42,12 @@ export default (state = initialState, action) => {
       };
 
     case LOGOUT:
-      return {
-        ...state,
-        mailbox: {},
-      };
+      return initialState;
 
     case FETCH_EMAILS_REQUEST:
     case SEND_EMAIL_REQUEST:
     case SAVE_DRAFT_REQUEST:
+    case UPDATE_DRAFT_REQUEST:
     case TOGGLE_STAR_REQUEST:
     case TOGGLE_READ_REQUEST:
     case TOGGLE_TRASH_REQUEST:
@@ -66,6 +67,7 @@ export default (state = initialState, action) => {
         error: '',
       };
 
+    case UPDATE_DRAFT_SUCCESS:
     case TOGGLE_STAR_SUCCESS:
     case TOGGLE_READ_SUCCESS:
     case TOGGLE_TRASH_SUCCESS:
@@ -145,6 +147,7 @@ export default (state = initialState, action) => {
     case FETCH_EMAILS_ERROR:
     case SEND_EMAIL_ERROR:
     case SAVE_DRAFT_ERROR:
+    case UPDATE_DRAFT_ERROR:
     case TOGGLE_STAR_ERROR:
     case TOGGLE_READ_ERROR:
     case TOGGLE_TRASH_ERROR:

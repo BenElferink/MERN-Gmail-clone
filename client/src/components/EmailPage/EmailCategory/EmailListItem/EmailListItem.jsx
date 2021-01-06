@@ -9,7 +9,18 @@ import StarRoundedIcon from '@material-ui/icons/StarRounded';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import styles from './style/EmailListItem.module.css';
 
-function EmailListItem({ id, title, subject, message, date, isRead, isStarred, isTrash }) {
+function EmailListItem({
+  id,
+  title,
+  subject,
+  message,
+  date,
+  isRead,
+  isStarred,
+  isTrash,
+  isDraft,
+  toggleIsCompose,
+}) {
   const history = useHistory();
   const { category } = useParams();
   const dispatch = useDispatch();
@@ -30,16 +41,18 @@ function EmailListItem({ id, title, subject, message, date, isRead, isStarred, i
         </IconButton>
       )}
 
-      <div className={styles.message} onClick={() => history.push(`/email/${category}/view/${id}`)}>
+      <div
+        className={styles.message}
+        onClick={() =>
+          isDraft ? toggleIsCompose(id) : history.push(`/email/${category}/view/${id}`)
+        }>
         <h4>{title}</h4>
         &nbsp;&nbsp;
-        {/* <div className={styles.message_content}> */}
         <p>
           <span>{subject}</span>
           &nbsp;&nbsp;
           {message}
         </p>
-        {/* </div> */}
         &nbsp;&nbsp;
         <span>{dateToString(date)}</span>
       </div>

@@ -90,6 +90,27 @@ export const saveDraft = async (request, response, next) => {
   }
 };
 
+export const updateDraft = async (request, response, next) => {
+  try {
+    // find draft using id
+    let foundEmail = await Email.findOne({ _id: request.params.id });
+
+    // update it contents
+    foundEmail.to = request.body.to;
+    foundEmail.subject = request.body.subject;
+    foundEmail.message = request.body.message;
+
+    // and save the draft
+    const savedEmail = await foundEmail.save();
+    console.log('Draft updated', savedEmail);
+
+    response.status(200).json({ message: 'Draft updated', email: savedEmail });
+  } catch (error) {
+    console.log(error);
+    response.status(500).json(error);
+  }
+};
+
 export const toggleStarred = async (request, response, next) => {
   try {
     // find email by id, and update it 'starred' status

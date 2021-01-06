@@ -80,12 +80,7 @@ export default (state = initialState, action) => {
     case LOGOUT:
       window.localStorage.setItem('token', '');
       console.log('🌐 Token removed from Local Storage');
-      return {
-        ...state,
-        isLoggedIn: false,
-        token: '',
-        user: {},
-      };
+      return initialState;
 
     case FETCH_USER_REQUEST:
       return {

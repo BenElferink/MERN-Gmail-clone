@@ -55,8 +55,19 @@ function EmailPage() {
 
   const [showSidebar, setShowSidebar] = useState(true);
   const [isCompose, setIsCompose] = useState(false);
+  const [composeDraft, setComposeDraft] = useState(undefined);
+
   const toggleShowSidebar = () => setShowSidebar(!showSidebar);
-  const toggleIsCompose = () => setIsCompose(!isCompose);
+  const toggleIsCompose = (id) => {
+    setIsCompose(!isCompose);
+
+    // if activated by clicking a draft
+    if (id) {
+      drafts.forEach((draft) => draft._id === id && setComposeDraft(draft));
+    } else {
+      setComposeDraft(undefined);
+    }
+  };
 
   return (
     <Fragment>
@@ -83,6 +94,7 @@ function EmailPage() {
               drafts={drafts}
               starred={starred}
               trash={trash}
+              toggleIsCompose={toggleIsCompose}
             />
           </Route>
 
@@ -92,7 +104,7 @@ function EmailPage() {
           </Route>
         </div>
 
-        {isCompose && <ComposeMail toggleIsCompose={toggleIsCompose} />}
+        {isCompose && <ComposeMail toggleIsCompose={toggleIsCompose} composeDraft={composeDraft} />}
       </main>
     </Fragment>
   );

@@ -31,11 +31,11 @@ function EmailView({ inbox, sent, drafts, starred, trash }) {
   }, [emailToDisplay]);
 
   return (
-    <div className={styles.container}>
-      <div>
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
         <h3>{emailToDisplay[0]?.subject}</h3>
         <div>
-          <Avatar />
+          <Avatar className={styles.avatar} />
           {emailToDisplay[0]?.from}
           <br />
           to me

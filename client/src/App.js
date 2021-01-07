@@ -21,9 +21,23 @@ function App() {
       <div className={styles.app}>
         <Switch>
           <Route exact path='/'>
+            {!isLoggedIn ? <Redirect to='/account' /> : <Redirect to='/email/inbox' />}
+          </Route>
+
+          <Route exact path='/account'>
             {!isLoggedIn ? <AuthPage /> : <Redirect to='/email/inbox' />}
           </Route>
-          <Route path='/email'>{isLoggedIn ? <EmailPage /> : <Redirect to='/' />}</Route>
+
+          <Route path='/email'>
+            {/* This route has multiple sub-routes */}
+            {isLoggedIn ? <EmailPage /> : <Redirect to='/account' />}
+          </Route>
+
+          <Route
+            exact
+            path='/GitHub'
+            component={() => (window.location.href = 'https://github.com/belferink1996')}
+          />
         </Switch>
       </div>
     </Router>

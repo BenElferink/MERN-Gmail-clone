@@ -87,7 +87,7 @@ function EmailPage() {
 
         <div className={styles.container}>
           <Route exact path='/email/:category'>
-            <EmailOptions isViewMode={false} />
+            <EmailOptions />
             <EmailCategory
               inbox={inbox}
               sent={sent}

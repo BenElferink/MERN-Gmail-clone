@@ -1,6 +1,6 @@
 .page {
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,6 +14,7 @@
 }
 
 .page > a {
+  margin-bottom: 20px;
   color: #1e6df6;
   font-size: 12px;
   text-decoration: underline;
@@ -25,10 +26,8 @@
 }
 
 .page > p {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
+  margin: auto 0 7px auto;
   color: #808080;
   text-align: center;
-  font-size: 14px;
+  font-size: 12px;
 }

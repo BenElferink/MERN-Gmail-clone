@@ -2,19 +2,12 @@ import mongoose from 'mongoose';
 
 const instance = new mongoose.Schema(
   {
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
     name: {
-      first: String,
-      middle: String,
-      last: String,
+      first: { type: String, required: true },
+      middle: { type: String },
+      last: { type: String, required: true },
     },
     imageFileName: String,
     mailbox: {

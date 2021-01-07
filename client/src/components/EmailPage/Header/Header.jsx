@@ -1,13 +1,25 @@
-import React from 'react';
-import { IconButton, Avatar } from '@material-ui/core';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { url } from '../../../api';
 import GmailLogo from './img/gmail-logo.png';
+import AccountControls from './AccountControls/AccountControls';
+import EditImageModal from './EditImageModal/EditImageModal';
+import { IconButton, Avatar } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AppsIcon from '@material-ui/icons/Apps';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import NotificationsRoundedIcon from '@material-ui/icons/NotificationsRounded';
 import styles from './style/Header.module.css';
 
 function Header({ toggleShowSidebar }) {
+  const { user } = useSelector((state) => state.userReducer);
+
+  const [showProfile, setShowProfile] = useState(false);
+  const [showEditImage, setShowEditImage] = useState(false);
+
+  const toggleShowProfile = () => setShowProfile(!showProfile);
+  const toggleShowEditImage = () => setShowEditImage(!showEditImage);
+
   return (
     <header className={styles.container}>
       <div className={styles.side}>
@@ -24,16 +36,25 @@ function Header({ toggleShowSidebar }) {
         <input type='text' placeholder='Search mail' />
       </div>
 
-      <div className={styles.side}>
+      <div className={styles.side + ' ' + styles.relative}>
         <IconButton>
           <AppsIcon />
         </IconButton>
         <IconButton>
-          <NotificationsIcon />
+          <NotificationsRoundedIcon />
         </IconButton>
-        <IconButton>
-          <Avatar />
+        <IconButton onClick={toggleShowProfile}>
+          <Avatar src={`${url}/uploads/${user.imageFileName}`} />
         </IconButton>
+
+        {showProfile && (
+          <AccountControls
+            user={user}
+            toggleShowProfile={toggleShowProfile}
+            toggleShowEditImage={toggleShowEditImage}
+          />
+        )}
+        {showEditImage && <EditImageModal toggleShowEditImage={toggleShowEditImage} />}
       </div>
     </header>
   );

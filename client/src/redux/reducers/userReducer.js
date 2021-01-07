@@ -10,6 +10,9 @@ import {
   FETCH_USER_REQUEST,
   FETCH_USER_SUCCESS,
   FETCH_USER_ERROR,
+  UPLOAD_IMAGE_REQUEST,
+  UPLOAD_IMAGE_SUCCESS,
+  UPLOAD_IMAGE_ERROR,
 } from './../constants';
 
 const initialState = {
@@ -28,7 +31,15 @@ export default (state = initialState, action) => {
         error: '',
       };
 
+    case LOGOUT:
+      window.localStorage.setItem('token', '');
+      console.log('🌐 Token removed from Local Storage');
+      return initialState;
+
     case REGISTER_REQUEST:
+    case LOGIN_REQUEST:
+    case FETCH_USER_REQUEST:
+    case UPLOAD_IMAGE_REQUEST:
       return {
         ...state,
         isLoading: true,
@@ -42,20 +53,6 @@ export default (state = initialState, action) => {
         error: '',
       };
 
-    case REGISTER_ERROR:
-      return {
-        ...state,
-        isLoading: false,
-        user: {},
-        error: action.error,
-      };
-
-    case LOGIN_REQUEST:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
     case LOGIN_SUCCESS:
       window.localStorage.setItem('token', action.payload);
       console.log('🌐 Token saved to Local Storage', action.payload);
@@ -65,6 +62,31 @@ export default (state = initialState, action) => {
         isLoggedIn: true,
         token: action.payload,
         error: '',
+      };
+
+    case FETCH_USER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        isLoggedIn: true,
+        user: action.payload,
+        error: '',
+      };
+
+    case UPLOAD_IMAGE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        user: action.payload,
+        error: '',
+      };
+
+    case REGISTER_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        user: {},
+        error: action.error,
       };
 
     case LOGIN_ERROR:
@@ -77,27 +99,8 @@ export default (state = initialState, action) => {
         error: action.error,
       };
 
-    case LOGOUT:
-      window.localStorage.setItem('token', '');
-      console.log('🌐 Token removed from Local Storage');
-      return initialState;
-
-    case FETCH_USER_REQUEST:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case FETCH_USER_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        isLoggedIn: true,
-        user: action.payload,
-        error: '',
-      };
-
     case FETCH_USER_ERROR:
+    case UPLOAD_IMAGE_ERROR:
       window.localStorage.setItem('token', '');
       console.log('🌐 Token removed from Local Storage');
       return {

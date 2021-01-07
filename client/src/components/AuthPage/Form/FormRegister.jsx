@@ -33,11 +33,13 @@ function FormRegister() {
         <input
           name='firstName'
           type='text'
-          placeholder='First name (optional)'
+          placeholder='First name'
           ref={register({
+            required: true,
             pattern: /^[a-z ,.'-]+$/i,
           })}
         />
+        <p>{errors.email?.type === 'required' && 'First name is required'}</p>
         <p>{errors.firstName?.type === 'pattern' && 'Invalid name'}</p>
 
         <input
@@ -53,11 +55,13 @@ function FormRegister() {
         <input
           name='lastName'
           type='text'
-          placeholder='Last name (optional)'
+          placeholder='Last name'
           ref={register({
+            required: true,
             pattern: /^[a-z ,.'-]+$/i,
           })}
         />
+        <p>{errors.email?.type === 'required' && 'Last name is required'}</p>
         <p>{errors.lastName?.type === 'pattern' && 'Invalid name'}</p>
 
         <input

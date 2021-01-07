@@ -9,6 +9,7 @@ export const getEmails = async (request, response, next) => {
     const { mailbox } = await User.findOne({ _id: request.user })
       .select('mailbox')
       .populate('mailbox.inbox mailbox.outbox mailbox.drafts');
+    if (!mailbox) return response.status(404).json({ message: 'Mailbox not found' });
     console.log('Emails found', mailbox);
 
     // return mailbox
@@ -51,6 +52,7 @@ export const sendEmail = async (request, response, next) => {
 
     // find user and update it's email ID's (outbox && inbox)
     const foundUser = await User.findOne({ _id: request.user });
+    if (!foundUser) return response.status(404).json({ message: 'User not found' });
     foundUser.mailbox.outbox.unshift(savedEmailOut._id);
     foundUser.mailbox.inbox.unshift(savedEmailIn._id);
     let savedUser = await foundUser.save();
@@ -78,6 +80,7 @@ export const saveDraft = async (request, response, next) => {
 
     // find user and update it's email ID's
     const foundUser = await User.findOne({ _id: request.user });
+    if (!foundUser) return response.status(404).json({ message: 'User not found' });
     foundUser.mailbox.drafts.unshift(savedDraft._id);
     let savedUser = await foundUser.save();
     savedUser = await User.populate(savedUser, 'mailbox.inbox mailbox.outbox mailbox.drafts');
@@ -94,6 +97,7 @@ export const updateDraft = async (request, response, next) => {
   try {
     // find draft using id
     let foundEmail = await Email.findOne({ _id: request.params.id });
+    if (!foundEmail) return response.status(404).json({ message: 'Email not found' });
 
     // update it contents
     foundEmail.to = request.body.to;
@@ -115,6 +119,7 @@ export const toggleStarred = async (request, response, next) => {
   try {
     // find email by id, and update it 'starred' status
     const foundEmail = await Email.findOne({ _id: request.params.id });
+    if (!foundEmail) return response.status(404).json({ message: 'Email not found' });
     foundEmail.starred = !foundEmail.starred;
     const savedEmail = await foundEmail.save();
     console.log('Starred status udpated', savedEmail);
@@ -131,6 +136,7 @@ export const toggleRead = async (request, response, next) => {
   try {
     // find email by id, and update it 'read' status
     const foundEmail = await Email.findOne({ _id: request.params.id });
+    if (!foundEmail) return response.status(404).json({ message: 'Email not found' });
     foundEmail.read = !foundEmail.read;
     const savedEmail = await foundEmail.save();
     console.log('Read status updated', savedEmail);
@@ -147,6 +153,7 @@ export const toggleTrash = async (request, response, next) => {
   try {
     // find email by id, and update it 'trash' status
     const foundEmail = await Email.findOne({ _id: request.params.id });
+    if (!foundEmail) return response.status(404).json({ message: 'Email not found' });
     foundEmail.trash = !foundEmail.trash;
     const savedEmail = await foundEmail.save();
     console.log('Trash status updated', savedEmail);
@@ -162,7 +169,7 @@ export const toggleTrash = async (request, response, next) => {
 export const deleteEmail = async (request, response, next) => {
   try {
     // find email by id, and update it delete it
-    const removedEmail = await Email.deleteOne({ _id: request.params.id });
+    await Email.deleteOne({ _id: request.params.id });
     console.log('Email deleted', request.params.id);
 
     // return email (so client can remove the email from a state)

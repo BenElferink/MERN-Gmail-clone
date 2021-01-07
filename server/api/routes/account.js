@@ -1,7 +1,13 @@
 import express from 'express';
 import { authenticateToken } from './../middleware/authToken.js';
 import { registerValidations, loginValidations } from './../middleware/validateUser.js';
-import { registerController, loginController, getUserData } from '../controllers/account.js'; // import request & response function
+import {
+  registerController,
+  loginController,
+  getUserData,
+  updateProfile,
+} from '../controllers/account.js'; // import request & response function
+import uploadImage from '../middleware/uploadImage.js';
 
 // initialize router
 const router = express.Router();
@@ -15,5 +21,6 @@ const router = express.Router();
 router.post('/register', [...registerValidations], registerController);
 router.post('/login', [...loginValidations], loginController);
 router.get('/', authenticateToken, getUserData);
+router.put('/', authenticateToken, uploadImage, updateProfile);
 
 export default router;

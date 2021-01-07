@@ -39,6 +39,7 @@ app.get('/', (req, res) =>
 );
 app.use('/api/v1/account', accountRoutes);
 app.use('/api/v1/email', emailRoutes);
+app.use('/api/v1/uploads', express.static('uploads'));
 
 // server is listening for requests
 app.listen(PORT, () => console.log(`✅ Server is listening on port: ${PORT}`));

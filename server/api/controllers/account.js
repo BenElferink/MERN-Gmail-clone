@@ -96,3 +96,21 @@ export const getUserData = async (request, response, next) => {
     response.status(500).json(error);
   }
 };
+
+export const updateProfile = async (request, response, next) => {
+  try {
+    // find user
+    const foundUser = await User.findOne({ _id: request.user });
+    if (!foundUser) return response.status(404).json({ message: 'User not found' });
+    // and update its image filename
+    foundUser.imageFileName = request.file.filename;
+    const savedUser = await foundUser.save();
+    console.log('Image uploaded', savedUser);
+
+    // send user back to client
+    response.status(200).json({ message: 'Image uploaded', user: savedUser });
+  } catch (error) {
+    console.log(error);
+    response.status(500).json(error);
+  }
+};

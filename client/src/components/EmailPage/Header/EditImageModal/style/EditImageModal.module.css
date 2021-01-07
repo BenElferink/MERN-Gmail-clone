@@ -1,0 +1,60 @@
+.modal {
+  width: 100vw;
+  height: 100vh;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+
+  display: grid;
+  place-items: center;
+
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.form {
+  width: 420px;
+  height: 270px;
+  padding: 0 0 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: #fff;
+  border-radius: 15px;
+}
+
+.avatar {
+  width: 90px !important;
+  height: 90px !important;
+}
+
+.form > span {
+  margin: 0 15px 0 auto;
+  color: tomato;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.form > label {
+  padding: 7px 15px;
+  background-color: #f5f5f5;
+  border: 0.5px solid #818181;
+  border-radius: 1rem;
+  font-size: 14px;
+}
+
+.form > label > input[type='file'] {
+  display: none;
+}
+
+.form > button {
+  padding: 5px 15px !important;
+  background-color: #f5f5f5 !important;
+  border: 0.5px solid #818181 !important;
+  border-radius: 1rem !important;
+  text-transform: none !important;
+  font-size: 14px !important;
+}

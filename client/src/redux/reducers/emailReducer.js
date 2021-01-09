@@ -13,15 +13,9 @@ import {
   UPDATE_DRAFT_REQUEST,
   UPDATE_DRAFT_SUCCESS,
   UPDATE_DRAFT_ERROR,
-  TOGGLE_STAR_REQUEST,
-  TOGGLE_STAR_SUCCESS,
-  TOGGLE_STAR_ERROR,
-  TOGGLE_READ_REQUEST,
-  TOGGLE_READ_SUCCESS,
-  TOGGLE_READ_ERROR,
-  TOGGLE_TRASH_REQUEST,
-  TOGGLE_TRASH_SUCCESS,
-  TOGGLE_TRASH_ERROR,
+  TOGGLE_EMAIL_PROP_REQUEST,
+  TOGGLE_EMAIL_PROP_SUCCESS,
+  TOGGLE_EMAIL_PROP_ERROR,
   DELETE_EMAIL_REQUEST,
   DELETE_EMAIL_SUCCESS,
   DELETE_EMAIL_ERROR,
@@ -48,9 +42,7 @@ export default (state = initialState, action) => {
     case SEND_EMAIL_REQUEST:
     case SAVE_DRAFT_REQUEST:
     case UPDATE_DRAFT_REQUEST:
-    case TOGGLE_STAR_REQUEST:
-    case TOGGLE_READ_REQUEST:
-    case TOGGLE_TRASH_REQUEST:
+    case TOGGLE_EMAIL_PROP_REQUEST:
     case DELETE_EMAIL_REQUEST:
       return {
         ...state,
@@ -68,9 +60,7 @@ export default (state = initialState, action) => {
       };
 
     case UPDATE_DRAFT_SUCCESS:
-    case TOGGLE_STAR_SUCCESS:
-    case TOGGLE_READ_SUCCESS:
-    case TOGGLE_TRASH_SUCCESS:
+    case TOGGLE_EMAIL_PROP_SUCCESS:
       let copyOfMailbox = { ...state.mailbox };
       let isEmailFound = false;
       // search inbox
@@ -148,9 +138,7 @@ export default (state = initialState, action) => {
     case SEND_EMAIL_ERROR:
     case SAVE_DRAFT_ERROR:
     case UPDATE_DRAFT_ERROR:
-    case TOGGLE_STAR_ERROR:
-    case TOGGLE_READ_ERROR:
-    case TOGGLE_TRASH_ERROR:
+    case TOGGLE_EMAIL_PROP_ERROR:
     case DELETE_EMAIL_ERROR:
       return {
         ...state,

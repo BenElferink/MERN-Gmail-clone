@@ -1,25 +1,23 @@
 import React, { useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import createAccount from './../../../redux/actions/register';
 import clearErrors from './../../../redux/actions/clearErrors';
 import { useForm } from 'react-hook-form';
 import { Button } from '@material-ui/core';
 import styles from './style/Form.module.css';
 
-function FormRegister() {
+function FormRegister({ isLoading, error }) {
   const dispatch = useDispatch();
-  const { isLoading, error } = useSelector((state) => state.userReducer);
+  const { register, handleSubmit, errors, watch, formState } = useForm();
+  const password = useRef({}); // used so I can compare the password and confirmed password
+  password.current = watch('password', '');
+
   if (error) {
     alert(error);
     setTimeout(() => {
       dispatch(clearErrors());
     }, 0);
   }
-
-  const { register, handleSubmit, errors, watch, formState } = useForm();
-  // used so I can compare the password and confirmed password
-  const password = useRef({});
-  password.current = watch('password', '');
 
   const onSubmit = (values) => {
     dispatch(createAccount(values));

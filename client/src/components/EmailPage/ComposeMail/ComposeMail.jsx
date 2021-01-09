@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import sendEmail from './../../../redux/actions/sendEmail';
 import saveDraft from './../../../redux/actions/saveDraft';
 import updateDraft from '../../../redux/actions/updateDraft';
-import sendEmail from './../../../redux/actions/sendEmail';
 import deleteEmail from '../../../redux/actions/deleteEmail';
 import { useForm } from 'react-hook-form';
 import { Button } from '@material-ui/core';
@@ -21,7 +21,7 @@ function ComposeMail({ toggleIsCompose, composeDraft }) {
   });
 
   // The following references purposes are to "pull" the form data from the useForm hook,
-  // whenever the message will be saved as a draft
+  // and used whenever the message will be saved as a draft
   const from = useRef({});
   const to = useRef({});
   const subject = useRef({});
@@ -53,7 +53,6 @@ function ComposeMail({ toggleIsCompose, composeDraft }) {
       };
       dispatch(updateDraft(composeDraft._id, form));
     }
-
     toggleIsCompose();
   };
 

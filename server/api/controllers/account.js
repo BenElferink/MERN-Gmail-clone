@@ -1,10 +1,10 @@
 import User from './../models/User.js';
 import { validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { generateToken } from './../middleware/authToken.js';
 // more about response status codes   --->   https://restapitutorial.com/httpstatuscodes.html
 
-export const registerController = async (request, response, next) => {
+export const register = async (request, response, next) => {
   try {
     // validate data types
     const validationErrors = validationResult(request);
@@ -25,7 +25,7 @@ export const registerController = async (request, response, next) => {
     const salt = await bcrypt.genSalt(10);
     const encryptedPassword = await bcrypt.hash(request.body.password, salt);
 
-    // create and save new user
+    // create new user
     const newUser = new User({
       email: request.body.email,
       password: encryptedPassword,
@@ -35,10 +35,11 @@ export const registerController = async (request, response, next) => {
         last: request.body.lastName,
       },
     });
-    const savedUser = await newUser.save();
-    console.log('Account created', savedUser);
 
-    // return email
+    // save created user
+    const savedUser = await newUser.save();
+
+    console.log('Account created', savedUser);
     response.status(201).json({
       message: 'Account created',
       email: savedUser.email,
@@ -49,7 +50,7 @@ export const registerController = async (request, response, next) => {
   }
 };
 
-export const loginController = async (request, response, next) => {
+export const login = async (request, response, next) => {
   try {
     // validate data types
     const validationErrors = validationResult(request);
@@ -62,19 +63,15 @@ export const loginController = async (request, response, next) => {
     // find user with email
     const foundUser = await User.findOne({ email: request.body.email });
     if (!foundUser) return response.status(401).json({ message: 'Bad credentials' });
+
     // decrypt & compare password
     const isPasswordOk = await bcrypt.compare(request.body.password, foundUser.password);
     if (!isPasswordOk) return response.status(401).json({ message: 'Bad credentials' });
 
     // generate token
-    const token = jwt.sign(
-      { id: foundUser._id },
-      new Buffer.from(process.env.JWT_SECRET || 'secret', 'base64'),
-      { expiresIn: '1h' },
-    );
-    console.log('Token generated', token);
+    const token = generateToken(foundUser._id);
 
-    // return token
+    console.log('Token generated', token);
     response.status(200).json({ message: 'Login success', token });
   } catch (error) {
     console.log(error);
@@ -87,9 +84,8 @@ export const getUserData = async (request, response, next) => {
     // find user with id decoded from token
     const foundUser = await User.findOne({ _id: request.user }).select('-password -mailbox');
     if (!foundUser) return response.status(404).json({ message: 'User not found' });
-    console.log('User found', foundUser);
 
-    // return user data
+    console.log('User found', foundUser);
     response.status(200).json({ message: 'User found', user: foundUser });
   } catch (error) {
     console.log(error);
@@ -97,17 +93,17 @@ export const getUserData = async (request, response, next) => {
   }
 };
 
-export const updateProfile = async (request, response, next) => {
+export const updateImage = async (request, response, next) => {
   try {
     // find user
     const foundUser = await User.findOne({ _id: request.user });
     if (!foundUser) return response.status(404).json({ message: 'User not found' });
+
     // and update its image filename
     foundUser.imageFileName = request.file.filename;
     const savedUser = await foundUser.save();
-    console.log('Image uploaded', savedUser);
 
-    // send user back to client
+    console.log('Image uploaded', savedUser);
     response.status(200).json({ message: 'Image uploaded', user: savedUser });
   } catch (error) {
     console.log(error);

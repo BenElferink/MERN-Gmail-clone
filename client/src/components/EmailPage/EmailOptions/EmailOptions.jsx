@@ -1,9 +1,8 @@
 import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import toggleTrash from './../../../redux/actions/toggleTrash';
-import toggleRead from './../../../redux/actions/toggleRead';
 import getEmails from './../../../redux/actions/getEmails';
+import toggleEmailProperty from './../../../redux/actions/toggleEmailProperty';
 import { Checkbox, IconButton, Tooltip } from '@material-ui/core';
 import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
@@ -16,9 +15,9 @@ import KeyboardRoundedIcon from '@material-ui/icons/KeyboardRounded';
 import styles from './style/EmailOptions.module.css';
 
 function EmailOptions({ isViewMode }) {
-  const { id } = useParams();
-  const history = useHistory();
   const dispatch = useDispatch();
+  const history = useHistory();
+  const { id } = useParams();
 
   if (isViewMode) {
     return (
@@ -30,12 +29,14 @@ function EmailOptions({ isViewMode }) {
             </IconButton>
           </Tooltip>
           <Tooltip title='Move to trash' placement='top'>
-            <IconButton onClick={() => dispatch(toggleTrash(id)) + history.goBack()}>
+            <IconButton
+              onClick={() => dispatch(toggleEmailProperty(id, 'trash')) + history.goBack()}>
               <DeleteRoundedIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title='Mark as unread' placement='top'>
-            <IconButton onClick={() => dispatch(toggleRead(id)) + history.goBack()}>
+            <IconButton
+              onClick={() => dispatch(toggleEmailProperty(id, 'read')) + history.goBack()}>
               <DraftsRoundedIcon />
             </IconButton>
           </Tooltip>

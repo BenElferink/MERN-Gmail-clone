@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { url } from '../../../api';
+import { imageUrl } from '../../../api';
 import GmailLogo from './img/gmail-logo.png';
 import AccountControls from './AccountControls/AccountControls';
 import EditImageModal from './EditImageModal/EditImageModal';
@@ -44,7 +44,7 @@ function Header({ toggleShowSidebar }) {
           <NotificationsRoundedIcon />
         </IconButton>
         <IconButton onClick={toggleShowProfile}>
-          <Avatar src={`${url}/uploads/${user.imageFileName}`} />
+          <Avatar src={user.imageFileName ? imageUrl + user.imageFileName : ''} />
         </IconButton>
 
         {showProfile && (

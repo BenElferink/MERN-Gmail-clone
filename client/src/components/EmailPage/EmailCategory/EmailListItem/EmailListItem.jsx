@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import toggleStarred from '../../../../redux/actions/toggleStarred';
+import toggleEmailProperty from '../../../../redux/actions/toggleEmailProperty';
 import deleteEmail from '../../../../redux/actions/deleteEmail';
 import { Checkbox, IconButton } from '@material-ui/core';
 import StarOutlineRoundedIcon from '@material-ui/icons/StarOutlineRounded';
@@ -21,20 +21,18 @@ function EmailListItem({
   isDraft,
   toggleIsCompose,
 }) {
+  const dispatch = useDispatch();
   const history = useHistory();
   const { category } = useParams();
-  const dispatch = useDispatch();
 
   return (
     <div className={`${styles.item} ${isRead ? styles.read : styles.unread}`}>
       <Checkbox />
-
       {isStarred !== undefined && (
-        <IconButton onClick={() => dispatch(toggleStarred(id))}>
+        <IconButton onClick={() => dispatch(toggleEmailProperty(id, 'starred'))}>
           {isStarred ? <StarRoundedIcon /> : <StarOutlineRoundedIcon />}
         </IconButton>
       )}
-
       {isTrash && (
         <IconButton onClick={() => dispatch(deleteEmail(id))}>
           <DeleteRoundedIcon />

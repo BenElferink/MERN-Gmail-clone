@@ -19,6 +19,10 @@
   z-index: 9;
 }
 
+.container > a {
+  text-decoration: none;
+}
+
 .container button {
   padding: 7px 15px !important;
   background-color: #f5f5f5 !important;

@@ -4,12 +4,10 @@ import { emailValidations } from '../middleware/validateEmail.js';
 import {
   getEmails,
   sendEmail,
+  deleteEmail,
+  toggleEmailProperty,
   saveDraft,
   updateDraft,
-  toggleStarred,
-  toggleRead,
-  toggleTrash,
-  deleteEmail,
 } from '../controllers/email.js';
 
 // initialize router
@@ -26,9 +24,7 @@ router.get('/', authenticateToken, getEmails);
 router.post('/outbox', authenticateToken, [...emailValidations], sendEmail);
 router.post('/drafts', authenticateToken, saveDraft);
 router.put('/drafts/:id', authenticateToken, updateDraft);
-router.put('/:id/starred', authenticateToken, toggleStarred);
-router.put('/:id/read', authenticateToken, toggleRead);
-router.put('/:id/trash', authenticateToken, toggleTrash);
+router.put('/:id/:toggle', authenticateToken, toggleEmailProperty);
 router.delete('/:id', authenticateToken, deleteEmail);
 
 export default router;

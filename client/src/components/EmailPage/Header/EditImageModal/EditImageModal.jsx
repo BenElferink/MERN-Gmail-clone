@@ -5,12 +5,13 @@ import { Avatar, Button } from '@material-ui/core';
 import styles from './style/EditImageModal.module.css';
 
 function EditImageModal({ toggleShowEditImage }) {
+  const dispatch = useDispatch();
   const [image, setImage] = useState('');
 
-  const dispatch = useDispatch();
+  // this constructs the image object with FormData,
+  // so that "multer" on the server can parse the image
   const upload = (e) => {
     e.preventDefault();
-
     let formData = new FormData();
     formData.append('image', image);
     dispatch(uploadImage(formData));

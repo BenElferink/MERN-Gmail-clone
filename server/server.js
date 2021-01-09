@@ -15,10 +15,10 @@ dotenv.config(); // what is dotenv   --->   https://github.com/motdotla/dotenv#r
 app.use(express.json()); // body parser
 app.use(express.urlencoded({ extended: false })); // url parser
 app.use(helmet());
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: 'http://localhost:3000' })); // react development server
 app.use(morgan('common'));
 
-// configure db --->            if you want to connect to cloud server: edit "CONNECTION_URL" in -> .env file
+// configure db --->          if you want to connect to cloud server: edit "CONNECTION_URL" in -> .env file
 const DB_NAME = 'GmailDB'; // if you want to use local server: edit this "DB_NAME" (and remove the "CONNECTION_URL" from -> .env file)
 const CONNECTION_URL = process.env.CONNECTION_URL || `mongodb://localhost:27017/${DB_NAME}`;
 const PORT = process.env.PORT || 8080; // 8080 === development port
@@ -39,7 +39,7 @@ app.get('/', (req, res) =>
 );
 app.use('/api/v1/account', accountRoutes);
 app.use('/api/v1/email', emailRoutes);
-app.use('/api/v1/uploads', express.static('uploads'));
+app.use('/uploads', express.static('uploads')); // access image files
 
 // server is listening for requests
 app.listen(PORT, () => console.log(`✅ Server is listening on port: ${PORT}`));

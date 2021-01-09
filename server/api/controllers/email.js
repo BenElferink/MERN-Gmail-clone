@@ -10,9 +10,8 @@ export const getEmails = async (request, response, next) => {
       .select('mailbox')
       .populate('mailbox.inbox mailbox.outbox mailbox.drafts');
     if (!mailbox) return response.status(404).json({ message: 'Mailbox not found' });
-    console.log('Emails found', mailbox);
 
-    // return mailbox
+    console.log('Emails found', mailbox);
     response.status(200).json({ message: 'Emails found', mailbox: mailbox });
   } catch (error) {
     console.log(error);
@@ -55,11 +54,60 @@ export const sendEmail = async (request, response, next) => {
     if (!foundUser) return response.status(404).json({ message: 'User not found' });
     foundUser.mailbox.outbox.unshift(savedEmailOut._id);
     foundUser.mailbox.inbox.unshift(savedEmailIn._id);
+
+    // save changes made to users mailbox
     let savedUser = await foundUser.save();
     savedUser = await User.populate(savedUser, 'mailbox.inbox mailbox.outbox mailbox.drafts');
 
-    // return mailbox
     response.status(201).json({ message: 'Email sent', mailbox: savedUser.mailbox });
+  } catch (error) {
+    console.log(error);
+    response.status(500).json(error);
+  }
+};
+
+export const deleteEmail = async (request, response, next) => {
+  try {
+    // find email by id, and update it delete it
+    await Email.deleteOne({ _id: request.params.id });
+    console.log('Email deleted', request.params.id);
+
+    // return email (so client can remove the email from a state)
+    response.status(200).json({ message: 'Email deleted', id: request.params.id });
+  } catch (error) {
+    console.log(error);
+    response.status(500).json(error);
+  }
+};
+
+export const toggleEmailProperty = async (request, response, next) => {
+  try {
+    // find email by id,
+    const foundEmail = await Email.findOne({ _id: request.params.id });
+    if (!foundEmail) return response.status(404).json({ message: 'Email not found' });
+
+    // and update its chosen property
+    switch (request.params.toggle) {
+      case 'read':
+        foundEmail.read = !foundEmail.read;
+        break;
+      case 'starred':
+        foundEmail.starred = !foundEmail.starred;
+        break;
+      case 'trash':
+        foundEmail.trash = !foundEmail.trash;
+        break;
+      default:
+        break;
+    }
+
+    const savedEmail = await foundEmail.save();
+    console.log(`${request.params.toggle} status updated`, savedEmail);
+
+    // return email
+    response
+      .status(200)
+      .json({ message: `${request.params.toggle} status updated`, email: savedEmail });
   } catch (error) {
     console.log(error);
     response.status(500).json(error);
@@ -68,13 +116,15 @@ export const sendEmail = async (request, response, next) => {
 
 export const saveDraft = async (request, response, next) => {
   try {
-    // construct and save draft
+    // construct new draft
     let newDraft = new Email({
       from: request.body.from,
       to: request.body.to,
       subject: request.body.subject,
       message: request.body.message,
     });
+
+    // save constructed draft
     const savedDraft = await newDraft.save();
     console.log('Draft saved', savedDraft);
 
@@ -82,10 +132,11 @@ export const saveDraft = async (request, response, next) => {
     const foundUser = await User.findOne({ _id: request.user });
     if (!foundUser) return response.status(404).json({ message: 'User not found' });
     foundUser.mailbox.drafts.unshift(savedDraft._id);
+
+    // save changes made to users mailbox
     let savedUser = await foundUser.save();
     savedUser = await User.populate(savedUser, 'mailbox.inbox mailbox.outbox mailbox.drafts');
 
-    // return mailbox
     response.status(201).json({ message: 'Draft saved', mailbox: savedUser.mailbox });
   } catch (error) {
     console.log(error);
@@ -109,71 +160,6 @@ export const updateDraft = async (request, response, next) => {
     console.log('Draft updated', savedEmail);
 
     response.status(200).json({ message: 'Draft updated', email: savedEmail });
-  } catch (error) {
-    console.log(error);
-    response.status(500).json(error);
-  }
-};
-
-export const toggleStarred = async (request, response, next) => {
-  try {
-    // find email by id, and update it 'starred' status
-    const foundEmail = await Email.findOne({ _id: request.params.id });
-    if (!foundEmail) return response.status(404).json({ message: 'Email not found' });
-    foundEmail.starred = !foundEmail.starred;
-    const savedEmail = await foundEmail.save();
-    console.log('Starred status udpated', savedEmail);
-
-    // return email
-    response.status(200).json({ message: 'Starred status updated', email: savedEmail });
-  } catch (error) {
-    console.log(error);
-    response.status(500).json(error);
-  }
-};
-
-export const toggleRead = async (request, response, next) => {
-  try {
-    // find email by id, and update it 'read' status
-    const foundEmail = await Email.findOne({ _id: request.params.id });
-    if (!foundEmail) return response.status(404).json({ message: 'Email not found' });
-    foundEmail.read = !foundEmail.read;
-    const savedEmail = await foundEmail.save();
-    console.log('Read status updated', savedEmail);
-
-    // return email
-    response.status(200).json({ message: 'Read status updated', email: savedEmail });
-  } catch (error) {
-    console.log(error);
-    response.status(500).json(error);
-  }
-};
-
-export const toggleTrash = async (request, response, next) => {
-  try {
-    // find email by id, and update it 'trash' status
-    const foundEmail = await Email.findOne({ _id: request.params.id });
-    if (!foundEmail) return response.status(404).json({ message: 'Email not found' });
-    foundEmail.trash = !foundEmail.trash;
-    const savedEmail = await foundEmail.save();
-    console.log('Trash status updated', savedEmail);
-
-    // return email
-    response.status(200).json({ message: 'Trash status updated', email: savedEmail });
-  } catch (error) {
-    console.log(error);
-    response.status(500).json(error);
-  }
-};
-
-export const deleteEmail = async (request, response, next) => {
-  try {
-    // find email by id, and update it delete it
-    await Email.deleteOne({ _id: request.params.id });
-    console.log('Email deleted', request.params.id);
-
-    // return email (so client can remove the email from a state)
-    response.status(200).json({ message: 'Email deleted', id: request.params.id });
   } catch (error) {
     console.log(error);
     response.status(500).json(error);

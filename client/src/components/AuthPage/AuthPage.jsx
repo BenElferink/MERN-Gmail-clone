@@ -6,15 +6,20 @@ import GmailIcon from './img/gmail.svg';
 import styles from './style/AuthPage.module.css';
 
 function AuthPage() {
+  const { user, isLoading, error } = useSelector((state) => state.userReducer);
+
+  // defines if the register or login form is displayed
   const [isCreateNew, setIsCreateNew] = useState(false);
   const toggleIsCreateNew = () => setIsCreateNew(!isCreateNew);
 
   // if the user has registered, and the email used has been applied,
   // then toggle state to show 'login' component with the registered email.
-  const userEmail = useSelector((state) => state.userReducer.user.email);
   useEffect(() => {
-    if (userEmail) toggleIsCreateNew();
-  }, [userEmail]);
+    if (user.email) {
+      toggleIsCreateNew();
+      alert('Account successfully created!');
+    }
+  }, [user.email]);
 
   return (
     <div className={styles.page}>
@@ -22,12 +27,12 @@ function AuthPage() {
 
       {isCreateNew ? (
         <Fragment>
-          <FormRegister />
+          <FormRegister isLoading={isLoading} error={error} />
           <a onClick={toggleIsCreateNew}>Login an existing account</a>
         </Fragment>
       ) : (
         <Fragment>
-          <FormLogin />
+          <FormLogin isLoading={isLoading} error={error} user={user} />
           <a onClick={toggleIsCreateNew}>Create a new account</a>
         </Fragment>
       )}

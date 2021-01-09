@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { url } from './../../../../api';
+import { imageUrl } from './../../../../api';
 import logout from './../../../../redux/actions/logout';
 import { Avatar, Badge, Button } from '@material-ui/core';
 import styles from './style/AccountControls.module.css';
@@ -13,7 +13,7 @@ function AccountControls({ user, toggleShowEditImage, toggleShowProfile }) {
     <div className={styles.container}>
       <Badge
         badgeContent='edit'
-        color='primary'
+        color='secondary'
         overlap='circle'
         anchorOrigin={{
           vertical: 'bottom',
@@ -24,14 +24,19 @@ function AccountControls({ user, toggleShowEditImage, toggleShowProfile }) {
           toggleShowEditImage();
           toggleShowProfile();
         }}>
-        <Avatar className={styles.avatar} src={`${url}/uploads/${user.imageFileName}`} />
+        <Avatar className={styles.avatar} src={imageUrl + user.imageFileName} />
       </Badge>
-      {user.name.first} {user.name.last}
-      <br />
-      {user.email}
+
+      <p>
+        {user.name.first} {user.name.last}
+        <br />
+        {user.email}
+      </p>
+
       <Link to='/GitHub'>
         <Button>Visit my GitHub page</Button>
       </Link>
+
       <Button onClick={() => dispatch(logout())}>Logout</Button>
     </div>
   );

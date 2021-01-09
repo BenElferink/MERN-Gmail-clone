@@ -1,27 +1,25 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import login from './../../../redux/actions/login';
 import clearErrors from './../../../redux/actions/clearErrors';
 import { useForm } from 'react-hook-form';
 import { Button } from '@material-ui/core';
 import styles from './style/Form.module.css';
 
-function FormLogin() {
+function FormLogin({ isLoading, error, user }) {
   const dispatch = useDispatch();
-  const { user, isLoading, error } = useSelector((state) => state.userReducer);
+  const { register, handleSubmit, errors, formState } = useForm({
+    defaultValues: {
+      email: user.email, // this is given by Redux state (if the user has successfully registered)
+    },
+  });
+
   if (error) {
     alert(error);
     setTimeout(() => {
       dispatch(clearErrors());
     }, 0);
   }
-
-  const { register, handleSubmit, errors, formState } = useForm({
-    defaultValues: {
-      // this is given by Redux state (if the user has successfully registered)
-      email: user.email,
-    },
-  });
 
   const onSubmit = (values) => {
     dispatch(login(values));

@@ -23,13 +23,7 @@ import {
 
 const initialState = {
   isLoading: false,
-  mailbox: {
-    inbox: [],
-    sent: [],
-    drafts: [],
-    starred: [],
-    trash: [],
-  },
+  mailbox: {},
   error: '',
 };
 

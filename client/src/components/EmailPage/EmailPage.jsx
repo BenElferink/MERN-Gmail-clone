@@ -12,57 +12,21 @@ import styles from './style/EmailPage.module.css';
 
 function EmailPage() {
   const dispatch = useDispatch();
-  const mailbox = useSelector((state) => state.emailReducer.mailbox);
-  const [inbox, setInbox] = useState([]);
-  const [sent, setSent] = useState([]);
-  const [drafts, setDrafts] = useState([]);
-  const [starred, setStarred] = useState([]);
-  const [trash, setTrash] = useState([]);
-
+  const { inbox, sent, drafts, starred, trash } = useSelector(
+    (state) => state.emailReducer.mailbox,
+  );
   // this gets all emails linked to the user, upon mount
   useEffect(() => {
     dispatch(getEmails());
   }, []);
 
-  // this sorts all the emails by categories and time,
-  // and sets all states accordingly.
-  // this runs each time the mailbox (redux) was updated
-  useEffect(() => {
-    // filter mailbox to UI categories
-    let inboxArr = mailbox.inbox?.filter((email) => !email.trash);
-    let sentArr = mailbox.outbox?.filter((email) => !email.trash);
-    let draftsArr = mailbox.drafts?.filter((email) => !email.trash);
-    let starredArr = mailbox.inbox
-      ?.filter((email) => email.starred && !email.trash)
-      .concat(mailbox.outbox?.filter((email) => email.starred && !email.trash));
-    let trashArr = mailbox.inbox
-      ?.filter((email) => email.trash)
-      .concat(
-        mailbox.outbox?.filter((email) => email.trash),
-        mailbox.drafts?.filter((email) => email.trash),
-      );
-
-    // sort all categories by date
-    inboxArr?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    sentArr?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    draftsArr?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    starredArr?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    trashArr?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-    // update states with changes
-    inboxArr && setInbox(inboxArr);
-    sentArr && setSent(sentArr);
-    starredArr && setStarred(starredArr);
-    draftsArr && setDrafts(draftsArr);
-    trashArr && setTrash(trashArr);
-  }, [mailbox]);
-
   // these states mount/unmount certain components
   const [showSidebar, setShowSidebar] = useState(true);
   const [isCompose, setIsCompose] = useState(false);
-  // this state holds draft email information if a draft was clicked for editing
+  // this state holds the draft email information (if a draft was clicked for editing)
   const [composeDraft, setComposeDraft] = useState(undefined);
 
+  // state handlers
   const toggleShowSidebar = () => setShowSidebar(!showSidebar);
   const toggleIsCompose = (id) => {
     setIsCompose(!isCompose);

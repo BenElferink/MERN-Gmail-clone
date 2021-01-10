@@ -3,20 +3,57 @@ import User from '../models/User.js';
 import { validationResult } from 'express-validator';
 import txtgen from 'txtgen';
 
-export const getEmails = async (request, response, next) => {
-  try {
-    // find the user and select it's mailbox
-    const { mailbox } = await User.findOne({ _id: request.user })
-      .select('mailbox')
-      .populate('mailbox.inbox mailbox.outbox mailbox.drafts');
-    if (!mailbox) return response.status(404).json({ message: 'Mailbox not found' });
+export const getEmails = (request, response, next) => {
+  // find the user, select and populate it's mailbox
+  User.findOne({ _id: request.user }, 'mailbox')
+    .populate('mailbox.inbox mailbox.outbox mailbox.drafts')
+    .exec((error, user) => {
+      if (error) {
+        // internal error
+        console.log(error);
+        return response.status(500).json(error);
+      } else if (!user) {
+        // not found error
+        console.log('Could not find user mailbox, ivalid user ID', request.user);
+        return response
+          .status(404)
+          .json({ message: 'Could not find user mailbox, ivalid user ID', id: request.user });
+      } else {
+        console.log('Emails found', user.mailbox);
+        // filter mailbox to UI categories
+        let inboxArr = user.mailbox.inbox?.filter((email) => !email.trash);
+        let sentArr = user.mailbox.outbox?.filter((email) => !email.trash);
+        let draftsArr = user.mailbox.drafts?.filter((email) => !email.trash);
+        let starredArr = user.mailbox.inbox
+          ?.filter((email) => email.starred && !email.trash)
+          .concat(user.mailbox.outbox?.filter((email) => email.starred && !email.trash));
+        let trashArr = user.mailbox.inbox
+          ?.filter((email) => email.trash)
+          .concat(
+            user.mailbox.outbox?.filter((email) => email.trash),
+            user.mailbox.drafts?.filter((email) => email.trash),
+          );
 
-    console.log('Emails found', mailbox);
-    response.status(200).json({ message: 'Emails found', mailbox: mailbox });
-  } catch (error) {
-    console.log(error);
-    response.status(500).json(error);
-  }
+        // sort all categories by date
+        inboxArr?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        sentArr?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        draftsArr?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        starredArr?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        trashArr?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+        // apply categories to clients mailbox
+        let sortedMailbox = {
+          inbox: inboxArr ? inboxArr : [],
+          sent: sentArr ? sentArr : [],
+          drafts: draftsArr ? draftsArr : [],
+          starred: starredArr ? starredArr : [],
+          trash: trashArr ? trashArr : [],
+        };
+
+        console.log('Emails sorted', sortedMailbox);
+        response.status(200).json({ message: 'Emails found', mailbox: sortedMailbox });
+      }
+    });
 };
 
 export const sendEmail = async (request, response, next) => {

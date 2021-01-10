@@ -1,0 +1,6 @@
+.center {
+  height: 100px;
+  padding: auto;
+  display: grid;
+  place-items: center;
+}

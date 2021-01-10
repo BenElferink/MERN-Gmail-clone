@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import createAccount from './../../../redux/actions/register';
 import clearErrors from './../../../redux/actions/clearErrors';
 import { useForm } from 'react-hook-form';
-import { Button } from '@material-ui/core';
+import { Button, CircularProgress } from '@material-ui/core';
 import styles from './style/Form.module.css';
 
 function FormRegister({ isLoading, error }) {
@@ -24,7 +24,11 @@ function FormRegister({ isLoading, error }) {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <CircularProgress color='secondary' />
+      </div>
+    );
   } else {
     return (
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>

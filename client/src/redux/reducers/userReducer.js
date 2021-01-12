@@ -1,12 +1,12 @@
 import {
   CLEAR_ERRORS,
+  LOGOUT,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   REGISTER_ERROR,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
-  LOGOUT,
   FETCH_USER_REQUEST,
   FETCH_USER_SUCCESS,
   FETCH_USER_ERROR,
@@ -77,7 +77,10 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        user: action.payload,
+        user: {
+          ...state.user,
+          profilePicture: action.payload,
+        },
         error: '',
       };
 
@@ -90,24 +93,22 @@ export default (state = initialState, action) => {
       };
 
     case LOGIN_ERROR:
+    case FETCH_USER_ERROR:
       window.localStorage.setItem('token', '');
       console.log('🌐 Token removed from Local Storage');
       return {
         ...state,
         isLoading: false,
+        isLoggedIn: false,
         token: '',
+        user: {},
         error: action.error,
       };
 
-    case FETCH_USER_ERROR:
     case UPLOAD_IMAGE_ERROR:
-      window.localStorage.setItem('token', '');
-      console.log('🌐 Token removed from Local Storage');
       return {
         ...state,
         isLoading: false,
-        token: '',
-        user: {},
         error: action.error,
       };
 

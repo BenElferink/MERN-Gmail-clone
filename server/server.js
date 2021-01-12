@@ -9,22 +9,21 @@ import emailRoutes from './api/routes/email.js';
 
 // initialize app
 const app = express();
-dotenv.config(); // what is dotenv   --->   https://github.com/motdotla/dotenv#readme
 
 // middlewares
-app.use(express.json()); // body parser
-app.use(express.urlencoded({ extended: false })); // url parser
-app.use(helmet());
+app.use(express.json({ limit: '10mb', extended: true })); // body parser
+app.use(express.urlencoded({ limit: '10mb', extended: true })); // url parser
 app.use(cors({ origin: 'http://localhost:3000' })); // react development server
-app.use(morgan('common'));
+dotenv.config(); // protected variables
+app.use(helmet()); // protect response headers
+app.use(morgan('common')); // logs requests
 
-// configure db --->          if you want to connect to cloud server: edit "CONNECTION_URL" in -> .env file
-const DB_NAME = 'GmailDB'; // if you want to use local server: edit this "DB_NAME" (and remove the "CONNECTION_URL" from -> .env file)
+// configure db
+const DB_NAME = 'GmailDB';
 const CONNECTION_URL = process.env.CONNECTION_URL || `mongodb://localhost:27017/${DB_NAME}`;
 const PORT = process.env.PORT || 8080; // 8080 === development port
-const DEPRECATED_FIX = { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }; // change this with (possible) warnings on first connection
+const DEPRECATED_FIX = { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }; // update this with (possible) warnings on first connection
 
-// mongoose connections   --->   https://mongoosejs.com/docs/connections.html
 // connect to db
 mongoose
   .connect(CONNECTION_URL, DEPRECATED_FIX)
@@ -39,7 +38,6 @@ app.get('/', (req, res) =>
 );
 app.use('/api/v1/account', accountRoutes);
 app.use('/api/v1/email', emailRoutes);
-app.use('/uploads', express.static('uploads')); // access image files
 
 // server is listening for requests
 app.listen(PORT, () => console.log(`✅ Server is listening on port: ${PORT}`));

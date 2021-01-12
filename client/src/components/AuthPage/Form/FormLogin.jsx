@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import login from './../../../redux/actions/login';
-import clearErrors from './../../../redux/actions/clearErrors';
+import { loginAction } from './../../../redux/actions/accountActions';
+import { clearErrors } from './../../../redux/actions/clearErrors';
 import { useForm } from 'react-hook-form';
 import { Button, CircularProgress } from '@material-ui/core';
 import styles from './style/Form.module.css';
@@ -22,7 +22,7 @@ function FormLogin({ isLoading, error, user }) {
   }
 
   const onSubmit = (values) => {
-    dispatch(login(values));
+    dispatch(loginAction(values));
   };
 
   if (isLoading) {

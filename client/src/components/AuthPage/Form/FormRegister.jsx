@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import createAccount from './../../../redux/actions/register';
-import clearErrors from './../../../redux/actions/clearErrors';
+import { registerAction } from './../../../redux/actions/accountActions';
+import { clearErrors } from './../../../redux/actions/clearErrors';
 import { useForm } from 'react-hook-form';
 import { Button, CircularProgress } from '@material-ui/core';
 import styles from './style/Form.module.css';
@@ -20,7 +20,7 @@ function FormRegister({ isLoading, error }) {
   }
 
   const onSubmit = (values) => {
-    dispatch(createAccount(values));
+    dispatch(registerAction(values));
   };
 
   if (isLoading) {

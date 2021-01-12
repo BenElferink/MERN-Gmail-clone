@@ -1,8 +1,11 @@
 import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import toggleEmailProperty from '../../../../redux/actions/toggleEmailProperty';
-import deleteEmail from '../../../../redux/actions/deleteEmail';
+import {
+  setFavoriteAction,
+  unsetFavoriteAction,
+  deleteEmailAction,
+} from '../../../../redux/actions/emailActions';
 import { Checkbox, IconButton } from '@material-ui/core';
 import StarOutlineRoundedIcon from '@material-ui/icons/StarOutlineRounded';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
@@ -28,13 +31,21 @@ function EmailListItem({
   return (
     <div className={`${styles.item} ${isRead ? styles.read : styles.unread}`}>
       <Checkbox />
-      {isStarred !== undefined && (
-        <IconButton onClick={() => dispatch(toggleEmailProperty(id, 'starred'))}>
-          {isStarred ? <StarRoundedIcon /> : <StarOutlineRoundedIcon />}
+
+      {isStarred ? (
+        <IconButton onClick={() => dispatch(unsetFavoriteAction(id))}>
+          <StarRoundedIcon />
         </IconButton>
+      ) : (
+        isStarred !== undefined && (
+          <IconButton onClick={() => dispatch(setFavoriteAction(id))}>
+            <StarOutlineRoundedIcon />
+          </IconButton>
+        )
       )}
+
       {isTrash && (
-        <IconButton onClick={() => dispatch(deleteEmail(id))}>
+        <IconButton onClick={() => dispatch(deleteEmailAction(id))}>
           <DeleteRoundedIcon />
         </IconButton>
       )}

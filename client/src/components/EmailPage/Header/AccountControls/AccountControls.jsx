@@ -1,13 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { imageUrl } from './../../../../api';
-import logout from './../../../../redux/actions/logout';
+import { logoutAction } from './../../../../redux/actions/accountActions';
 import { Avatar, Badge, Button } from '@material-ui/core';
 import styles from './style/AccountControls.module.css';
 
 function AccountControls({ user, toggleShowEditImage, toggleShowProfile }) {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   return (
     <div className={styles.container}>
@@ -24,7 +24,7 @@ function AccountControls({ user, toggleShowEditImage, toggleShowProfile }) {
           toggleShowEditImage();
           toggleShowProfile();
         }}>
-        <Avatar className={styles.avatar} src={imageUrl + user.imageFileName} />
+        <Avatar className={styles.avatar} src={user.profilePicture} />
       </Badge>
 
       <p>
@@ -33,11 +33,8 @@ function AccountControls({ user, toggleShowEditImage, toggleShowProfile }) {
         {user.email}
       </p>
 
-      <Link to='/GitHub'>
-        <Button>Visit my GitHub page</Button>
-      </Link>
-
-      <Button onClick={() => dispatch(logout())}>Logout</Button>
+      <Button onClick={() => history.push('/GitHub')}>Visit my GitHub page</Button>
+      <Button onClick={() => dispatch(logoutAction())}>Logout</Button>
     </div>
   );
 }

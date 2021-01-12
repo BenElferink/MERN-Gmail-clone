@@ -1,8 +1,7 @@
 import express from 'express';
 import { authenticateToken } from './../middleware/authToken.js';
-import { registerValidations, loginValidations } from './../middleware/validateUser.js';
-import { register, login, getUserData, updateImage } from '../controllers/account.js'; // import request & response function
-import uploadImage from '../middleware/uploadImage.js';
+import { registerValidations, loginValidations } from '../middleware/validateForms.js';
+import { register, login, getUser, updateProfilePicture } from '../controllers/account.js'; // import request & response function
 
 // initialize router
 const router = express.Router();
@@ -15,7 +14,7 @@ const router = express.Router();
 */
 router.post('/register', [...registerValidations], register);
 router.post('/login', [...loginValidations], login);
-router.get('/', authenticateToken, getUserData);
-router.put('/image', authenticateToken, uploadImage, updateImage);
+router.get('/', authenticateToken, getUser);
+router.post('/image', authenticateToken, updateProfilePicture);
 
 export default router;

@@ -1,16 +1,19 @@
 import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import getEmails from './../../../redux/actions/getEmails';
-import toggleEmailProperty from './../../../redux/actions/toggleEmailProperty';
+import {
+  getEmailsAction,
+  moveToTrashAction,
+  markAsUnreadAction,
+} from './../../../redux/actions/emailActions';
 import { Checkbox, IconButton, Tooltip } from '@material-ui/core';
 import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
 import DraftsRoundedIcon from '@material-ui/icons/DraftsRounded';
 import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
-import ChevronLeftRoundedIcon from '@material-ui/icons/ChevronLeftRounded';
-import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRightRounded';
+// import ChevronLeftRoundedIcon from '@material-ui/icons/ChevronLeftRounded';
+// import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRightRounded';
 import KeyboardRoundedIcon from '@material-ui/icons/KeyboardRounded';
 import styles from './style/EmailOptions.module.css';
 
@@ -29,26 +32,24 @@ function EmailOptions({ isViewMode }) {
             </IconButton>
           </Tooltip>
           <Tooltip title='Move to trash' placement='top'>
-            <IconButton
-              onClick={() => dispatch(toggleEmailProperty(id, 'trash')) + history.goBack()}>
+            <IconButton onClick={() => dispatch(moveToTrashAction(id)) + history.goBack()}>
               <DeleteRoundedIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title='Mark as unread' placement='top'>
-            <IconButton
-              onClick={() => dispatch(toggleEmailProperty(id, 'read')) + history.goBack()}>
+            <IconButton onClick={() => dispatch(markAsUnreadAction(id)) + history.goBack()}>
               <DraftsRoundedIcon />
             </IconButton>
           </Tooltip>
         </div>
 
         <div>
-          <IconButton>
+          {/* <IconButton>
             <ChevronLeftRoundedIcon />
           </IconButton>
           <IconButton>
             <ChevronRightRoundedIcon />
-          </IconButton>
+          </IconButton> */}
           <IconButton>
             <KeyboardRoundedIcon />
           </IconButton>
@@ -63,7 +64,7 @@ function EmailOptions({ isViewMode }) {
             <Checkbox />
           </Tooltip>
           <Tooltip title='Refresh' placement='top'>
-            <IconButton onClick={() => dispatch(getEmails())}>
+            <IconButton onClick={() => dispatch(getEmailsAction())}>
               <RefreshRoundedIcon />
             </IconButton>
           </Tooltip>
@@ -75,12 +76,12 @@ function EmailOptions({ isViewMode }) {
         </div>
 
         <div>
-          <IconButton>
+          {/* <IconButton>
             <ChevronLeftRoundedIcon />
           </IconButton>
           <IconButton>
             <ChevronRightRoundedIcon />
-          </IconButton>
+          </IconButton> */}
           <IconButton>
             <KeyboardRoundedIcon />
           </IconButton>

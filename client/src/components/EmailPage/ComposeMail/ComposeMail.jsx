@@ -1,9 +1,11 @@
 import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import sendEmail from './../../../redux/actions/sendEmail';
-import saveDraft from './../../../redux/actions/saveDraft';
-import updateDraft from '../../../redux/actions/updateDraft';
-import deleteEmail from '../../../redux/actions/deleteEmail';
+import {
+  sendEmailAction,
+  saveDraftAction,
+  updateDraftAction,
+  moveToTrashAction,
+} from './../../../redux/actions/emailActions';
 import { useForm } from 'react-hook-form';
 import { Button } from '@material-ui/core';
 import styles from './style/ComposeMail.module.css';
@@ -31,6 +33,25 @@ function ComposeMail({ toggleIsCompose, composeDraft }) {
   subject.current = watch('subject', '');
   message.current = watch('message', '');
 
+  // the following function sends the message
+  // (the server also creates a random reply to be received by the user)
+  const onSubmit = (values) => {
+    if (!composeDraft) {
+      dispatch(sendEmailAction(values));
+    } else {
+      // but if the component was called by clicking on a draft,
+      // then the email is sent, and the draft is updated too!
+      dispatch(sendEmailAction(values));
+      let form = {
+        to: to.current,
+        subject: subject.current,
+        message: message.current,
+      };
+      dispatch(updateDraftAction(composeDraft._id, form));
+    }
+    toggleIsCompose();
+  };
+
   const onClose = () => {
     if (!composeDraft) {
       // the following is used to save a message as draft
@@ -42,7 +63,7 @@ function ComposeMail({ toggleIsCompose, composeDraft }) {
           subject: subject.current,
           message: message.current,
         };
-        dispatch(saveDraft(form));
+        dispatch(saveDraftAction(form));
       }
     } else {
       // the following is used to update the existing draft
@@ -51,21 +72,7 @@ function ComposeMail({ toggleIsCompose, composeDraft }) {
         subject: subject.current,
         message: message.current,
       };
-      dispatch(updateDraft(composeDraft._id, form));
-    }
-    toggleIsCompose();
-  };
-
-  // the following function sends the message
-  // (the server also creates a random reply to be received by the user)
-  const onSubmit = (values) => {
-    if (!composeDraft) {
-      dispatch(sendEmail(values));
-    } else {
-      // but if the component was called by clicking on a draft,
-      // then the email is sent, but the draft is deleted too!
-      dispatch(sendEmail(values));
-      dispatch(deleteEmail(composeDraft._id));
+      dispatch(updateDraftAction(composeDraft._id, form));
     }
     toggleIsCompose();
   };

@@ -1,5 +1,5 @@
 import { CLEAR_ERRORS } from './../constants';
 
-export default () => {
+export const clearErrors = () => {
   return { type: CLEAR_ERRORS };
 };

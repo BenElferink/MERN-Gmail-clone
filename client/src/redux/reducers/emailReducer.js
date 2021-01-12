@@ -13,6 +13,12 @@ import {
   UPDATE_DRAFT_REQUEST,
   UPDATE_DRAFT_SUCCESS,
   UPDATE_DRAFT_ERROR,
+  EMAIL_TRASH_REQUEST,
+  EMAIL_TRASH_SUCCESS,
+  EMAIL_TRASH_ERROR,
+  EMAIL_UNTRASH_REQUEST,
+  EMAIL_UNTRASH_SUCCESS,
+  EMAIL_UNTRASH_ERROR,
   TOGGLE_EMAIL_PROP_REQUEST,
   TOGGLE_EMAIL_PROP_SUCCESS,
   TOGGLE_EMAIL_PROP_ERROR,
@@ -23,7 +29,12 @@ import {
 
 const initialState = {
   isLoading: false,
-  mailbox: {},
+  mailbox: {
+    inbox: [],
+    outbox: [],
+    drafts: [],
+    trash: [],
+  },
   error: '',
 };
 
@@ -42,6 +53,8 @@ export default (state = initialState, action) => {
     case SEND_EMAIL_REQUEST:
     case SAVE_DRAFT_REQUEST:
     case UPDATE_DRAFT_REQUEST:
+    case EMAIL_TRASH_REQUEST:
+    case EMAIL_UNTRASH_REQUEST:
     case TOGGLE_EMAIL_PROP_REQUEST:
     case DELETE_EMAIL_REQUEST:
       return {
@@ -50,8 +63,8 @@ export default (state = initialState, action) => {
       };
 
     case FETCH_EMAILS_SUCCESS:
-    case SEND_EMAIL_SUCCESS:
-    case SAVE_DRAFT_SUCCESS:
+    case EMAIL_TRASH_SUCCESS:
+    case EMAIL_UNTRASH_SUCCESS:
       return {
         ...state,
         isLoading: false,
@@ -59,33 +72,59 @@ export default (state = initialState, action) => {
         error: '',
       };
 
+    case SEND_EMAIL_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        mailbox: {
+          ...state.mailbox,
+          outbox: [...state.mailbox.outbox, action.payload.outbox],
+          inbox: [...state.mailbox.inbox, action.payload.inbox],
+        },
+        error: '',
+      };
+
+    case SAVE_DRAFT_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        mailbox: { ...state.mailbox, drafts: [...state.mailbox.drafts, action.payload] },
+        error: '',
+      };
+
     case UPDATE_DRAFT_SUCCESS:
+      let copyOfDrafts = [...state.mailbox.drafts];
+      for (let i = 0; i < copyOfDrafts.length; i++) {
+        if (copyOfDrafts[i]._id === action.payload._id) {
+          copyOfDrafts[i] = action.payload;
+          break;
+        }
+      }
+      return {
+        ...state,
+        isLoading: false,
+        mailbox: { ...state.mailbox, drafts: copyOfDrafts },
+        error: '',
+      };
+
     case TOGGLE_EMAIL_PROP_SUCCESS:
-      let copyOfMailbox = { ...state.mailbox };
-      let isEmailFound = false;
+      let copyOfInbox = [...state.mailbox.inbox],
+        copyOfOutbox = [...state.mailbox.outbox],
+        isEmailFound = false;
       // search inbox
       if (!isEmailFound)
-        for (let i = 0; i < copyOfMailbox.inbox.length; i++) {
-          if (copyOfMailbox.inbox[i]._id === action.payload._id) {
-            copyOfMailbox.inbox[i] = action.payload;
+        for (let i = 0; i < copyOfInbox.length; i++) {
+          if (copyOfInbox[i]._id === action.payload._id) {
+            copyOfInbox[i] = action.payload;
             isEmailFound = true;
             break;
           }
         }
       // search outbox
       if (!isEmailFound)
-        for (let i = 0; i < copyOfMailbox.outbox.length; i++) {
-          if (copyOfMailbox.outbox[i]._id === action.payload._id) {
-            copyOfMailbox.outbox[i] = action.payload;
-            isEmailFound = true;
-            break;
-          }
-        }
-      // search drafts
-      if (!isEmailFound)
-        for (let i = 0; i < copyOfMailbox.drafts.length; i++) {
-          if (copyOfMailbox.drafts[i]._id === action.payload._id) {
-            copyOfMailbox.drafts[i] = action.payload;
+        for (let i = 0; i < copyOfOutbox.length; i++) {
+          if (copyOfOutbox[i]._id === action.payload._id) {
+            copyOfOutbox[i] = action.payload;
             isEmailFound = true;
             break;
           }
@@ -93,44 +132,22 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        mailbox: copyOfMailbox,
+        mailbox: { ...state.mailbox, inbox: copyOfInbox, outbox: copyOfOutbox },
         error: '',
       };
 
     case DELETE_EMAIL_SUCCESS:
-      let copyOfMailbox2 = { ...state.mailbox };
-      let isEmailFound2 = false;
-      // search inbox
-      if (!isEmailFound2)
-        for (let i = 0; i < copyOfMailbox2.inbox.length; i++) {
-          if (copyOfMailbox2.inbox[i]._id === action.payload) {
-            copyOfMailbox2.inbox.splice(i, 1);
-            isEmailFound2 = true;
-            break;
-          }
+      let copyOfTrash = [...state.mailbox.trash];
+      for (let i = 0; i < copyOfTrash.length; i++) {
+        if (copyOfTrash[i]._id === action.payload) {
+          copyOfTrash.splice(i, 1);
+          break;
         }
-      // search outbox
-      if (!isEmailFound2)
-        for (let i = 0; i < copyOfMailbox2.outbox.length; i++) {
-          if (copyOfMailbox2.outbox[i]._id === action.payload) {
-            copyOfMailbox2.outbox.splice(i, 1);
-            isEmailFound2 = true;
-            break;
-          }
-        }
-      // search drafts
-      if (!isEmailFound2)
-        for (let i = 0; i < copyOfMailbox2.drafts.length; i++) {
-          if (copyOfMailbox2.drafts[i]._id === action.payload) {
-            copyOfMailbox2.drafts.splice(i, 1);
-            isEmailFound2 = true;
-            break;
-          }
-        }
+      }
       return {
         ...state,
         isLoading: false,
-        mailbox: copyOfMailbox2,
+        mailbox: { ...state.mailbox, trash: copyOfTrash },
         error: '',
       };
 
@@ -138,6 +155,8 @@ export default (state = initialState, action) => {
     case SEND_EMAIL_ERROR:
     case SAVE_DRAFT_ERROR:
     case UPDATE_DRAFT_ERROR:
+    case EMAIL_TRASH_ERROR:
+    case EMAIL_UNTRASH_ERROR:
     case TOGGLE_EMAIL_PROP_ERROR:
     case DELETE_EMAIL_ERROR:
       return {

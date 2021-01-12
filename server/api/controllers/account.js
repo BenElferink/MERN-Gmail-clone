@@ -1,32 +1,34 @@
-import User from './../models/User.js';
+import Account from './../models/Account.js';
 import { validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import { generateToken } from './../middleware/authToken.js';
-// more about response status codes   --->   https://restapitutorial.com/httpstatuscodes.html
 
-export const register = async (request, response, next) => {
+export async function register(request, response, next) {
   try {
     // validate data types
     const validationErrors = validationResult(request);
-    if (!validationErrors.isEmpty())
+    if (!validationErrors.isEmpty()) {
       return response.status(400).json({
         message: 'Invalid data, see response.data.errors for more information',
         errors: validationErrors.errors,
       });
+    }
 
     // check if email is taken
-    const foundUser = await User.findOne({ email: request.body.email });
-    if (foundUser)
+    const foundAccount = await Account.findOne({ email: request.body.email });
+    if (foundAccount) {
       return response
         .status(400)
-        .json({ message: 'That email is already taken', email: foundUser.email });
+        .json({ message: 'That email is already taken', email: foundAccount.email });
+    }
 
+    // at this point everything is OK, proceed with creating the account
     // encrypt password
     const salt = await bcrypt.genSalt(10);
     const encryptedPassword = await bcrypt.hash(request.body.password, salt);
 
     // create new user
-    const newUser = new User({
+    const newAccount = new Account({
       email: request.body.email,
       password: encryptedPassword,
       name: {
@@ -37,76 +39,93 @@ export const register = async (request, response, next) => {
     });
 
     // save created user
-    const savedUser = await newUser.save();
+    const savedAccount = await newAccount.save();
+    console.log('Account created', savedAccount);
 
-    console.log('Account created', savedUser);
     response.status(201).json({
       message: 'Account created',
-      email: savedUser.email,
+      email: savedAccount.email,
     });
   } catch (error) {
     console.log(error);
-    response.status(500).json(error);
+    response.status(500);
   }
-};
+}
 
-export const login = async (request, response, next) => {
+export async function login(request, response, next) {
   try {
     // validate data types
     const validationErrors = validationResult(request);
-    if (!validationErrors.isEmpty())
+    if (!validationErrors.isEmpty()) {
       return response.status(400).json({
         message: 'Invalid data, see response.data.errors for more information',
         errors: validationErrors.errors,
       });
+    }
 
-    // find user with email
-    const foundUser = await User.findOne({ email: request.body.email });
-    if (!foundUser) return response.status(401).json({ message: 'Bad credentials' });
+    // find user by email
+    const foundAccount = await Account.findOne({ email: request.body.email });
+    if (!foundAccount) {
+      return response.status(401).json({ message: 'Bad credentials' });
+    }
 
     // decrypt & compare password
-    const isPasswordOk = await bcrypt.compare(request.body.password, foundUser.password);
-    if (!isPasswordOk) return response.status(401).json({ message: 'Bad credentials' });
+    const isPasswordOk = await bcrypt.compare(request.body.password, foundAccount.password);
+    if (!isPasswordOk) {
+      return response.status(401).json({ message: 'Bad credentials' });
+    }
 
+    // at this point everything is OK, proceed with creating an authentication token
     // generate token
-    const token = generateToken(foundUser._id);
-
+    const token = generateToken(foundAccount._id);
     console.log('Token generated', token);
+
     response.status(200).json({ message: 'Login success', token });
   } catch (error) {
     console.log(error);
-    response.status(500).json(error);
+    response.status(500);
   }
-};
+}
 
-export const getUserData = async (request, response, next) => {
+export async function getUser(request, response, next) {
   try {
-    // find user with id decoded from token
-    const foundUser = await User.findOne({ _id: request.user }).select('-password -mailbox');
-    if (!foundUser) return response.status(404).json({ message: 'User not found' });
+    // find user with id (decoded from token)
+    // deselect the: password && mailbox
+    const foundAccount = await Account.findOne({ _id: request.user }).select('-password -mailbox');
+    console.log('Account found', foundAccount);
 
-    console.log('User found', foundUser);
-    response.status(200).json({ message: 'User found', user: foundUser });
+    response.status(200).json({ message: 'Account found', user: foundAccount });
   } catch (error) {
     console.log(error);
-    response.status(500).json(error);
+    response.status(500);
   }
-};
+}
 
-export const updateImage = async (request, response, next) => {
+export async function updateProfilePicture(request, response, next) {
   try {
-    // find user
-    const foundUser = await User.findOne({ _id: request.user });
-    if (!foundUser) return response.status(404).json({ message: 'User not found' });
+    // validate data types
+    const validationErrors = validationResult(request);
+    if (!validationErrors.isEmpty()) {
+      return response.status(400).json({
+        message: 'Invalid data, see response.data.errors for more information',
+        errors: validationErrors.errors,
+      });
+    }
 
-    // and update its image filename
-    foundUser.imageFileName = request.file.filename;
-    const savedUser = await foundUser.save();
+    // find user with id (decoded from token)
+    const foundAccount = await Account.findOne({ _id: request.user });
+    // and update its image (base64) data
+    foundAccount.profilePicture = request.body.image.base64;
 
-    console.log('Image uploaded', savedUser);
-    response.status(200).json({ message: 'Image uploaded', user: savedUser });
+    // save changes
+    const savedAccount = await foundAccount.save();
+    console.log('Image uploaded', savedAccount.profilePicture);
+
+    response
+      .status(201)
+      .json({ message: 'Image uploaded', profilePicture: savedAccount.profilePicture });
   } catch (error) {
     console.log(error);
-    response.status(500).json(error);
+    response.status(500);
   }
-};
+}

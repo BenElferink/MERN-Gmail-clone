@@ -1,13 +1,15 @@
 import express from 'express';
 import { authenticateToken } from '../middleware/authToken.js';
-import { emailValidations } from '../middleware/validateEmail.js';
+import { emailValidations } from '../middleware/validateForms.js';
 import {
-  getEmails,
+  getAllEmails,
   sendEmail,
-  deleteEmail,
-  toggleEmailProperty,
   saveDraft,
   updateDraft,
+  moveToTrash,
+  removeFromTrash,
+  toggleEmailProperty,
+  deleteEmail,
 } from '../controllers/email.js';
 
 // initialize router
@@ -20,10 +22,12 @@ const router = express.Router();
   3rd param = request & response function (controller)
 */
 
-router.get('/', authenticateToken, getEmails);
-router.post('/outbox', authenticateToken, [...emailValidations], sendEmail);
-router.post('/drafts', authenticateToken, saveDraft);
-router.put('/drafts/:id', authenticateToken, updateDraft);
+router.get('/', authenticateToken, getAllEmails);
+router.post('/send', authenticateToken, [...emailValidations], sendEmail);
+router.post('/draft', authenticateToken, saveDraft);
+router.put('/draft/:id', authenticateToken, updateDraft);
+router.put('/:id/trash', authenticateToken, moveToTrash);
+router.put('/:id/untrash', authenticateToken, removeFromTrash);
 router.put('/:id/:toggle', authenticateToken, toggleEmailProperty);
 router.delete('/:id', authenticateToken, deleteEmail);
 

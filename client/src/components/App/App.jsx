@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import getUser from './../../redux/actions/getUser';
+import { getUserAction } from './../../redux/actions/accountActions';
 import AuthPage from '../AuthPage/AuthPage';
 import EmailPage from '../EmailPage/EmailPage';
 import styles from './style/App.module.css';
@@ -15,7 +15,7 @@ function App() {
   // if this fetch failed, that means the token has expired and the user needs to login
   useEffect(() => {
     if (token) {
-      dispatch(getUser());
+      dispatch(getUserAction());
     }
   }, [token]);
 

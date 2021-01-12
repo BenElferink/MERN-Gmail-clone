@@ -13,11 +13,7 @@ const instance = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    starred: {
-      type: Boolean,
-      default: false,
-    },
-    trash: {
+    favorite: {
       type: Boolean,
       default: false,
     },

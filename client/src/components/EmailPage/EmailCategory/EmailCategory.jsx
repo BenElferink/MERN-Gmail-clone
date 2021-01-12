@@ -29,11 +29,11 @@ function EmailCategory({ inbox, sent, drafts, starred, trash, toggleIsCompose })
               message={item.message}
               date={item.createdAt}
               isRead={item.read}
-              isStarred={item.starred}
+              isStarred={item.favorite}
             />
           ));
         } else {
-          return <div className={styles.center}>Inbox is empty</div>;
+          return <div className={styles.center}>Inbox is empty...</div>;
         }
 
       case 'sent':
@@ -47,11 +47,29 @@ function EmailCategory({ inbox, sent, drafts, starred, trash, toggleIsCompose })
               message={item.message}
               date={item.createdAt}
               isRead={item.read}
-              isStarred={item.starred}
+              isStarred={item.favorite}
             />
           ));
         } else {
-          return <div className={styles.center}>Outbox is empty</div>;
+          return <div className={styles.center}>Outbox is empty...</div>;
+        }
+
+      case 'starred':
+        if (starred.length) {
+          return starred.map((item) => (
+            <EmailListItem
+              key={item._id}
+              id={item._id}
+              title={item.from === userEmail ? 'me' : item.from}
+              subject={item.subject}
+              message={item.message}
+              date={item.createdAt}
+              isRead={item.read}
+              isStarred={true}
+            />
+          ));
+        } else {
+          return <div className={styles.center}>Favorites is empty...</div>;
         }
 
       case 'drafts':
@@ -70,25 +88,7 @@ function EmailCategory({ inbox, sent, drafts, starred, trash, toggleIsCompose })
             />
           ));
         } else {
-          return <div className={styles.center}>No drafts...</div>;
-        }
-
-      case 'starred':
-        if (starred.length) {
-          return starred.map((item) => (
-            <EmailListItem
-              key={item._id}
-              id={item._id}
-              title={item.from === userEmail ? 'me' : item.from}
-              subject={item.subject}
-              message={item.message}
-              date={item.createdAt}
-              isRead={item.read}
-              isStarred={item.starred}
-            />
-          ));
-        } else {
-          return <div className={styles.center}>No favorites...</div>;
+          return <div className={styles.center}>Drafts is empty...</div>;
         }
 
       case 'trash':
@@ -106,7 +106,7 @@ function EmailCategory({ inbox, sent, drafts, starred, trash, toggleIsCompose })
             />
           ));
         } else {
-          return <div className={styles.center}>Trash is empty</div>;
+          return <div className={styles.center}>Trash is empty...</div>;
         }
 
       default:

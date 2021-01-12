@@ -44,7 +44,7 @@ function Header({ toggleShowSidebar }) {
           <NotificationsRoundedIcon />
         </IconButton>
         <IconButton onClick={toggleShowProfile}>
-          <Avatar src={user.imageFileName ? imageUrl + user.imageFileName : ''} />
+          <Avatar src={user.profilePicture} />
         </IconButton>
 
         {showProfile && (

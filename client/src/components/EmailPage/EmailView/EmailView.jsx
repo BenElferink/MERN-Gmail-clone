@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import toggleEmailProperty from './../../../redux/actions/toggleEmailProperty';
+import { markAsReadAction } from './../../../redux/actions/emailActions';
 import { Avatar } from '@material-ui/core';
 import styles from './style/EmailView.module.css';
 
@@ -27,7 +27,7 @@ function EmailView({ inbox, sent, drafts, starred, trash }) {
   });
 
   useEffect(() => {
-    if (!emailToDisplay[0].read) dispatch(toggleEmailProperty(id, 'read'));
+    if (!emailToDisplay[0].read) dispatch(markAsReadAction(id));
   }, [emailToDisplay]);
 
   return (

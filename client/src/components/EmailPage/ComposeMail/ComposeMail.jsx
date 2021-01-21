@@ -4,7 +4,6 @@ import {
   sendEmailAction,
   saveDraftAction,
   updateDraftAction,
-  moveToTrashAction,
 } from './../../../redux/actions/emailActions';
 import { useForm } from 'react-hook-form';
 import { Button } from '@material-ui/core';

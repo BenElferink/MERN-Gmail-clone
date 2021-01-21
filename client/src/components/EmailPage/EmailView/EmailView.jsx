@@ -1,48 +1,58 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { markAsReadAction } from './../../../redux/actions/emailActions';
-import { Avatar } from '@material-ui/core';
 import styles from './style/EmailView.module.css';
+import { markAsReadAction } from './../../../redux/actions/emailActions';
+import EmailOptions, { GoBack, MarkUnread, PlaceTrash } from '../EmailOptions/EmailOptions';
+import { Avatar } from '@material-ui/core';
 
 function EmailView({ inbox, sent, drafts, starred, trash }) {
   const dispatch = useDispatch();
   const { category, id } = useParams();
 
-  const [emailToDisplay, setEmailToDisplay] = useState(() => {
+  const [emailToDisplay] = useState(() => {
     switch (category) {
       case 'inbox':
-        return inbox.filter((item) => item._id === id);
+        return inbox.find((item) => item._id === id);
       case 'sent':
-        return sent.filter((item) => item._id === id);
+        return sent.find((item) => item._id === id);
       case 'drafts':
-        return drafts.filter((item) => item._id === id);
+        return drafts.find((item) => item._id === id);
       case 'starred':
-        return starred.filter((item) => item._id === id);
+        return starred.find((item) => item._id === id);
       case 'trash':
-        return trash.filter((item) => item._id === id);
+        return trash.find((item) => item._id === id);
       default:
         break;
     }
   });
 
+  // this side effect marks the email as read (if it wasn't already marked as read)
   useEffect(() => {
-    if (!emailToDisplay[0].read) dispatch(markAsReadAction(id));
-  }, [emailToDisplay]);
+    if (!emailToDisplay.read) dispatch(markAsReadAction(id));
+  }, [dispatch, emailToDisplay, id]);
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.container}>
-        <h3>{emailToDisplay[0]?.subject}</h3>
-        <div>
-          <Avatar className={styles.avatar} />
-          {emailToDisplay[0]?.from}
-          <br />
-          to me
+    <Fragment>
+      <EmailOptions>
+        <GoBack />
+        <PlaceTrash id={id} isInTrash={category === 'trash'} />
+        <MarkUnread id={id} />
+      </EmailOptions>
+
+      <div className={styles.wrapper}>
+        <div className={styles.container}>
+          <h3>{emailToDisplay.subject}</h3>
+          <div>
+            <Avatar className={styles.avatar} />
+            {emailToDisplay.from}
+            <br />
+            to me
+          </div>
+          <p>{emailToDisplay.message}</p>
         </div>
-        <p>{emailToDisplay[0]?.message}</p>
       </div>
-    </div>
+    </Fragment>
   );
 }
 

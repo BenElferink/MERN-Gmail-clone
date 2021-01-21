@@ -1,14 +1,13 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEmailsAction } from './../../redux/actions/emailActions';
+import styles from './style/EmailPage.module.css';
 import Header from './Header/Header';
 import Sidebar from './Sidebar/Sidebar';
-import EmailOptions from './EmailOptions/EmailOptions';
 import EmailCategory from './EmailCategory/EmailCategory';
 import EmailView from './EmailView/EmailView';
 import ComposeMail from './ComposeMail/ComposeMail';
-import styles from './style/EmailPage.module.css';
 
 function EmailPage() {
   const dispatch = useDispatch();
@@ -22,7 +21,7 @@ function EmailPage() {
   // this gets all emails linked to the user, upon mount
   useEffect(() => {
     dispatch(getEmailsAction());
-  }, []);
+  }, [dispatch]);
 
   // this sorts all the emails by categories and time,
   // and sets all states accordingly.
@@ -73,6 +72,7 @@ function EmailPage() {
   return (
     <Fragment>
       <Header toggleShowSidebar={toggleShowSidebar} />
+
       <main className={styles.main}>
         {showSidebar && (
           <Sidebar
@@ -87,7 +87,6 @@ function EmailPage() {
 
         <div className={styles.container}>
           <Route exact path='/email/:category'>
-            <EmailOptions />
             <EmailCategory
               inbox={inbox}
               sent={sent}
@@ -99,7 +98,6 @@ function EmailPage() {
           </Route>
 
           <Route path='/email/:category/view/:id'>
-            <EmailOptions isViewMode={true} />
             <EmailView inbox={inbox} sent={sent} drafts={drafts} starred={starred} trash={trash} />
           </Route>
         </div>

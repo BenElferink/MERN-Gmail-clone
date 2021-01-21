@@ -13,15 +13,17 @@
   margin-bottom: 42px;
 }
 
-.page > a {
+.link {
   margin-bottom: 20px;
+  background-color: transparent;
+  border: none;
   color: #1e6df6;
   font-size: 12px;
   text-decoration: underline;
   cursor: pointer;
 }
 
-.page > a:hover {
+.link:hover {
   font-weight: 500;
 }
 

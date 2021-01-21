@@ -1,6 +1,6 @@
 import express from 'express';
 import { authenticateToken } from '../middleware/authToken.js';
-import { emailValidations } from '../middleware/validateForms.js';
+import { emailValidations } from '../middleware/validations.js';
 import {
   getAllEmails,
   sendEmail,

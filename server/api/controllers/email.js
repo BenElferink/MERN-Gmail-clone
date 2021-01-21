@@ -23,12 +23,11 @@ export async function sendEmail(request, response, next) {
   try {
     // validate data types
     const validationErrors = validationResult(request);
-    if (!validationErrors.isEmpty()) {
+    if (!validationErrors.isEmpty())
       return response.status(400).json({
         message: 'Invalid data, see response.data.errors for more information',
         errors: validationErrors.errors,
       });
-    }
 
     // construct outgoing email
     const newEmailOut = new Email({

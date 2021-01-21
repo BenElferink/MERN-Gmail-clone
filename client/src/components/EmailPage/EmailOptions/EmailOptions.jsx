@@ -1,94 +1,178 @@
-import React from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
   getEmailsAction,
   moveToTrashAction,
+  removeFromTrashAction,
   markAsUnreadAction,
+  setFavoriteAction,
+  unsetFavoriteAction,
+  deleteEmailAction,
 } from './../../../redux/actions/emailActions';
+import styles from './style/EmailOptions.module.css';
 import { Checkbox, IconButton, Tooltip } from '@material-ui/core';
-import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
-import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
-import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
-import DraftsRoundedIcon from '@material-ui/icons/DraftsRounded';
-import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
 // import ChevronLeftRoundedIcon from '@material-ui/icons/ChevronLeftRounded';
 // import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRightRounded';
 import KeyboardRoundedIcon from '@material-ui/icons/KeyboardRounded';
-import styles from './style/EmailOptions.module.css';
+import ArrowBackRoundedIcon from '@material-ui/icons/ArrowBackRounded';
+import RefreshRoundedIcon from '@material-ui/icons/RefreshRounded';
+import DraftsRoundedIcon from '@material-ui/icons/DraftsRounded';
+import StarRoundedIcon from '@material-ui/icons/StarRounded';
+import StarOutlineRoundedIcon from '@material-ui/icons/StarOutlineRounded';
+import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
+import RestoreFromTrashRoundedIcon from '@material-ui/icons/RestoreFromTrashRounded';
+import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
 
-function EmailOptions({ isViewMode }) {
+export default function EmailOptions(props) {
+  return (
+    <div className={styles.component}>
+      <div className={styles.wrapper}>
+        {/* This is where the developer needs to insert the export functions below */}
+        {props.children}
+      </div>
+
+      <div className={styles.wrapper}>
+        {/* 
+        <IconButton>
+          <ChevronLeftRoundedIcon />
+        </IconButton>
+        <IconButton>
+          <ChevronRightRoundedIcon />
+        </IconButton>
+         */}
+        <IconButton>
+          <KeyboardRoundedIcon />
+        </IconButton>
+      </div>
+    </div>
+  );
+}
+
+export function SelectOne() {
+  // TODO
+  return (
+    <Tooltip title='Select / Unselect'>
+      <Checkbox />
+    </Tooltip>
+  );
+}
+
+export function SelectAll() {
+  // TODO
+  return (
+    <Tooltip title='Select all / Unselect all'>
+      <Checkbox />
+    </Tooltip>
+  );
+}
+
+export function GoBack() {
+  const history = useHistory();
+  return (
+    <Tooltip title='Back'>
+      <IconButton onClick={() => history.goBack()}>
+        <ArrowBackRoundedIcon />
+      </IconButton>
+    </Tooltip>
+  );
+}
+
+export function Refetch() {
+  const dispatch = useDispatch();
+  return (
+    <Tooltip title='Refresh'>
+      <IconButton onClick={() => dispatch(getEmailsAction())}>
+        <RefreshRoundedIcon />
+      </IconButton>
+    </Tooltip>
+  );
+}
+
+export function MarkUnread({ id }) {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { id } = useParams();
+  return (
+    <Tooltip title='Mark as unread'>
+      <IconButton
+        onClick={() => {
+          dispatch(markAsUnreadAction(id));
+          history.goBack();
+        }}>
+        <DraftsRoundedIcon />
+      </IconButton>
+    </Tooltip>
+  );
+}
 
-  if (isViewMode) {
+export function MarkStar({ id, isStarred }) {
+  const dispatch = useDispatch();
+  if (isStarred) {
     return (
-      <div className={styles.settings}>
-        <div>
-          <Tooltip title='Back' placement='top'>
-            <IconButton onClick={() => history.goBack()}>
-              <ArrowBackRoundedIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title='Move to trash' placement='top'>
-            <IconButton onClick={() => dispatch(moveToTrashAction(id)) + history.goBack()}>
-              <DeleteRoundedIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title='Mark as unread' placement='top'>
-            <IconButton onClick={() => dispatch(markAsUnreadAction(id)) + history.goBack()}>
-              <DraftsRoundedIcon />
-            </IconButton>
-          </Tooltip>
-        </div>
-
-        <div>
-          {/* <IconButton>
-            <ChevronLeftRoundedIcon />
-          </IconButton>
-          <IconButton>
-            <ChevronRightRoundedIcon />
-          </IconButton> */}
-          <IconButton>
-            <KeyboardRoundedIcon />
-          </IconButton>
-        </div>
-      </div>
+      <Tooltip title='Unfavorite'>
+        <IconButton onClick={() => dispatch(unsetFavoriteAction(id))}>
+          <StarRoundedIcon />
+        </IconButton>
+      </Tooltip>
     );
   } else {
     return (
-      <div className={styles.settings}>
-        <div>
-          <Tooltip title='Select all' placement='top'>
-            <Checkbox />
-          </Tooltip>
-          <Tooltip title='Refresh' placement='top'>
-            <IconButton onClick={() => dispatch(getEmailsAction())}>
-              <RefreshRoundedIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title='More' placement='top'>
-            <IconButton>
-              <MoreVertRoundedIcon />
-            </IconButton>
-          </Tooltip>
-        </div>
-
-        <div>
-          {/* <IconButton>
-            <ChevronLeftRoundedIcon />
-          </IconButton>
-          <IconButton>
-            <ChevronRightRoundedIcon />
-          </IconButton> */}
-          <IconButton>
-            <KeyboardRoundedIcon />
-          </IconButton>
-        </div>
-      </div>
+      <Tooltip title='Favorite'>
+        <IconButton onClick={() => dispatch(setFavoriteAction(id))}>
+          <StarOutlineRoundedIcon />
+        </IconButton>
+      </Tooltip>
     );
   }
 }
 
-export default EmailOptions;
+export function PlaceTrash({ id, isInTrash }) {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  if (isInTrash) {
+    return (
+      <Tooltip title='Not trash'>
+        <IconButton
+          onClick={() => {
+            dispatch(removeFromTrashAction(id));
+            history.goBack();
+          }}>
+          <RestoreFromTrashRoundedIcon />
+        </IconButton>
+      </Tooltip>
+    );
+  } else {
+    return (
+      <Tooltip title='Move to trash'>
+        <IconButton
+          onClick={() => {
+            dispatch(moveToTrashAction(id));
+            history.goBack();
+          }}>
+          <DeleteRoundedIcon />
+        </IconButton>
+      </Tooltip>
+    );
+  }
+}
+
+export function Delete({ id }) {
+  const dispatch = useDispatch();
+  return (
+    <Tooltip title='Delete'>
+      <IconButton onClick={() => dispatch(deleteEmailAction(id))}>
+        <DeleteRoundedIcon />
+      </IconButton>
+    </Tooltip>
+  );
+}
+
+export function More() {
+  // TODO
+  return (
+    <Tooltip title='More'>
+      <IconButton>
+        <MoreVertRoundedIcon />
+      </IconButton>
+    </Tooltip>
+  );
+}

@@ -1,9 +1,8 @@
-import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { logoutAction } from './../../../../redux/actions/accountActions';
-import { Avatar, Badge, Button } from '@material-ui/core';
+import { logoutAction } from '../../../../redux/actions/accountActions';
 import styles from './style/AccountControls.module.css';
+import { Avatar, Badge, Button } from '@material-ui/core';
 
 function AccountControls({ user, toggleShowEditImage, toggleShowProfile }) {
   const dispatch = useDispatch();

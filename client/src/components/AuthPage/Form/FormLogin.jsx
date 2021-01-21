@@ -1,10 +1,9 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import { loginAction } from './../../../redux/actions/accountActions';
 import { clearErrors } from './../../../redux/actions/clearErrors';
 import { useForm } from 'react-hook-form';
-import { Button, CircularProgress } from '@material-ui/core';
 import styles from './style/Form.module.css';
+import { Button, CircularProgress } from '@material-ui/core';
 
 function FormLogin({ isLoading, error, user }) {
   const dispatch = useDispatch();

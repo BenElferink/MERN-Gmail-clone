@@ -1,10 +1,10 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { registerAction } from './../../../redux/actions/accountActions';
 import { clearErrors } from './../../../redux/actions/clearErrors';
 import { useForm } from 'react-hook-form';
-import { Button, CircularProgress } from '@material-ui/core';
 import styles from './style/Form.module.css';
+import { Button, CircularProgress } from '@material-ui/core';
 
 function FormRegister({ isLoading, error }) {
   const dispatch = useDispatch();

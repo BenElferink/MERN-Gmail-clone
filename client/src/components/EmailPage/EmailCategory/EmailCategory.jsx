@@ -1,9 +1,10 @@
-import React from 'react';
+import { Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import styles from './style/EmailCategory.module.css';
+import EmailOptions, { More, Refetch, SelectAll } from '../EmailOptions/EmailOptions';
 import EmailListItem from './EmailListItem/EmailListItem';
 import { CircularProgress } from '@material-ui/core';
-import styles from './style/EmailCategory.module.css';
 
 function EmailCategory({ inbox, sent, drafts, starred, trash, toggleIsCompose }) {
   const { category } = useParams();
@@ -19,95 +20,135 @@ function EmailCategory({ inbox, sent, drafts, starred, trash, toggleIsCompose })
   } else {
     switch (category) {
       case 'inbox':
-        if (inbox.length) {
-          return inbox.map((item) => (
-            <EmailListItem
-              key={item._id}
-              id={item._id}
-              title={item.from}
-              subject={item.subject}
-              message={item.message}
-              date={item.createdAt}
-              isRead={item.read}
-              isStarred={item.favorite}
-            />
-          ));
-        } else {
-          return <div className={styles.center}>Inbox is empty...</div>;
-        }
+        return inbox.length ? (
+          <Fragment>
+            <EmailOptions>
+              <SelectAll />
+              <Refetch />
+              <More />
+            </EmailOptions>
+
+            {inbox.map((item) => (
+              <EmailListItem
+                key={item._id}
+                id={item._id}
+                title={item.from}
+                subject={item.subject}
+                message={item.message}
+                date={item.createdAt}
+                isRead={item.read}
+                isStarred={item.favorite}
+              />
+            ))}
+          </Fragment>
+        ) : (
+          <div className={styles.center}>Inbox is empty...</div>
+        );
 
       case 'sent':
-        if (sent.length) {
-          return sent.map((item) => (
-            <EmailListItem
-              key={item._id}
-              id={item._id}
-              title={`To: ${item.to}`}
-              subject={item.subject}
-              message={item.message}
-              date={item.createdAt}
-              isRead={item.read}
-              isStarred={item.favorite}
-            />
-          ));
-        } else {
-          return <div className={styles.center}>Outbox is empty...</div>;
-        }
+        return sent.length ? (
+          <Fragment>
+            <EmailOptions>
+              <SelectAll />
+              <Refetch />
+              <More />
+            </EmailOptions>
+
+            {sent.map((item) => (
+              <EmailListItem
+                key={item._id}
+                id={item._id}
+                title={`To: ${item.to}`}
+                subject={item.subject}
+                message={item.message}
+                date={item.createdAt}
+                isRead={item.read}
+                isStarred={item.favorite}
+              />
+            ))}
+          </Fragment>
+        ) : (
+          <div className={styles.center}>Outbox is empty...</div>
+        );
 
       case 'starred':
-        if (starred.length) {
-          return starred.map((item) => (
-            <EmailListItem
-              key={item._id}
-              id={item._id}
-              title={item.from === userEmail ? 'me' : item.from}
-              subject={item.subject}
-              message={item.message}
-              date={item.createdAt}
-              isRead={item.read}
-              isStarred={true}
-            />
-          ));
-        } else {
-          return <div className={styles.center}>Favorites is empty...</div>;
-        }
+        return starred.length ? (
+          <Fragment>
+            <EmailOptions>
+              <SelectAll />
+              <Refetch />
+              <More />
+            </EmailOptions>
+
+            {starred.map((item) => (
+              <EmailListItem
+                key={item._id}
+                id={item._id}
+                title={item.from === userEmail ? 'me' : item.from}
+                subject={item.subject}
+                message={item.message}
+                date={item.createdAt}
+                isRead={item.read}
+                isStarred={true}
+              />
+            ))}
+          </Fragment>
+        ) : (
+          <div className={styles.center}>Favorites is empty...</div>
+        );
 
       case 'drafts':
-        if (drafts.length) {
-          return drafts.map((item) => (
-            <EmailListItem
-              key={item._id}
-              id={item._id}
-              title='Draft'
-              subject={item.subject}
-              message={item.message}
-              date={item.updatedAt}
-              isRead={true}
-              isDraft={true}
-              toggleIsCompose={toggleIsCompose}
-            />
-          ));
-        } else {
-          return <div className={styles.center}>Drafts is empty...</div>;
-        }
+        return drafts.length ? (
+          <Fragment>
+            <EmailOptions>
+              <SelectAll />
+              <Refetch />
+              <More />
+            </EmailOptions>
+
+            {drafts.map((item) => (
+              <EmailListItem
+                key={item._id}
+                id={item._id}
+                title='Draft'
+                subject={item.subject}
+                message={item.message}
+                date={item.updatedAt}
+                isRead={true}
+                isDraft={true}
+                toggleIsCompose={toggleIsCompose}
+              />
+            ))}
+          </Fragment>
+        ) : (
+          <div className={styles.center}>Drafts is empty...</div>
+        );
 
       case 'trash':
-        if (trash.length) {
-          return trash.map((item) => (
-            <EmailListItem
-              key={item._id}
-              id={item._id}
-              title={item.from === userEmail ? 'me' : item.from}
-              subject={item.subject}
-              message={item.message}
-              date={item.createdAt}
-              isRead={item.read}
-              isTrash={true}
-            />
-          ));
-        } else {
-          return <div className={styles.center}>Trash is empty...</div>;
-        }
+        return trash.length ? (
+          <Fragment>
+            <EmailOptions>
+              <SelectAll />
+              <Refetch />
+              <More />
+            </EmailOptions>
+
+            {trash.map((item) => (
+              <EmailListItem
+                key={item._id}
+                id={item._id}
+                title={item.from === userEmail ? 'me' : item.from}
+                subject={item.subject}
+                message={item.message}
+                date={item.createdAt}
+                isRead={item.read}
+                isTrash={true}
+              />
+            ))}
+          </Fragment>
+        ) : (
+          <div className={styles.center}>Trash is empty...</div>
+        );
 
       default:
         break;

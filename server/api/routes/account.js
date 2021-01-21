@@ -1,6 +1,6 @@
 import express from 'express';
 import { authenticateToken } from './../middleware/authToken.js';
-import { registerValidations, loginValidations } from '../middleware/validateForms.js';
+import { registerValidations, loginValidations } from '../middleware/validations.js';
 import { register, login, getUser, updateProfilePicture } from '../controllers/account.js'; // import request & response function
 
 // initialize router

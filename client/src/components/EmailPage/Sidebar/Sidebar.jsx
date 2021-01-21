@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import styles from './style/Sidebar.module.css';
 import SidebarOption from './SidebarOption/SidebarOption';
 import { Button } from '@material-ui/core';
 import AddRoundedIcon from '@material-ui/icons/Add';
@@ -9,7 +10,6 @@ import SendRoundedIcon from '@material-ui/icons/Send';
 import NoteRoundedIcon from '@material-ui/icons/Note';
 import DeleteRoundedIcon from '@material-ui/icons/Delete';
 import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded';
-import styles from './style/Sidebar.module.css';
 
 function Sidebar({
   toggleIsCompose,

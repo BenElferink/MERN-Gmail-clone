@@ -1,18 +1,8 @@
-import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import {
-  setFavoriteAction,
-  unsetFavoriteAction,
-  deleteEmailAction,
-} from '../../../../redux/actions/emailActions';
-import { Checkbox, IconButton } from '@material-ui/core';
-import StarOutlineRoundedIcon from '@material-ui/icons/StarOutlineRounded';
-import StarRoundedIcon from '@material-ui/icons/StarRounded';
-import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import styles from './style/EmailListItem.module.css';
+import { Delete, MarkStar, SelectOne } from '../../EmailOptions/EmailOptions';
 
-function EmailListItem({
+export default function EmailCategoryItem({
   id,
   title,
   subject,
@@ -24,31 +14,48 @@ function EmailListItem({
   isDraft,
   toggleIsCompose,
 }) {
-  const dispatch = useDispatch();
   const history = useHistory();
   const { category } = useParams();
 
+  // this function converts the date object to a sweet UI date string
+  const dateToString = (dateObj) => {
+    let day = new Date(dateObj).getDate();
+    let month = new Date(dateObj).getMonth();
+    switch (month) {
+      case 0:
+        return `Jan ${day}`;
+      case 1:
+        return `Feb ${day}`;
+      case 2:
+        return `Mar ${day}`;
+      case 3:
+        return `Apr ${day}`;
+      case 4:
+        return `May ${day}`;
+      case 5:
+        return `Jun ${day}`;
+      case 6:
+        return `Jul ${day}`;
+      case 7:
+        return `Aug ${day}`;
+      case 8:
+        return `Sep ${day}`;
+      case 9:
+        return `Oct ${day}`;
+      case 10:
+        return `Nov ${day}`;
+      case 11:
+        return `Dec ${day}`;
+      default:
+        return 'Loading...';
+    }
+  };
+
   return (
     <div className={`${styles.item} ${isRead ? styles.read : styles.unread}`}>
-      <Checkbox />
-
-      {isStarred ? (
-        <IconButton onClick={() => dispatch(unsetFavoriteAction(id))}>
-          <StarRoundedIcon />
-        </IconButton>
-      ) : (
-        isStarred !== undefined && (
-          <IconButton onClick={() => dispatch(setFavoriteAction(id))}>
-            <StarOutlineRoundedIcon />
-          </IconButton>
-        )
-      )}
-
-      {isTrash && (
-        <IconButton onClick={() => dispatch(deleteEmailAction(id))}>
-          <DeleteRoundedIcon />
-        </IconButton>
-      )}
+      <SelectOne />
+      {isStarred !== undefined && <MarkStar id={id} isStarred={isStarred} />}
+      {isTrash && <Delete id={id} />}
 
       <div
         className={styles.message}
@@ -68,38 +75,3 @@ function EmailListItem({
     </div>
   );
 }
-
-const dateToString = (dateObj) => {
-  let day = new Date(dateObj).getDate();
-  let month = new Date(dateObj).getMonth();
-  switch (month) {
-    case 0:
-      return `Jan ${day}`;
-    case 1:
-      return `Feb ${day}`;
-    case 2:
-      return `Mar ${day}`;
-    case 3:
-      return `Apr ${day}`;
-    case 4:
-      return `May ${day}`;
-    case 5:
-      return `Jun ${day}`;
-    case 6:
-      return `Jul ${day}`;
-    case 7:
-      return `Aug ${day}`;
-    case 8:
-      return `Sep ${day}`;
-    case 9:
-      return `Oct ${day}`;
-    case 10:
-      return `Nov ${day}`;
-    case 11:
-      return `Dec ${day}`;
-    default:
-      return 'Loading...';
-  }
-};
-
-export default EmailListItem;

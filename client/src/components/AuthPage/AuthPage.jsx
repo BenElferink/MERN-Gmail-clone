@@ -1,9 +1,9 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { useSelector } from 'react-redux';
+import styles from './style/AuthPage.module.css';
 import FormLogin from './Form/FormLogin';
 import FormRegister from './Form/FormRegister';
 import GmailIcon from './img/gmail.svg';
-import styles from './style/AuthPage.module.css';
 
 function AuthPage() {
   const { user, isLoading, error } = useSelector((state) => state.userReducer);
@@ -19,6 +19,7 @@ function AuthPage() {
       toggleIsCreateNew();
       alert('Account successfully created!');
     }
+    // eslint-disable-next-line
   }, [user.email]);
 
   return (
@@ -28,12 +29,16 @@ function AuthPage() {
       {isCreateNew ? (
         <Fragment>
           <FormRegister isLoading={isLoading} error={error} />
-          <a onClick={toggleIsCreateNew}>Login an existing account</a>
+          <button className={styles.link} onClick={toggleIsCreateNew}>
+            Login an existing account
+          </button>
         </Fragment>
       ) : (
         <Fragment>
           <FormLogin isLoading={isLoading} error={error} user={user} />
-          <a onClick={toggleIsCreateNew}>Create a new account</a>
+          <button className={styles.link} onClick={toggleIsCreateNew}>
+            Create a new account
+          </button>
         </Fragment>
       )}
 

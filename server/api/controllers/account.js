@@ -7,20 +7,18 @@ export async function register(request, response, next) {
   try {
     // validate data types
     const validationErrors = validationResult(request);
-    if (!validationErrors.isEmpty()) {
+    if (!validationErrors.isEmpty())
       return response.status(400).json({
         message: 'Invalid data, see response.data.errors for more information',
         errors: validationErrors.errors,
       });
-    }
 
     // check if email is taken
     const foundAccount = await Account.findOne({ email: request.body.email });
-    if (foundAccount) {
+    if (foundAccount)
       return response
         .status(400)
         .json({ message: 'That email is already taken', email: foundAccount.email });
-    }
 
     // at this point everything is OK, proceed with creating the account
     // encrypt password
@@ -56,24 +54,19 @@ export async function login(request, response, next) {
   try {
     // validate data types
     const validationErrors = validationResult(request);
-    if (!validationErrors.isEmpty()) {
+    if (!validationErrors.isEmpty())
       return response.status(400).json({
         message: 'Invalid data, see response.data.errors for more information',
         errors: validationErrors.errors,
       });
-    }
 
     // find user by email
     const foundAccount = await Account.findOne({ email: request.body.email });
-    if (!foundAccount) {
-      return response.status(401).json({ message: 'Bad credentials' });
-    }
+    if (!foundAccount) return response.status(401).json({ message: 'Bad credentials' });
 
     // decrypt & compare password
     const isPasswordOk = await bcrypt.compare(request.body.password, foundAccount.password);
-    if (!isPasswordOk) {
-      return response.status(401).json({ message: 'Bad credentials' });
-    }
+    if (!isPasswordOk) return response.status(401).json({ message: 'Bad credentials' });
 
     // at this point everything is OK, proceed with creating an authentication token
     // generate token
@@ -105,15 +98,15 @@ export async function updateProfilePicture(request, response, next) {
   try {
     // validate data types
     const validationErrors = validationResult(request);
-    if (!validationErrors.isEmpty()) {
+    if (!validationErrors.isEmpty())
       return response.status(400).json({
         message: 'Invalid data, see response.data.errors for more information',
         errors: validationErrors.errors,
       });
-    }
 
     // find user with id (decoded from token)
     const foundAccount = await Account.findOne({ _id: request.user });
+
     // and update its image (base64) data
     foundAccount.profilePicture = request.body.image.base64;
 

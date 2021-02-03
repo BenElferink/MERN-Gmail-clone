@@ -1,12 +1,12 @@
 import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { registerAction } from './../../../redux/actions/accountActions';
-import { clearErrors } from './../../../redux/actions/clearErrors';
+import { registerAction } from '../../../redux/actions/accountActions';
+import { clearErrors } from '../../../redux/actions/clearErrors';
 import { useForm } from 'react-hook-form';
-import styles from './style/Form.module.css';
+import styles from './styles/Form.module.css';
 import { Button, CircularProgress } from '@material-ui/core';
 
-function FormRegister({ isLoading, error }) {
+export default function FormRegister({ isLoading, error }) {
   const dispatch = useDispatch();
   const { register, handleSubmit, errors, watch, formState } = useForm();
   const password = useRef({}); // used so I can compare the password and confirmed password
@@ -110,5 +110,3 @@ function FormRegister({ isLoading, error }) {
     );
   }
 }
-
-export default FormRegister;

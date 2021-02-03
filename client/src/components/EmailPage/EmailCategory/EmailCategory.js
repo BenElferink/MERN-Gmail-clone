@@ -1,12 +1,12 @@
 import { Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import styles from './style/EmailCategory.module.css';
+import styles from './styles/EmailCategory.module.css';
 import EmailOptions, { More, Refetch, SelectAll } from '../EmailOptions/EmailOptions';
 import EmailListItem from './EmailListItem/EmailListItem';
 import { CircularProgress } from '@material-ui/core';
 
-function EmailCategory({ inbox, sent, drafts, starred, trash, toggleIsCompose }) {
+export default function EmailCategory({ inbox, sent, drafts, starred, trash, toggleIsCompose }) {
   const { category } = useParams();
   const { isLoading } = useSelector((state) => state.emailReducer);
   const userEmail = useSelector((state) => state.userReducer.user.email);
@@ -114,7 +114,6 @@ function EmailCategory({ inbox, sent, drafts, starred, trash, toggleIsCompose })
                 subject={item.subject}
                 message={item.message}
                 date={item.updatedAt}
-                isRead={true}
                 isDraft={true}
                 toggleIsCompose={toggleIsCompose}
               />
@@ -141,7 +140,6 @@ function EmailCategory({ inbox, sent, drafts, starred, trash, toggleIsCompose })
                 subject={item.subject}
                 message={item.message}
                 date={item.createdAt}
-                isRead={item.read}
                 isTrash={true}
               />
             ))}
@@ -155,5 +153,3 @@ function EmailCategory({ inbox, sent, drafts, starred, trash, toggleIsCompose })
     }
   }
 }
-
-export default EmailCategory;

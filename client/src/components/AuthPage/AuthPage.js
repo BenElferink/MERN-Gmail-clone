@@ -1,11 +1,11 @@
 import { useState, useEffect, Fragment } from 'react';
 import { useSelector } from 'react-redux';
-import styles from './style/AuthPage.module.css';
+import styles from './styles/AuthPage.module.css';
 import FormLogin from './Form/FormLogin';
 import FormRegister from './Form/FormRegister';
-import GmailIcon from './img/gmail.svg';
+import GmailIcon from './images/gmail.svg';
 
-function AuthPage() {
+export default function AuthPage() {
   const { user, isLoading, error } = useSelector((state) => state.userReducer);
 
   // defines if the register or login form is displayed
@@ -49,5 +49,3 @@ function AuthPage() {
     </div>
   );
 }
-
-export default AuthPage;

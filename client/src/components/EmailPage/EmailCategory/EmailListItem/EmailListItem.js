@@ -1,5 +1,5 @@
 import { useHistory, useParams } from 'react-router-dom';
-import styles from './style/EmailListItem.module.css';
+import styles from './styles/EmailListItem.module.css';
 import { Delete, MarkStar, SelectOne } from '../../EmailOptions/EmailOptions';
 
 export default function EmailCategoryItem({
@@ -52,10 +52,10 @@ export default function EmailCategoryItem({
   };
 
   return (
-    <div className={`${styles.item} ${isRead ? styles.read : styles.unread}`}>
+    <div className={`${styles.item} ${isRead || isTrash || isDraft ? styles.read : styles.unread}`}>
       <SelectOne />
       {isStarred !== undefined && <MarkStar id={id} isStarred={isStarred} />}
-      {isTrash && <Delete id={id} />}
+      {isTrash || isDraft ? <Delete id={id} /> : ''}
 
       <div
         className={styles.message}

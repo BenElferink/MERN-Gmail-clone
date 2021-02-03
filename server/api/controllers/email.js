@@ -272,11 +272,22 @@ export async function deleteEmail(request, response, next) {
     // this runs after response has been sent to client
     // find user and update it's email ID's
     const foundAccount = await Account.findOne({ _id: request.user });
-    const trashbox = foundAccount.mailbox.trash;
+    let isEmailFound = false;
+    let trashbox = foundAccount.mailbox.trash;
     for (let i = 0; i < trashbox.length; i++) {
       if (trashbox[i].equals(request.params.id)) {
         trashbox.splice(i, 1);
+        isEmailFound = true;
         break;
+      }
+    }
+    if (!isEmailFound) {
+      let drafts = foundAccount.mailbox.drafts;
+      for (let i = 0; i < drafts.length; i++) {
+        if (drafts[i].equals(request.params.id)) {
+          drafts.splice(i, 1);
+          break;
+        }
       }
     }
     await foundAccount.save();

@@ -1,6 +1,6 @@
-import styles from './style/SidebarOption.module.css';
+import styles from './styles/SidebarOption.module.css';
 
-function SidebarOption({ Icon, title, number, selected, onClick, className }) {
+export default function SidebarOption({ Icon, title, number, selected, onClick, className }) {
   return (
     <div className={`${styles.item} ${selected && styles.active} ${className}`} onClick={onClick}>
       <Icon fontSize='large' />
@@ -9,5 +9,3 @@ function SidebarOption({ Icon, title, number, selected, onClick, className }) {
     </div>
   );
 }
-
-export default SidebarOption;

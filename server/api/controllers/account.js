@@ -97,12 +97,12 @@ export async function getUser(request, response, next) {
 export async function updateProfilePicture(request, response, next) {
   try {
     // validate data types
-    const validationErrors = validationResult(request);
-    if (!validationErrors.isEmpty())
-      return response.status(400).json({
-        message: 'Invalid data, see response.data.errors for more information',
-        errors: validationErrors.errors,
-      });
+    // const validationErrors = validationResult(request);
+    // if (!validationErrors.isEmpty())
+    //   return response.status(400).json({
+    //     message: 'Invalid data, see response.data.errors for more information',
+    //     errors: validationErrors.errors,
+    //   });
 
     // find user with id (decoded from token)
     const foundAccount = await Account.findOne({ _id: request.user });

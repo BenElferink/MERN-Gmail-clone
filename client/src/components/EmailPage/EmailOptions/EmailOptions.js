@@ -8,8 +8,8 @@ import {
   setFavoriteAction,
   unsetFavoriteAction,
   deleteEmailAction,
-} from './../../../redux/actions/emailActions';
-import styles from './style/EmailOptions.module.css';
+} from '../../../redux/actions/emailActions';
+import styles from './styles/EmailOptions.module.css';
 import { Checkbox, IconButton, Tooltip } from '@material-ui/core';
 // import ChevronLeftRoundedIcon from '@material-ui/icons/ChevronLeftRounded';
 // import ChevronRightRoundedIcon from '@material-ui/icons/ChevronRightRounded';
@@ -21,6 +21,7 @@ import StarRoundedIcon from '@material-ui/icons/StarRounded';
 import StarOutlineRoundedIcon from '@material-ui/icons/StarOutlineRounded';
 import DeleteRoundedIcon from '@material-ui/icons/DeleteRounded';
 import RestoreFromTrashRoundedIcon from '@material-ui/icons/RestoreFromTrashRounded';
+import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
 import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
 
 export default function EmailOptions(props) {
@@ -40,9 +41,11 @@ export default function EmailOptions(props) {
           <ChevronRightRoundedIcon />
         </IconButton>
          */}
-        <IconButton>
-          <KeyboardRoundedIcon />
-        </IconButton>
+        <Tooltip title='null'>
+          <IconButton>
+            <KeyboardRoundedIcon />
+          </IconButton>
+        </Tooltip>
       </div>
     </div>
   );
@@ -51,7 +54,9 @@ export default function EmailOptions(props) {
 export function SelectOne() {
   // TODO
   return (
-    <Tooltip title='Select / Unselect'>
+    <Tooltip
+      // title='Select / Unselect'
+      title='null'>
       <Checkbox />
     </Tooltip>
   );
@@ -60,7 +65,9 @@ export function SelectOne() {
 export function SelectAll() {
   // TODO
   return (
-    <Tooltip title='Select all / Unselect all'>
+    <Tooltip
+      // title='Select all / Unselect all'
+      title='null'>
       <Checkbox />
     </Tooltip>
   );
@@ -160,7 +167,7 @@ export function Delete({ id }) {
   return (
     <Tooltip title='Delete'>
       <IconButton onClick={() => dispatch(deleteEmailAction(id))}>
-        <DeleteRoundedIcon />
+        <DeleteForeverRoundedIcon />
       </IconButton>
     </Tooltip>
   );
@@ -169,7 +176,9 @@ export function Delete({ id }) {
 export function More() {
   // TODO
   return (
-    <Tooltip title='More'>
+    <Tooltip
+      // title='More'
+      title='null'>
       <IconButton>
         <MoreVertRoundedIcon />
       </IconButton>

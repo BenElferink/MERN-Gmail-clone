@@ -1,13 +1,13 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   sendEmailAction,
   saveDraftAction,
   updateDraftAction,
-} from './../../../redux/actions/emailActions';
+} from '../../../redux/actions/emailActions';
 import { useForm } from 'react-hook-form';
 import { Button } from '@material-ui/core';
-import styles from './style/ComposeMail.module.css';
+import styles from './styles/ComposeMail.module.css';
 
 function ComposeMail({ toggleIsCompose, composeDraft }) {
   const dispatch = useDispatch();

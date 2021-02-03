@@ -1,12 +1,12 @@
 import { useState, useEffect, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import styles from './style/EmailView.module.css';
-import { markAsReadAction } from './../../../redux/actions/emailActions';
-import EmailOptions, { GoBack, MarkUnread, PlaceTrash } from '../EmailOptions/EmailOptions';
+import { markAsReadAction } from '../../../redux/actions/emailActions';
+import styles from './styles/EmailView.module.css';
+import EmailOptions, { Delete, GoBack, MarkUnread, PlaceTrash } from '../EmailOptions/EmailOptions';
 import { Avatar } from '@material-ui/core';
 
-function EmailView({ inbox, sent, drafts, starred, trash }) {
+export default function EmailView({ inbox, sent, drafts, starred, trash }) {
   const dispatch = useDispatch();
   const { category, id } = useParams();
 
@@ -37,7 +37,7 @@ function EmailView({ inbox, sent, drafts, starred, trash }) {
       <EmailOptions>
         <GoBack />
         <PlaceTrash id={id} isInTrash={category === 'trash'} />
-        <MarkUnread id={id} />
+        {category === 'trash' ? <Delete /> : <MarkUnread id={id} />}
       </EmailOptions>
 
       <div className={styles.wrapper}>
@@ -55,5 +55,3 @@ function EmailView({ inbox, sent, drafts, starred, trash }) {
     </Fragment>
   );
 }
-
-export default EmailView;

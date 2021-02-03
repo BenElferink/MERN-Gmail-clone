@@ -137,17 +137,28 @@ export const emailReducer = (state = initialState, action) => {
       };
 
     case DELETE_EMAIL_SUCCESS:
-      let copyOfTrash = [...state.mailbox.trash];
+      let copyOfTrash = [...state.mailbox.trash],
+        copyOfDrafts2 = [...state.mailbox.drafts],
+        isEmailFound2 = false;
       for (let i = 0; i < copyOfTrash.length; i++) {
         if (copyOfTrash[i]._id === action.payload) {
           copyOfTrash.splice(i, 1);
+          copyOfDrafts2 = true;
           break;
+        }
+      }
+      if (!isEmailFound2) {
+        for (let i = 0; i < copyOfDrafts2.length; i++) {
+          if (copyOfDrafts2[i]._id === action.payload) {
+            copyOfDrafts2.splice(i, 1);
+            break;
+          }
         }
       }
       return {
         ...state,
         isLoading: false,
-        mailbox: { ...state.mailbox, trash: copyOfTrash },
+        mailbox: { ...state.mailbox, trash: copyOfTrash, drafts: copyOfDrafts2 },
         error: '',
       };
 

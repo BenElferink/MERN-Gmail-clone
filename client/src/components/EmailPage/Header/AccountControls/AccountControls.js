@@ -1,10 +1,10 @@
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logoutAction } from '../../../../redux/actions/accountActions';
-import styles from './style/AccountControls.module.css';
+import styles from './styles/AccountControls.module.css';
 import { Avatar, Badge, Button } from '@material-ui/core';
 
-function AccountControls({ user, toggleShowEditImage, toggleShowProfile }) {
+export default function AccountControls({ user, toggleShowEditImage, toggleShowProfile }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -37,5 +37,3 @@ function AccountControls({ user, toggleShowEditImage, toggleShowProfile }) {
     </div>
   );
 }
-
-export default AccountControls;

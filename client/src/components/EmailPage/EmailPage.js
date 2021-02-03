@@ -1,15 +1,15 @@
 import { Fragment, useState, useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEmailsAction } from './../../redux/actions/emailActions';
-import styles from './style/EmailPage.module.css';
+import { getEmailsAction } from '../../redux/actions/emailActions';
+import styles from './styles/EmailPage.module.css';
 import Header from './Header/Header';
 import Sidebar from './Sidebar/Sidebar';
 import EmailCategory from './EmailCategory/EmailCategory';
 import EmailView from './EmailView/EmailView';
 import ComposeMail from './ComposeMail/ComposeMail';
 
-function EmailPage() {
+export default function EmailPage() {
   const dispatch = useDispatch();
   const mailbox = useSelector((state) => state.emailReducer.mailbox);
   const [inbox, setInbox] = useState([]);
@@ -107,5 +107,3 @@ function EmailPage() {
     </Fragment>
   );
 }
-
-export default EmailPage;

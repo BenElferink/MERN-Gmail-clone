@@ -15,6 +15,6 @@ const router = express.Router();
 router.post('/register', [...registerValidations], register);
 router.post('/login', [...loginValidations], login);
 router.get('/', authenticateToken, getUser);
-router.post('/image', authenticateToken, updateProfilePicture);
+router.put('/image', authenticateToken, updateProfilePicture);
 
 export default router;

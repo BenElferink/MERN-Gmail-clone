@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { uploadImageAction } from '../../../../redux/actions/accountActions';
-import styles from './style/EditImageModal.module.css';
+import styles from './styles/EditImageModal.module.css';
 import FileBase64 from 'react-file-base64';
 import { Avatar, Button } from '@material-ui/core';
 
-function EditImageModal({ toggleShowEditImage }) {
+export default function EditImageModal({ toggleShowEditImage }) {
   const dispatch = useDispatch();
   const [image, setImage] = useState('');
 
@@ -33,5 +33,3 @@ function EditImageModal({ toggleShowEditImage }) {
     </div>
   );
 }
-
-export default EditImageModal;

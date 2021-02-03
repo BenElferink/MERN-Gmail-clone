@@ -1,7 +1,13 @@
-import { createStore, applyMiddleware } from 'redux';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
-import reducers from './reducers';
+import { userReducer } from './reducers/userReducer';
+import { emailReducer } from './reducers/emailReducer';
 
-export const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk, logger)));
+const allReducers = combineReducers({
+  userReducer,
+  emailReducer,
+});
+
+export const store = createStore(allReducers, composeWithDevTools(applyMiddleware(thunk, logger)));

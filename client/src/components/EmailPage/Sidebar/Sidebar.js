@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import styles from './style/Sidebar.module.css';
+import styles from './styles/Sidebar.module.css';
 import SidebarOption from './SidebarOption/SidebarOption';
 import { Button } from '@material-ui/core';
 import AddRoundedIcon from '@material-ui/icons/Add';
@@ -11,7 +11,7 @@ import NoteRoundedIcon from '@material-ui/icons/Note';
 import DeleteRoundedIcon from '@material-ui/icons/Delete';
 import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded';
 
-function Sidebar({
+export default function Sidebar({
   toggleIsCompose,
   inboxLength,
   sentLength,
@@ -83,5 +83,3 @@ function Sidebar({
     </div>
   );
 }
-
-export default Sidebar;

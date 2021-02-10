@@ -1,5 +1,5 @@
 {
-  "homepage": "http://gmail-clone-backend.herokuapp.com",
+  "homepage": "https://gmail-clone-backend.herokuapp.com",
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",

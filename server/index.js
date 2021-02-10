@@ -19,13 +19,13 @@ app.use(express.urlencoded({ limit: '1mb', extended: false })); // url parser
 app.use(morgan('common')); // logs requests
 app.use(helmet()); // protect response headers
 
-// configure db: i'm using the local MongoDB-community server
-const CONNECTION_URL = 'mongodb://localhost:27017/GmailDB';
+// configure db
+const MONGO_URI = process.env.MONGO_URI;
 const DEPRECATED_FIX = { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true };
 
 // connect to db
 mongoose
-  .connect(CONNECTION_URL, DEPRECATED_FIX)
+  .connect(MONGO_URI, DEPRECATED_FIX)
   .catch((error) => console.log('❌ MongoDB connection error', error)); // listen for errors on initial connection
 
 const db = mongoose.connection;
@@ -39,5 +39,5 @@ app.use('/api/v1/account', accountRoutes);
 app.use('/api/v1/email', emailRoutes);
 
 // server is listening for requests
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`✅ Server is listening on port: ${PORT}`));

@@ -8,11 +8,11 @@ import emailRoutes from './api/routes/email.js';
 
 // initialize app
 const app = express();
-// const origin = 'https://gmail-clone-frontend.herokuapp.com';
+const origin = '*';
 
 // middlewares
 dotenv.config(); // protected variables
-app.use(cors()); // enables http requests on react development server
+app.use(cors({ origin })); // enables http requests on react development server
 app.use(express.json({ limit: '10mb', extended: false })); // body parser
 app.use(express.urlencoded({ limit: '1mb', extended: false })); // url parser
 app.use(morgan('common')); // logs requests

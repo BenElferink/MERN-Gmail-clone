@@ -2,7 +2,6 @@ import mongoose from 'mongoose'; // MongoDB (database)
 import express from 'express'; // Backend App (server)
 import cors from 'cors'; // HTTP headers (enable requests)
 import morgan from 'morgan'; // Logs incoming requests
-import helmet from 'helmet'; // Secures response headers
 import dotenv from 'dotenv'; // Secures content
 import accountRoutes from './api/routes/account.js';
 import emailRoutes from './api/routes/email.js';
@@ -17,7 +16,6 @@ app.use(cors({ origin })); // enables http requests on react development server
 app.use(express.json({ limit: '10mb', extended: false })); // body parser
 app.use(express.urlencoded({ limit: '1mb', extended: false })); // url parser
 app.use(morgan('common')); // logs requests
-app.use(helmet()); // protect response headers
 
 // configure db
 const MONGO_URI = process.env.MONGO_URI;

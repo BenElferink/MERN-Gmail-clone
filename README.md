@@ -27,5 +27,5 @@
 ###### Server:
 
 > bcrypt: ^5.0.0<br /> cors: ^2.8.5<br /> dotenv: ^8.2.0<br /> express: ^4.17.1<br />
-> express-validator: ^6.9.2<br /> helmet: ^4.4.1<br /> jsonwebtoken: ^8.5.1<br /> mongoose:
-> ^5.11.14<br /> morgan: ^1.10.0<br /> txtgen: ^2.2.8<br />
+> express-validator: ^6.9.2<br /> jsonwebtoken: ^8.5.1<br /> mongoose: ^5.11.14<br /> morgan:
+> ^1.10.0<br /> txtgen: ^2.2.8<br />

@@ -33,3 +33,9 @@
   text-align: center;
   font-size: 12px;
 }
+
+@media (max-width: 768px) {
+  .page > img {
+    width: 290px;
+  }
+}

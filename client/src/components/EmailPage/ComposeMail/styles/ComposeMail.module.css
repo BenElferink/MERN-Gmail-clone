@@ -1,7 +1,7 @@
 .compose {
   width: 350px;
   height: 420px;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 11%;
   background-color: #fff;
@@ -75,4 +75,11 @@
 .send > span {
   color: #ff0000;
   font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  .compose {
+    width: 90vw;
+    right: 5%;
+  }
 }

@@ -58,3 +58,9 @@
   text-transform: none !important;
   font-size: 14px !important;
 }
+
+@media (max-width: 768px) {
+  .form {
+    width: 95vw;
+  }
+}

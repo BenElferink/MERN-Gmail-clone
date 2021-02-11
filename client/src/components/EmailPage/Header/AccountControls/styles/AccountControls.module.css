@@ -35,3 +35,12 @@
   width: 90px !important;
   height: 90px !important;
 }
+
+@media (max-width: 768px) {
+  .container {
+    width: 95vw;
+    position: absolute;
+    bottom: -330px;
+    right: 0;
+  }
+}

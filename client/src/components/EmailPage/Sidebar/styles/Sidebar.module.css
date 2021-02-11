@@ -19,3 +19,9 @@
 .showMore__off > svg {
   transform: rotate(-90deg);
 }
+
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+  }
+}

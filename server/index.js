@@ -3,6 +3,7 @@ import express from 'express'; // Backend App (server)
 import cors from 'cors'; // HTTP headers (enable requests)
 import morgan from 'morgan'; // Logs incoming requests
 import dotenv from 'dotenv'; // Secures content
+import wakeDyno from 'woke-dyno'; // Keep Heroku dynos awake
 import accountRoutes from './api/routes/account.js';
 import emailRoutes from './api/routes/email.js';
 
@@ -38,4 +39,8 @@ app.use('/api/v1/email', emailRoutes);
 
 // server is listening for requests
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`✅ Server is listening on port: ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`✅ Server is listening on port: ${PORT}`);
+  wakeDyno('https://gmail-clone-backend.herokuapp.com').start();
+  wakeDyno('https://gmail-clone-frontend.herokuapp.com').start();
+});

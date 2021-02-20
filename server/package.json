@@ -18,7 +18,6 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.15",
     "morgan": "^1.10.0",
-    "txtgen": "^2.2.8",
-    "woke-dyno": "^0.0.4"
+    "txtgen": "^2.2.8"
   }
 }

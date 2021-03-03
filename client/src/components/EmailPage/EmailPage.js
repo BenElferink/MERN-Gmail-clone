@@ -85,7 +85,7 @@ export default function EmailPage() {
           />
         )}
 
-        <div className={styles.container}>
+        <div className={styles.container} className='scroll'>
           <Route exact path='/email/:category'>
             <EmailCategory
               inbox={inbox}

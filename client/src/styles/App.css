@@ -9,3 +9,15 @@ body {
   width: 100vw;
   min-height: 100vh;
 }
+
+.scroll {
+  overflow-y: scroll;
+}
+.scroll::-webkit-scrollbar {
+  display: none;
+}
+/*
+  .scroll::-webkit-scrollbar-track {}
+  .scroll::-webkit-scrollbar-button {}
+  .scroll::-webkit-scrollbar-thumb {} 
+*/
